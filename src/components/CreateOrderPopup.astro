@@ -1,4 +1,4 @@
-<div class="popup create-order-popup" x-bind:class="{'active': createOrderPopup === true}">
+<div class="popup create-order-popup" x-bind:class="{'active': createOrderPopup === true}" x-data="paramsList">
     <form action="#" method="post" class="popup__form create-order-popup__form">
     <div class="popup__content create-order-popup__content">
   <div class="popup__top-row events-board-popup__top-row">
@@ -189,7 +189,7 @@
             </svg>                  
         </div>
       </div>
-       <div class="create-order-popup__params-lists-wrapper" x-data="{countInputVal1: 1, countInputVal2: 1}">
+       <div class="create-order-popup__params-lists-wrapper" x-data="{countInputVal1: 1, countInputVal2: 1 }">
        <nav class="create-order-popup__params-lists-nav">
        <ul role="list" class="create-order-popup__params-list create-order-popup__params-caption-list b-b p-b">
          <li class="create-order-popup__params-caption-list-item t-a-c">№</li>
@@ -349,7 +349,7 @@
       <button class="create-order-popup__bottom-params-list-add-btn adaptive" type="button" x-on:click="addParamsList">
         Добавить строку
       </button>
-      <ul role="list" class="create-order-popup__bottom-params-list adaptive" x-data="paramsList">
+      <ul role="list" class="create-order-popup__bottom-params-list adaptive">
         <li class="create-order-popup__bottom-params-list-item title-item">
           <h4 class="create-order-popup__params-list-item-title bottom-params-list-item-title">Итого</h4>
        </li>
@@ -379,8 +379,8 @@
           </div>
         </div>
      </li>
-     </ul>
-       <ul role="list" class="create-order-popup__bottom-params-list desktop" x-data="paramsList">
+      </ul>
+       <ul role="list" class="create-order-popup__bottom-params-list desktop">
           <li class="create-order-popup__bottom-params-list-item add-btn-item">
              <button class="create-order-popup__bottom-params-list-add-btn" type="button" x-on:click="addParamsList">
                Добавить строку
@@ -1445,18 +1445,19 @@ line-height: 18px;
       },
     }
   });
-
-  document.addEventListener('alpine:init', () => {
+  </script>
+  <script is:inline>
+   document.addEventListener('alpine:init', () => {
     const paramsListsNav = document.querySelector('.create-order-popup__params-lists-nav');
 
-    function increaseParamsListNumber() {
-  let number = 3;
+function increaseParamsListNumber() {
+let number = 3;
 
-  return function() {
-    return number++;
-  };
+return function() {
+return number++;
+};
 }
-    const paramsListNumber = increaseParamsListNumber();
+const paramsListNumber = increaseParamsListNumber();
 
        Alpine.data('paramsList', () => ({
          addParamsList() {
@@ -1605,6 +1606,7 @@ line-height: 18px;
          }
       }))
   })
+
   </script>
 
   

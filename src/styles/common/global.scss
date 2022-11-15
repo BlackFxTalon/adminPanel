@@ -652,7 +652,7 @@ font-style: normal;
 }
 .tempus-dominus-widget .calendar-header .next .fa-solid.fa-chevron-right::after {
   content: '';
-  background: url(../icons/datepicker-arrow-right.svg) no-repeat center/cover;
+  background: url("../icons/datepicker-arrow-right.svg") no-repeat center/cover;
   width: 6px;
    height: 12px;
 }

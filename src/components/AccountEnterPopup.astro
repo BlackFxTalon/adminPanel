@@ -1,0 +1,196 @@
+<div class="popup account-enter-popup" x-bind:class="{'active': accountEnterPopup === true}" x-on:click.self="accountEnterPopup = false">
+    <form action="#" method="post" class="popup__form account-enter-popup__form">
+    <div class="popup__content account-enter-popup__content">
+  <div class="popup__top-row account-enter-popup__top-row">
+    <button class="popup__close-btn mobile" type="button" x-on:click="accountEnterPopup = false">
+      <svg class="popup__close-btn-icon" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L7 7L13 1" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>                  
+  </button>
+    <button class="popup__close-btn account-enter-popup__close-btn desktop" type="button" x-on:click="accountEnterPopup = false">
+      <svg class="popup__close-btn-icon account-enter-popup__close-btn-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 1L1 13M1 1L13 13" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>                 
+    </button>
+    <h2 class="popup__title account-enter-popup__title">
+        Вход в аккаунт
+    </h2>
+</div>
+    <div class="popup__body account-enter-popup__body">
+       <fieldset class="account-enter-popup__fieldset">
+         <div class="account-enter-popup__form-control-group">
+          <label for="E-mail или логин" class="account-enter-popup__form-control-group-label">
+            E-mail или логин
+          </label>
+          <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-input-wrapper">
+            <input type="text" name="E-mail или логин" id="E-mail или логин" placeholder="Введите логин" class="add-new-filter-popup__form-control-input">
+        </div>
+         </div>
+         <div class="account-enter-popup__form-control-group">
+            <label for="Пароль" class="account-enter-popup__form-control-group-label">
+                Пароль
+            </label>
+            <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-input-wrapper">
+              <input type="password" name="Пароль" id="Пароль" placeholder="Введите пароль" class="add-new-filter-popup__form-control-input">
+          </div>
+        </div>
+        <button type="button" class="account-enter-popup__sms-enter-btn">войти по смс</button>
+        <button type="submit" class="btn btn--primary account-enter-popup__submit-btn">Войти</button>
+       </fieldset>
+       <div class="account-enter-popup__btn-group">
+        <button type="button" class="account-enter-popup__reg-btn">Я здесь впервые</button>
+        <button type="button" class="account-enter-popup__forgot-pass-btn">Забыли пароль?</button>
+    </div>
+    </div>
+</div>
+</form>
+  </div>
+
+<style lang="scss" is:global>
+.account-enter-popup {
+    max-width: 100%;
+    max-height: 488px;
+    top: auto;
+    bottom: 3.3rem;
+
+
+    &__body {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 16px;
+      border-top: none;
+    }
+
+    &__content {
+      border: 1px solid var(--grey-color);
+    }
+
+    @media (min-width:1200px) {
+      &__content {
+        min-width: 600px;
+        max-height: 784px;
+        margin-top: 60px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
+      }
+    }
+
+    &__title {
+        font-family: 'Inter',sans-serif;
+        font-weight: 600;
+         font-size: 16px;
+         line-height: 18px;
+         color: var(--primary);
+         text-align: center;
+    }
+
+    &__fieldset {
+      display: grid;
+      gap: 16px;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 32px;
+    }
+
+    &__form-control-group-label {
+        font-family: 'Inter',sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
+    }
+
+    &__form-control-group {
+      display: grid;
+      gap: 16px;
+    }
+
+    &__form-control-wrapper {
+      background-color: var(--gray100);
+      border: 1px solid var(--grey-color);
+       border-radius: 4px; 
+       height: 34px;
+    }
+
+    &__form-control-input-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 16px;
+    }
+
+    &__form-control-input::placeholder {
+        color: var(--grey600);
+    }
+
+    &__sms-enter-btn {
+        justify-content: flex-start;
+        font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+color: var(--dark-grey);
+text-decoration: underline;
+    }
+
+    &__submit-btn {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+    }
+
+    &__btn-group {
+        border-top: 1px solid var(--grey-color);
+        padding-top: 12px;
+        padding-left: 24px;
+        display: grid;
+        justify-content: flex-start;
+        gap: 24px;
+    }
+
+    &__reg-btn,
+    &__forgot-pass-btn {
+        font-family: 'Inter',sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--primary);
+    }
+}
+
+@media (min-width:1200px) {
+  .account-enter-popup {
+     transform: unset;
+     max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -99;
+
+    &__close-btn.desktop {
+      position: static;
+    order: 1;
+    margin: 0;
+    border: none;
+    }
+
+    &__close-btn-icon {
+       width: 12px;
+       height: 12px;
+    }
+
+    &__top-row {
+      padding-bottom: 16px;
+    }
+  }
+
+  .account-enter-popup.active {
+    background-color: rgba(73, 80, 8, 0.2);
+    opacity: 1;
+    visibility: visible;
+    z-index: 99;
+  }
+}
+</style>
+  

@@ -24,7 +24,7 @@
           </p>
           <div class="add-new-filter-popup__form-control-group-bottom">
             <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-select-wrapper" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Любая дата'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
-                <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input" value="Любая дата" readonly="" x-model="resultInputVal">
+                <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 1" value="Любая дата" readonly="" x-model="resultInputVal">
                 <ul role="list" class="add-new-filter-popup__form-control-select-list" x-bind:class="{'active': toggleSelectList === true}">
                   <li class="add-new-filter-popup__form-control-select-list-item">
                     <input type="text" name="Любая дата" id="Любая дата" value="Любая дата" readonly="" class="add-new-filter-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Любая дата'">
@@ -61,7 +61,7 @@
             <div class="add-new-filter-popup__form-control-group-bottom">
               <div class="add-new-filter-popup__form-control-group-bottom-left">
               <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-select-wrapper" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Равен'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
-                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input" value="Равен" readonly="" x-model="resultInputVal">
+                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 2" value="Равен" readonly="" x-model="resultInputVal">
                   <ul role="list" class="add-new-filter-popup__form-control-select-list" x-bind:class="{'active': toggleSelectList === true}">
                     <li class="add-new-filter-popup__form-control-select-list-item">
                       <input type="text" name="Равен" id="Равен" value="Равен" readonly="" class="add-new-filter-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Равен'">
@@ -123,7 +123,7 @@
             </p>
             <div class="add-new-filter-popup__form-control-group-bottom">
               <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-select-wrapper state-select" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Любая дата'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
-                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input" value="Любая дата" readonly="" x-model="resultInputVal">
+                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 3" value="Любая дата" readonly="" x-model="resultInputVal">
                   <ul role="list" class="add-new-filter-popup__form-control-select-list" x-bind:class="{'active': toggleSelectList === true}">
                     <li class="add-new-filter-popup__form-control-select-list-item">
                       <input type="text" name="Любая дата" id="Любая дата" value="Любая дата" readonly="" class="add-new-filter-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Любая дата'">
@@ -203,7 +203,7 @@
             </p>
             <div class="add-new-filter-popup__form-control-group-bottom">
               <div class="add-new-filter-popup__form-control-wrapper add-new-filter-popup__form-control-select-wrapper" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Период в N дней'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
-                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input" value="Период в N дней" readonly="" x-model="resultInputVal">
+                  <input type="text" class="add-new-filter-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 4" value="Период в N дней" readonly="" x-model="resultInputVal">
                   <ul role="list" class="add-new-filter-popup__form-control-select-list" x-bind:class="{'active': toggleSelectList === true}">
                     <li class="add-new-filter-popup__form-control-select-list-item">
                       <input type="text" name="Период в N дней" id="Период в N дней" value="Период в N дней" readonly="" class="add-new-filter-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Период в N дней'">

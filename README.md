@@ -1,37 +1,6 @@
-# ninjiAstroFrontendTemplate2022
-
-template for frontend development 2022(based on Astro.js WebFramework)
-
-## list of techs:
-
-<ul>
-<li>html: Astro layouts and components (.astro files)</li>
-<li>css: SASS(SCSS), postcss (stylelint,postcssFlexbugsFixes,autoprefixer,cssnano)</li>
-<li>js: alpine.js framework (Astro integration)</li>
-<ul>
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
 ## clone project
 
-<code>git clone https://github.com/BlackFxTalon/ninjiAstroFrontendTemplate2022</code>
+<code>git clone https://github.com/BlackFxTalon/adminPanel</code>
 
 ## 🧞 Commands
 

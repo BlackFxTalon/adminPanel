@@ -30,12 +30,6 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
         <button class="btn btn--primary orders__create-order-btn" type="button" x-on:click="createOrderPopup = true">
           Создать
         </button>
-        <button type="button" class="orders__settings-btn">
-          <svg width="24" height="24" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.7667 2.756C11.3347 0.414667 14.6653 0.414667 15.2333 2.756C15.3186 3.10773 15.4856 3.43437 15.7209 3.70933C15.9563 3.98429 16.2532 4.19981 16.5875 4.33833C16.9219 4.47685 17.2842 4.53447 17.645 4.50649C18.0059 4.47852 18.355 4.36574 18.664 4.17733C20.7213 2.924 23.0773 5.27867 21.824 7.33733C21.6359 7.64621 21.5233 7.99512 21.4954 8.3557C21.4674 8.71628 21.525 9.07836 21.6634 9.41251C21.8017 9.74665 22.017 10.0434 22.2916 10.2787C22.5663 10.514 22.8926 10.6812 23.244 10.7667C25.5853 11.3347 25.5853 14.6653 23.244 15.2333C22.8923 15.3186 22.5656 15.4856 22.2907 15.7209C22.0157 15.9563 21.8002 16.2532 21.6617 16.5875C21.5232 16.9219 21.4655 17.2842 21.4935 17.645C21.5215 18.0059 21.6343 18.355 21.8227 18.664C23.076 20.7213 20.7213 23.0773 18.6627 21.824C18.3538 21.6359 18.0049 21.5233 17.6443 21.4954C17.2837 21.4674 16.9216 21.525 16.5875 21.6634C16.2533 21.8017 15.9566 22.017 15.7213 22.2916C15.486 22.5663 15.3188 22.8926 15.2333 23.244C14.6653 25.5853 11.3347 25.5853 10.7667 23.244C10.6814 22.8923 10.5144 22.5656 10.2791 22.2907C10.0437 22.0157 9.74682 21.8002 9.41246 21.6617C9.07811 21.5232 8.71578 21.4655 8.35495 21.4935C7.99413 21.5215 7.645 21.6343 7.336 21.8227C5.27867 23.076 2.92267 20.7213 4.176 18.6627C4.36414 18.3538 4.47673 18.0049 4.50465 17.6443C4.53256 17.2837 4.47499 16.9216 4.33663 16.5875C4.19827 16.2533 3.98301 15.9566 3.70836 15.7213C3.43371 15.486 3.10742 15.3188 2.756 15.2333C0.414667 14.6653 0.414667 11.3347 2.756 10.7667C3.10773 10.6814 3.43437 10.5144 3.70933 10.2791C3.98429 10.0437 4.19981 9.74682 4.33833 9.41246C4.47685 9.07811 4.53447 8.71578 4.50649 8.35495C4.47852 7.99413 4.36574 7.645 4.17733 7.336C2.924 5.27867 5.27867 2.92267 7.33733 4.176C8.67067 4.98667 10.3987 4.26933 10.7667 2.756Z" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M13 17C15.2091 17 17 15.2091 17 13C17 10.7909 15.2091 9 13 9C10.7909 9 9 10.7909 9 13C9 15.2091 10.7909 17 13 17Z" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>        
-         </button>
         </div>
       </div>
       <div class="orders__body-bottom">
@@ -59,7 +53,7 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
             <path d="M2.50011 1H15.5001C15.6441 1.05051 15.7747 1.13331 15.8817 1.24206C15.9888 1.35082 16.0696 1.48264 16.1178 1.62742C16.1661 1.77221 16.1806 1.92612 16.1602 2.07737C16.1398 2.22861 16.085 2.37318 16.0001 2.5L11.0001 8V15L7.00011 12V8L2.00011 2.5C1.9152 2.37318 1.86044 2.22861 1.84004 2.07737C1.81963 1.92612 1.83411 1.77221 1.88237 1.62742C1.93063 1.48264 2.01139 1.35082 2.11847 1.24206C2.22554 1.13331 2.35609 1.05051 2.50011 1Z" stroke="#F9FBFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>            
         </button>
-         <form class="orders__filter-dropdown" action="#" method="post" x-bind:class="{'active': toggleDropdown === true}">
+         <form class="orders__filter-dropdown" action="#" method="post" x-bind:class="{'active': toggleDropdown === true }" x-data="{inputVal: 'По умолчанию'}">
          <ul role="list" class="orders__filter-dropdown-list">
            <li class="orders__filter-dropdown-list-item">
               <button type="button" class="orders__filter-dropdown-add-new-filter-btn" x-on:click="addNewFilterPopup = true">
@@ -70,16 +64,16 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
               </button>
            </li>
            <li class="orders__filter-dropdown-list-item">
-            <input type="text" class="orders__filter-dropdown-list-item-input" value="Статус">
+            <input type="text" class="orders__filter-dropdown-list-item-input" value="Статус" readonly x-on:click="inputVal = 'Статус'">
          </li>
          <li class="orders__filter-dropdown-list-item">
-            <input type="text" class="orders__filter-dropdown-list-item-input" value="Ответственный">
+            <input type="text" class="orders__filter-dropdown-list-item-input" value="Ответственный" readonly x-on:click="inputVal = 'Ответственный'">
          </li>
          </ul>
          <fieldset class="orders__filter-dropdown-fieldset">
-             <input type="text" value="По умолчанию" class="orders__filter-dropdown-input-def">
+             <input type="text" value="По умолчанию" class="orders__filter-dropdown-input-def" x-model="inputVal" readonly x-ref="defInput">
              <div class="orders__filter-dropdown-fieldset-btn-group">
-               <button class="orders__filter-dropdown-edit-btn" type="button">
+               <button class="orders__filter-dropdown-edit-btn" type="button" x-on:click="$refs.defInput.removeAttribute('readonly');$refs.defInput.focus()">
                 <svg class="orders__filter-dropdown-edit-btn-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.5 3.5L14.5 7.5M1 17.0001H5L15.5 6.50006C16.0304 5.96963 16.3284 5.2502 16.3284 4.50006C16.3284 3.74991 16.0304 3.03049 15.5 2.50006C14.9696 1.96963 14.2501 1.67163 13.5 1.67163C12.7499 1.67163 12.0304 1.96963 11.5 2.50006L1 13.0001V17.0001Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>                  
@@ -98,11 +92,35 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
          </fieldset>
         </form>
         </div>
-        <button class="choose-options-btn orders__choose-options-btn" type="button">
+        <div class="orders__choose-options-btn-wrapper" x-data="{toggleDropdown: false}">
+        <button class="choose-options-btn orders__choose-options-btn" type="button" x-on:click="toggleDropdown = true">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8 1V15M1 8H15" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>                    
-      </button>
+        </button>
+        <form action="#" method="post" class="orders__choose-options-btn-dropdown" x-bind:class="{'active': toggleDropdown === true}">
+         <ul role="list" class="orders__choose-options-btn-dropdown-list">
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" name="Статус" id="Статус" readonly value="Статус">
+          </li>
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" name="Организация" id="Организация" readonly value="Организация">
+          </li>
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" readonly value="Документы">
+          </li>
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" readonly value="Документы">
+          </li>
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" readonly value="Документы">
+          </li>
+          <li class="orders__choose-options-btn-dropdown-item">
+            <input type="text" readonly value="Документы">
+          </li>
+         </ul>
+        </form>
+        </div>
         </div>
         <div class="orders__body-bottom-right-group">
           <button class="orders__body-bottom-right-download-btn" type="button">
@@ -153,7 +171,7 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
             Организация
           </li>
         </ul>
-        <template x-for="table in tables">
+        <template x-for="table in tables" :key="table">
         <ul role="list" class="orders__table-list">
           <li class="orders__table-list-item">
             25.10.2022
@@ -170,7 +188,7 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
              5 000 000 , 00
           </li>
           <li class="orders__table-list-item orders__table-list-item--status-btn" x-data="{status: 'in process', toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
-            <button class="btn orders__status-btn orders__status-btn--in-process" type="button" x-bind:class="{'orders__status-btn--in-process': status === 'in process', 'orders__status-btn--shipped': status === 'shipped','orders__status-btn--cancelled': status === 'cancelled' }" x-text="status === 'in process' ? 'Ожидает ответ' : status === 'shipped' ? 'Отгружен' : status === 'cancelled' ? 'Отменён' : ''">
+            <button class="btn orders__status-btn orders__status-btn--in-process" type="button" x-bind:class="{'orders__status-btn--in-process': status === 'in process', 'orders__status-btn--shipped': status === 'shipped','orders__status-btn--cancelled': status === 'cancelled', 'orders__status-btn--in-work': status === 'in work', 'orders__status-btn--completed': status === 'completed', 'orders__status-btn--cargo-in-way': status === 'cargo in way', 'orders__status-btn--on-payment': status === 'on payment' }" x-text="status === 'in process' ? 'Ожидает ответ' : status === 'shipped' ? 'Отгружен' : status === 'cancelled' ? 'Отменён' : status === 'in work' ? 'В работе' : status === 'completed' ? 'Завершён' : status === 'cargo in way' ? 'Груз в пути': status === 'on payment' ? 'На оплате': ''">
               Ожидает ответ
             </button>
             <div class="orders__choose-status-dropdown-wrapper">
@@ -189,16 +207,16 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
                     <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'in process'; toggleStatusDropdown = false">Ожидает ответ</button>
                  </li>
                  <li class="orders__choose-status-dropdown-list-item">
-                  <button class="orders__choose-status-dropdown-list-item-btn" type="button">В работе</button>
+                  <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'in work'; toggleStatusDropdown = false">В работе</button>
                </li>
                <li class="orders__choose-status-dropdown-list-item">
-                <button class="orders__choose-status-dropdown-list-item-btn" type="button">Завершён</button>
+                <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'completed'; toggleStatusDropdown = false">Завершён</button>
              </li>
              <li class="orders__choose-status-dropdown-list-item">
-              <button class="orders__choose-status-dropdown-list-item-btn" type="button">Груз в пути</button>
+              <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'cargo in way'; toggleStatusDropdown = false">Груз в пути</button>
            </li>
            <li class="orders__choose-status-dropdown-list-item">
-            <button class="orders__choose-status-dropdown-list-item-btn" type="button">На оплате</button>
+            <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'on payment'; toggleStatusDropdown = false">На оплате</button>
          </li>
          <li class="orders__choose-status-dropdown-list-item">
           <button class="orders__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'cancelled'; toggleStatusDropdown = false">Отменен</button>
@@ -222,8 +240,8 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
           Моя компания
         </a>
       </li>
-      <li class="orders__table-list-item orders__table-list-item--options-btn">
-        <button type="button" class="orders__table-list-item-options-btn">
+      <li class="orders__table-list-item orders__table-list-item--options-btn" x-data="{toggleDeleteBtn:false}" x-on:click.outside="toggleDeleteBtn = false">
+        <button type="button" class="orders__table-list-item-options-btn" x-on:click="toggleDeleteBtn = !toggleDeleteBtn">
           <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#869AB8"/>
             <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#869AB8"/>
@@ -232,6 +250,9 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
             <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>            
+        </button>
+        <button type="button" class="orders__table-list-item-options-delete-btn" x-bind:class="{'active': toggleDeleteBtn === true}" x-on:click="tables = tables.filter(i => i !== table)">
+          Удалить         
         </button>
       </li>
         </ul>
@@ -301,7 +322,8 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
     }
     &__body-top-btn-group {
         display: grid;
-        grid-template-columns: repeat(2,max-content);
+        grid-auto-flow: column;
+        grid-template-columns: max-content;
         align-items: center;
         gap: 16px;
     }
@@ -313,18 +335,6 @@ font-size: 16px;
 line-height: 18px;
 padding: 8px 16px;
 width: 90px;
-    }
-
-    &__settings-btn {
-      width: 32px;
-      height: 32px;
-      display: none;
-    }
-
-    @media (min-width:1200px) {
-      &__settings-btn {
-        display: flex;
-    }
     }
 
     &__body-bottom {
@@ -564,6 +574,19 @@ color: var(--primary);
 font-size: 16px;
 line-height: 18px;
 color: var(--dark);
+transition: .3s ease-in-out;
+    }
+
+    &__table-list:hover,
+    &__table-list:active,
+    &__table-list:focus {
+        background-color: var(--hover);
+    }
+
+    &__table-list:hover .orders__table-list-item,
+    &__table-list:active .orders__table-list-item,
+    &__table-list:focus .orders__table-list-item {
+        background-color: var(--hover);
     }
 
     @media (min-width:1200px) {
@@ -611,6 +634,7 @@ color: var(--dark);
       padding: 15px 24px;
       max-height: 48px;
       background-color: var(--gray100);
+      transition: .3s ease-in-out;
     }
 
     @media (min-width:1200px) {
@@ -653,6 +677,7 @@ color: var(--dark);
 
     &__table-list-item--options-btn {
       padding-left: 2.3rem;
+      position: relative;
     }
     }
 
@@ -667,6 +692,33 @@ color: var(--dark);
     &__table-list-item-options-btn {
       width: 24px;
       height: 24px;
+    }
+
+    &__table-list-item-options-delete-btn {
+      position: absolute;
+      z-index: 9;
+      top: 36px;
+      right: 0;
+      min-width: 218px;
+      height: 50px;
+      background-color: var(--gray100);
+      border: 1px solid var(--grey-color);
+      box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
+      border-radius: 4px;
+      font-family: 'Inter',sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--danger);
+opacity: 0;
+visibility: hidden;
+transition: .3s ease-in-out;
+margin-right: 2rem;
+    }
+
+    &__table-list-item-options-delete-btn.active {
+      opacity: 1;
+      visibility: visible;
     }
 
     &__table-list-item--cost {
@@ -729,12 +781,7 @@ min-width: 133px;
     }
 
     &__status-btn--shipped {
-       background-color: var(--green);
-       color: var(--gray100);
-    }
-
-    &__status-btn--shipped {
-       background-color: var(--green);
+       background-color: var(--primary);
        color: var(--gray100);
     }
 
@@ -742,6 +789,29 @@ min-width: 133px;
       background-color: var(--danger);
       color: var(--gray100);
     }
+
+    &__status-btn--in-work {
+      background-color: var(--red_light);
+      color: var(--dark);
+    }
+
+    &__status-btn--completed {
+      background-color: var(--green);
+      color: var(--gray100);
+    }
+
+    &__status-btn--cargo-in-way {
+      background-color: var(--primary-light);
+      color: var(--gray100);
+    }
+
+    &__status-btn--on-payment {
+      background-color: var(--blue-light);
+      color: var(--gray100);
+    }
+
+
+
 
     &__choose-status-dropdown-wrapper {
       position: relative;
@@ -823,6 +893,10 @@ text-overflow: ellipsis;
       padding-top: 16px;
       padding-bottom: 16px;
     }
+    }
+
+    &__choose-options-btn-wrapper {
+      position: relative;
     }
 
     &__choose-options-btn {

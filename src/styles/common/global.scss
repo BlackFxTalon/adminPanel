@@ -78,6 +78,9 @@ select {
   --green:#42BA96;
   --warning:#FFC107;
   --danger:#DF4759;
+  --red_light:#F7BBC2;
+  --blue-light:#5495F2;
+  --hover:#ECEFF3;
 }
 
 body {
@@ -291,7 +294,6 @@ select:focus-within {
   &__close-btn.desktop {
      width: 28px;
      height: 28px;
-     background-color: var(--gray100);
      border: 2px solid var(--grey600);
      position: absolute;
      left: 0;

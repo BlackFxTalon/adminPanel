@@ -3,6 +3,9 @@ import '../styles/main.scss';
 import Header from "../components/Header.astro";
 import Footer from '../components/Footer.astro';
 import AsideNavMenu from '../components/AsideNavMenu.astro';
+import EventsBoardPopup from "../components/EventsBoardPopup.astro";
+import NotifyPopup from "../components/NotifyPopup.astro";
+import SettingsEventBoardPopup from "../components/SettingsEventBoardPopup.astro";
 const {title} = Astro.props;
 ---
 <html lang="ru">
@@ -45,7 +48,7 @@ const {title} = Astro.props;
          import '../js/main.js';
      </script>
   </head>
-  <body>
+  <body x-data="{eventsBoardPopup: false, notifyPopup: false,settingsPopup: false}">
     <Header></Header>
     <main class="main">
       <div class="container main__container">
@@ -54,5 +57,8 @@ const {title} = Astro.props;
       </div>
     </main>
     <Footer></Footer>
+    <EventsBoardPopup></EventsBoardPopup>
+    <NotifyPopup></NotifyPopup>
+    <SettingsEventBoardPopup></SettingsEventBoardPopup>
   </body>
 </html>

@@ -1,0 +1,644 @@
+<div class="create-order-popup__params-lists-wrapper" x-data="{countInputVal1: 1, countInputVal2: 1, paramsLists:[1,2] }">
+    <nav class="create-order-popup__params-lists-nav">
+    <ul role="list" class="create-order-popup__params-list create-order-popup__params-caption-list b-b p-b">
+      <li class="create-order-popup__params-caption-list-item t-a-c">№</li>
+      <li class="create-order-popup__params-caption-list-item">Название</li>
+      <li class="create-order-popup__params-caption-list-item t-a-c">Хар-ки</li>
+      <li class="create-order-popup__params-caption-list-item">Кол-во</li>
+      <li class="create-order-popup__params-caption-list-item">Вес,кг</li>
+      <li class="create-order-popup__params-caption-list-item">Объём, м3</li>
+      <li class="create-order-popup__params-caption-list-item t-a-c">Цена с НДС</li>
+      <li class="create-order-popup__params-caption-list-item t-a-c">Сумма</li>
+    </ul>
+    <template x-for="paramsList in paramsLists">
+    <ul role="list" class="create-order-popup__params-list params-group b-b p-b">
+      <li class="create-order-popup__params-list-item number-item t-a-c">
+        <span class="create-order-popup__item-number" x-text="paramsList"></span>
+        <div class="create-order-popup__delete-btn-wrapper mobile" x-data="{toggleDropdown: false}" x-on:click.outside="toggleDropdown = false">
+         <button type="button" class="create-order-popup__show-delete-btn" x-on:click="toggleDropdown = !toggleDropdown">
+           <svg width="4" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#495057"/>
+             <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#495057"/>
+             <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#495057"/>
+             <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>                    
+         </button>
+         <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="paramsLists = paramsLists.filter(i => i !== paramsList)">
+           Удалить           
+        </button>
+        </div>
+      </li>
+      <li class="create-order-popup__params-list-item type-item">
+       <h4 class="create-order-popup__params-list-item-title">Название</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-select-wrapper" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Тип'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+           <input type="text" class="create-order-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 55" value="Тип" readonly x-model="resultInputVal">
+           <div class="create-order-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
+           <ul role="list" class="create-order-popup__form-control-select-list">
+             <li class="create-order-popup__form-control-select-list-item">
+               <input type="text" name="Тип" id="Тип 11" value="Тип" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип'">
+             </li>
+             <li class="create-order-popup__form-control-select-list-item">
+               <input type="text" name="Тип 1" id="Тип 21" value="Тип 1" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип 1'">
+             </li>
+             <li class="create-order-popup__form-control-select-list-item">
+               <input type="text" name="Тип 2" id="Тип 222" value="Тип 2" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип 2'">
+             </li>
+           </ul>
+            </div>
+           <svg class="create-order-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}">
+             <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>                  
+         </div>
+       </div>
+      </li>
+      <li class="create-order-popup__params-list-item chars-item">
+       <h4 class="create-order-popup__params-list-item-title">Хар-ки</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper chars-wrapper">
+           <input type="text" class="create-order-popup__form-control-input" value="УВЛ">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item count-item">
+       <h4 class="create-order-popup__params-list-item-title">Кол-во</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper count-wrapper">
+           <input type="number" class="create-order-popup__form-control-input count-input" value="1" x-ref="inputVal">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item weight-item">
+       <h4 class="create-order-popup__params-list-item-title">Вес,кг</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper weight-wrapper">
+           <input type="number" class="create-order-popup__form-control-input" value="1">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item volume-item">
+       <h4 class="create-order-popup__params-list-item-title">Объём, м3</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper volume-wrapper">
+           <input type="number" class="create-order-popup__form-control-input" value="1">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item nds-price-item">
+       <h4 class="create-order-popup__params-list-item-title">Цена с НДС</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper nds-price-wrapper">
+           <input class="create-order-popup__form-control-input" placeholder="0,00" x-mask:dynamic="$money($input, ',')">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item sum-item">
+       <h4 class="create-order-popup__params-list-item-title">Сумма</h4>
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper price-wrapper">
+           <input class="create-order-popup__form-control-input" placeholder="5 000 000,00" x-mask:dynamic="$money($input, ',')">
+         </div>
+      </div>
+      </li>
+      <li class="create-order-popup__params-list-item options-item">
+        <div class="create-order-popup__delete-btn-wrapper" x-data="{toggleDropdown: false}" x-on:click.outside="toggleDropdown = false">
+             <button type="button" class="create-order-popup__show-delete-btn" x-on:click="toggleDropdown = !toggleDropdown">
+               <svg width="4" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#495057"/>
+                 <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#495057"/>
+                 <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#495057"/>
+                 <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>                    
+             </button>
+             <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="paramsLists = paramsLists.filter(i => i !== paramsList)">
+                     Удалить           
+             </button>
+        </div>
+      </li>
+      <li class="create-order-popup__params-list-item name-item">
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper params-name-wrapper">
+           <input type="text" class="create-order-popup__form-control-input" placeholder="Наименование">
+         </div>
+      </div>
+      </li>
+    </ul>
+   </template>
+   </nav>
+   <button class="create-order-popup__bottom-params-list-add-btn adaptive" type="button" x-on:click="addParamsList">
+     Добавить строку
+   </button>
+   <ul role="list" class="create-order-popup__bottom-params-list adaptive">
+     <li class="create-order-popup__bottom-params-list-item title-item">
+       <h4 class="create-order-popup__params-list-item-title bottom-params-list-item-title">Итого</h4>
+    </li>
+    <li class="create-order-popup__bottom-params-list-item">
+     <h4 class="create-order-popup__params-list-item-title">Кол-во</h4>
+     <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper">
+       <input readonly class="create-order-popup__form-control-input-number" x-model="document.querySelector('.create-order-popup__form-control-input.count-input').value">
+     </div>
+   </li>
+   <li class="create-order-popup__bottom-params-list-item">
+     <h4 class="create-order-popup__params-list-item-title">Вес,кг</h4>
+     <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper">
+       <input type="number" readonly class="create-order-popup__form-control-input-number" value="2">
+     </div>
+   </li>
+   <li class="create-order-popup__bottom-params-list-item">
+     <h4 class="create-order-popup__params-list-item-title">Объём, м3</h4>
+     <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper-last">
+       <input type="number" readonly class="create-order-popup__form-control-input-number" value="2">
+     </div>
+   </li>
+    <li class="create-order-popup__bottom-params-list-item sum-item">
+     <h4 class="create-order-popup__params-list-item-title">Сумма</h4>
+     <div class="create-order-popup__form-control-group">
+       <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper count-input-wrapper">
+         <input type="number" readonly class="create-order-popup__form-control-input-number" placeholder="0,00">
+       </div>
+     </div>
+  </li>
+   </ul>
+    <ul role="list" class="create-order-popup__bottom-params-list desktop">
+       <li class="create-order-popup__bottom-params-list-item add-btn-item">
+          <button class="create-order-popup__bottom-params-list-add-btn" type="button" x-on:click="addParamsList">
+            Добавить строку
+          </button>
+       </li>
+       <li class="create-order-popup__bottom-params-list-item">
+         <div class="create-order-popup__form-control-group create-order-popup__form-control-group--4-cols bottom-params-list">
+           <p class="create-order-popup__form-control-group-title bottom-params-list">
+             Итого:
+           </p>
+           <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper">
+             <input readonly class="create-order-popup__form-control-input-number" x-model="document.querySelector('.create-order-popup__form-control-input.count-input').value">
+           </div>
+           <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper">
+             <input type="number" readonly class="create-order-popup__form-control-input-number" value="2">
+           </div>
+           <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper sumup-input-wrapper-last">
+             <input type="number" readonly class="create-order-popup__form-control-input-number" value="2">
+           </div>
+         </div>
+      </li>
+      <li class="create-order-popup__bottom-params-list-item">
+       <div class="create-order-popup__form-control-group">
+         <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper count-input-wrapper">
+           <input type="number" readonly class="create-order-popup__form-control-input-number" placeholder="0,00">
+         </div>
+       </div>
+    </li>
+    </ul>
+   </div>
+
+<style lang="scss" is:global>
+    .create-order-popup {
+        @media (max-width:1199px) {
+      &__params-lists-nav {
+        display: grid;
+        gap: 16px;
+    }
+    }
+
+    &__params-list {
+      padding: 16px;
+      margin: 0;
+      font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
+display: grid;
+grid-template-columns: repeat(6,1fr);
+gap: 8px;
+background-color: var(--gray100);
+border: 1px solid var(--grey-color);
+border-radius: 4px;
+    }
+
+    @media (min-width:1200px) {
+      &__params-list {
+      padding-bottom: 0;
+      padding-top: 8px;
+      padding-left: 20px;
+      padding-right: 0;
+      column-gap: 8px;
+      row-gap: 16px;
+      grid-template-columns: 40px 304px 100px repeat(2,52px) 74px repeat(2,120px) 24px;
+      border: none;
+      border-radius: none;
+    }
+    }
+
+    @media (min-width:1200px) {
+      &__params-list.params-group {
+       grid-template-rows: 34px max-content;
+       align-items: center;
+    }
+    }
+
+    &__params-list.b-b {
+      border-bottom: 1px solid var(--grey-color);
+    }
+
+    &__params-list.p-b {
+      padding-bottom: 16px;
+    }
+
+    @media (min-width:1200px) {
+      &__params-list.p-b {
+      padding-bottom: 8px;
+    }
+    }
+
+    &__params-caption-list {
+      display: none;
+    }
+
+    @media (min-width:1200px) {
+      &__params-caption-list {
+      display: grid;
+      font-weight: 600;
+      color: var(--dark);
+      padding-top: 16px;
+    }
+    }
+
+    @media (max-width:1199px) {
+      &__params-caption-list.b-b {
+              border-bottom: none;
+        }
+    }
+
+    
+
+    &__params-caption-list.p-b {
+       padding-bottom: 16px;
+    }
+
+    @media (max-width:1199px) {
+      &__params-list-item {
+        display: grid;
+        gap: 8px;
+      }
+    }
+
+    &__params-list-item.number-item {
+      padding: 8px 4px;
+    }
+
+    @media (min-width:1200px) {
+      &__params-list-item.number-item {
+      padding: 0;
+    }
+    }
+
+    @media (max-width:1199px) {
+      &__params-list-item.number-item {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+      }
+      &__params-list-item.number-item,
+    &__params-list-item.type-item,
+    &__params-list-item.name-item  {
+      order: -1;
+      grid-column: span 6;
+    }
+ 
+    &__params-list-item.chars-item {
+      grid-column: span 6;
+    }
+
+    &__params-list-item.count-item,
+    &__params-list-item.weight-item,
+    &__params-list-item.volume-item {
+      grid-column: span 2;
+    }
+
+    &__params-list-item.nds-price-item,
+    &__params-list-item.sum-item {
+        grid-column: span 3;
+    }
+
+    }
+
+    &__params-list-item.options-item {
+        display: none;
+    }
+
+    @media (min-width:1200px) {
+      &__params-list-item.options-item {
+      display: block;
+    }
+    }
+
+    @media (min-width:1200px) {
+      &__params-caption-list-item.t-a-c {
+      text-align: center;
+    }
+    &__params-list-item.t-a-c {
+       text-align: center;
+    }
+    &__params-list-item.name-item {
+       grid-column: 2/span 7;
+    }
+    }
+
+    &__params-list-item-title {
+      font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+    }
+
+    &__params-list-item-title.bottom-params-list-item-title {
+      font-size: 22px;
+      line-height: 24px;
+      padding-bottom: 5px;
+    }
+
+    @media (min-width:1200px) {
+      &__params-list-item-title {
+           display: none;
+      }
+    }
+
+
+    &__delete-btn-wrapper {
+      position: relative;
+    }
+    
+    @media (min-width:1200px) {
+      &__delete-btn-wrapper.mobile {
+            display: none;
+     }
+    }
+    
+
+
+    &__delete-btn {
+      background-color: var(--gray100);
+    border: 1px solid var(--grey-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgb(73 80 87 / 15%);
+    color: var(--danger);
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    height: 50px;
+    line-height: 18px;
+    margin-right: 2rem;
+    min-width: 218px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 36px;
+    transition: .3s ease-in-out;
+    visibility: hidden;
+    z-index: 9;
+    }
+
+    @media (min-width:1200px) {
+      &__delete-btn {
+        right: 1rem;
+        margin-right: 0;
+      }
+    }
+
+    &__delete-btn.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &__bottom-params-list {
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3,1fr);
+      padding: 8px 8px 16px;
+      background-color: var(--gray100);
+      border: 1px solid var(--grey-color);
+      border-radius: 4px;
+    }
+    @media (min-width:1200px) {
+      &__bottom-params-list.adaptive {
+        display: none;
+      }
+    }
+
+    &__bottom-params-list.desktop {
+      display: none;
+    }
+    
+    @media (min-width:1200px) {
+      &__bottom-params-list.desktop {
+        display: grid;
+      }
+    }
+
+
+    @media (min-width:1200px) {
+      &__bottom-params-list { 
+        padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 20px;
+      padding-right: 32px;
+      background-color: unset;
+      border: unset;
+      border-radius: unset;
+      align-items: center;
+      grid-template-columns: repeat(3,1fr);
+      }
+    }
+
+    &__bottom-params-list-add-btn {
+      color: var(--primary);
+      font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+padding: 16px 0;
+    }
+
+    @media (min-width:1200px) {
+      &__bottom-params-list-add-btn {
+        padding: 0;
+      }
+      &__bottom-params-list-add-btn.adaptive {
+        display: none;
+      }
+    }
+
+    @media (max-width:1199px) {
+      &__bottom-params-list-item {
+          display: grid;
+          gap: 8px;
+}
+    }
+    
+
+    &__bottom-params-list-item.add-btn-item {
+      display: none;
+    }
+
+    &__bottom-params-list-item.title-item,
+    &__bottom-params-list-item.sum-item {
+      grid-column: span 3;
+    }
+
+    @media (min-width:1200px) {
+      &__bottom-params-list-item.add-btn-item {
+        display: block;
+      }
+      &__bottom-params-list-item.title-item {
+      grid-column: unset;
+    }
+    }
+    }
+</style>
+
+<script is:inline>
+    document.addEventListener('alpine:init', () => {
+     const paramsListsNav = document.querySelector('.create-order-popup__params-lists-nav');
+ 
+ function increaseParamsListNumber() {
+ let number = 3;
+ 
+ return function() {
+ return number++;
+ };
+ }
+ const paramsListNumber = increaseParamsListNumber();
+ 
+        Alpine.data('paramsList', () => ({
+          addParamsList() {
+           paramsListsNav.insertAdjacentHTML('beforeend', ` <ul role="list" class="create-order-popup__params-list params-group b-b p-b">
+         <li class="create-order-popup__params-list-item number-item t-a-c">
+           <span class="create-order-popup__item-number">${paramsListNumber()}</span>
+           <div class="create-order-popup__delete-btn-wrapper mobile" x-data="{toggleDropdown: false}" x-on:click.outside="toggleDropdown = false">
+             <button type="button" class="create-order-popup__show-delete-btn" x-on:click="toggleDropdown = !toggleDropdown">
+               <svg width="4" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#495057"></path>
+                 <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#495057"></path>
+                 <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#495057"></path>
+                 <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                 <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                 <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                 </svg>                    
+             </button>
+             <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="paramsLists = paramsLists.filter(i => i !== paramsList)">
+                         Удалить           
+             </button>
+            </div>
+         </li>
+         <li class="create-order-popup__params-list-item type-item">
+           <h4 class="create-order-popup__params-list-item-title">Название</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-select-wrapper" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Тип'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+              <input type="text" class="create-order-popup__form-control-select-result-input" name="form-control-select-result-input" id="form-control-select-result-input 16" value="Тип" readonly x-model="resultInputVal">
+              <div class="create-order-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
+                <div class="create-order-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
+              <ul role="list" class="create-order-popup__form-control-select-list" x-bind:class="{'active': toggleSelectList === true}">
+                <li class="create-order-popup__form-control-select-list-item">
+                  <input type="text" name="Тип" id="Тип" value="Тип" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип'">
+                </li>
+                <li class="create-order-popup__form-control-select-list-item">
+                  <input type="text" name="Тип 1" id="Тип 1" value="Тип 1" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип 1'">
+                </li>
+                <li class="create-order-popup__form-control-select-list-item">
+                  <input type="text" name="Тип 2" id="Тип 2" value="Тип 2" readonly class="create-order-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Тип 2'">
+                </li>
+              </ul>
+            </div>
+              <svg class="create-order-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}">
+                <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                  
+            </div>
+          </div>
+         </li>
+         <li class="create-order-popup__params-list-item chars-item">
+           <h4 class="create-order-popup__params-list-item-title">Хар-ки</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper chars-wrapper">
+              <input type="text" class="create-order-popup__form-control-input" value="УВЛ">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item count-item">
+           <h4 class="create-order-popup__params-list-item-title">Кол-во</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper count-wrapper">
+              <input type="number" class="create-order-popup__form-control-input" value="1">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item weight-item">
+           <h4 class="create-order-popup__params-list-item-title">Вес,кг</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper weight-wrapper">
+              <input type="number" class="create-order-popup__form-control-input" value="1">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item volume-item">
+           <h4 class="create-order-popup__params-list-item-title">Объём, м3</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper volume-wrapper">
+              <input type="number" class="create-order-popup__form-control-input" value="1">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item nds-price-item">
+           <h4 class="create-order-popup__params-list-item-title">Цена с НДС</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper nds-price-wrapper">
+              <input class="create-order-popup__form-control-input" placeholder="0,00" x-mask:dynamic="$money($input, ',')">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item sum-item">
+           <h4 class="create-order-popup__params-list-item-title">Сумма</h4>
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper price-wrapper">
+              <input class="create-order-popup__form-control-input" placeholder="5 000 000,00" x-mask:dynamic="$money($input, ',')">
+            </div>
+         </div>
+         </li>
+         <li class="create-order-popup__params-list-item options-item">
+           <div class="create-order-popup__delete-btn-wrapper" x-data="{toggleDropdown: false}" x-on:click.outside="toggleDropdown = false">
+                <button type="button" class="create-order-popup__show-delete-btn" x-on:click="toggleDropdown = !toggleDropdown">
+                  <svg width="4" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#495057"/>
+                    <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#495057"/>
+                    <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#495057"/>
+                    <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                    
+                </button>
+                <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="paramsLists = paramsLists.filter(i => i !== paramsList)">
+                         Удалить           
+                 </button>
+           </div>
+         </li>
+         <li class="create-order-popup__params-list-item name-item">
+          <div class="create-order-popup__form-control-group">
+            <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper params-name-wrapper">
+              <input type="text" class="create-order-popup__form-control-input" placeholder="Наименование">
+            </div>
+         </div>
+         </li>
+       </ul>`);
+          }
+       }))
+   })
+ 
+   </script>
+ 

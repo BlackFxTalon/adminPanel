@@ -1,11 +1,8 @@
 ---
-import EventsBoardPopup from "../components/EventsBoardPopup.astro";
-import SettingsEventBoardPopup from "../components/SettingsEventBoardPopup.astro";
-import NotifyPopup from "../components/NotifyPopup.astro";
 import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
 ---
 
-<header class="header" x-data="{eventsBoardPopup: false, settingsPopup: false, notifyPopup: false, headerProfileDropdown: false}" x-on:click.outside="headerProfileDropdown = false" x-on:click.self="toggleAddOptionsDropdown = false">
+<header class="header" x-data="{headerProfileDropdown: false}" x-on:click.outside="headerProfileDropdown = false" x-on:click.self="toggleAddOptionsDropdown = false">
     <div class="container header__container">
         <div class="header__left">
             <a href="/" class="header__logo">
@@ -88,10 +85,6 @@ import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
            </button>
         </div>
     </div>
-
-    <EventsBoardPopup></EventsBoardPopup>
-    <NotifyPopup></NotifyPopup>
-    <SettingsEventBoardPopup></SettingsEventBoardPopup>
     <HeaderProfileDropdown></HeaderProfileDropdown>
 </header>
 
@@ -147,7 +140,6 @@ import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
         box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
         border-radius: 4px;
         margin-top: 27px;
-        padding-top: 16px;
         padding-bottom: 16px;
         opacity: 0;
         visibility: hidden;
@@ -161,7 +153,6 @@ import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
 
     &__choose-options-dropdown-list {
         display: grid;
-        gap: 16px;
         padding: 0;
         margin: 0;
     }
@@ -170,16 +161,14 @@ import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
         border-bottom: 1px solid var(--grey-color);
     }
 
-    &__choose-options-dropdown-list--p-t {
-        padding-top: 12px;
-    }
-
-    &__choose-options-dropdown-list--p-b {
-        padding-bottom: 12px;
-    }
-
     &__choose-options-dropdown-list-item {
-        padding-left: 16px;
+        padding: 16px;
+        padding-right: 0;
+        transition: .3s ease-in-out;
+    }
+
+    &__choose-options-dropdown-list-item:hover {
+        background-color: var(--hover);
     }
 
     &__choose-options-dropdown-btn {

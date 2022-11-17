@@ -2,6 +2,11 @@
     <form action="#" method="post" class="popup__form settings-popup__form">
 <div class="popup__content settings-popup__content">
 <div class="popup__top-row settings-popup__top-row">
+    <button class="popup__close-btn mobile" type="button" x-on:click="settingsPopup = false">
+        <svg class="popup__close-btn-icon" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>                  
+    </button>
     <button class="popup__close-btn desktop" type="button" x-on:click="settingsPopup = false">
         <svg class="popup__close-btn-icon" width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.53333 1L1 9.53333M1 1L9.53333 9.53333" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -70,7 +75,7 @@
             </svg>                
     </li>
     <li class="settings-popup__btn-control-group-item">
-        <button type="button" class="btn btn--flat settings-popup__undo-btn">
+        <button type="button" class="btn btn--flat settings-popup__undo-btn" x-on:click="settingsPopup = false">
             Отменить
         </button>
     </li>

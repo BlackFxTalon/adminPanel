@@ -4,6 +4,8 @@ import Pagination from "../components/Pagination.astro";
 import CreateOrderPopup from "../components/CreateOrderPopup.astro";
 import SettingsOrderListPopup from "../components/SettingsOrderListPopup.astro";
 import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
+import Filter from "../components/Filter.astro";
+import SearchForm from "../components/SearchForm.astro";
 ---
 <Layout title="страница заказы">
   <section class="orders" x-data="{createOrderPopup: false, settingsOrderListPopup: false, addNewFilterPopup: false}">
@@ -39,88 +41,8 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
             <path d="M25 25L17 17M19.6667 10.3333C19.6667 15.488 15.488 19.6667 10.3333 19.6667C5.17868 19.6667 1 15.488 1 10.3333C1 5.17868 5.17868 1 10.3333 1C15.488 1 19.6667 5.17868 19.6667 10.3333Z" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>            
         </button>
-        <form action="#" method="post" class="orders__search-form">
-          <button type="submit" class="orders__search-form-submit-btn">
-            <svg class="orders__search-form-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.7422 10.3439C12.5329 9.2673 13 7.9382 13 6.5C13 2.91015 10.0899 0 6.5 0C2.91015 0 0 2.91015 0 6.5C0 10.0899 2.91015 13 6.5 13C7.93858 13 9.26801 12.5327 10.3448 11.7415L10.3439 11.7422C10.3734 11.7822 10.4062 11.8204 10.4424 11.8566L14.2929 15.7071C14.6834 16.0976 15.3166 16.0976 15.7071 15.7071C16.0976 15.3166 16.0976 14.6834 15.7071 14.2929L11.8566 10.4424C11.8204 10.4062 11.7822 10.3734 11.7422 10.3439ZM12 6.5C12 9.53757 9.53757 12 6.5 12C3.46243 12 1 9.53757 1 6.5C1 3.46243 3.46243 1 6.5 1C9.53757 1 12 3.46243 12 6.5Z" fill="#7C69EF"/>
-              </svg>         
-          </button>
-          <input class="orders__search-form-input" type="search" name="orderSearchInput" id="orderSearchInput" placeholder="Найти...">     
-        </form>
-        <div class="orders__filter-btn-wrapper" x-data="{toggleDropdown: false}" x-on:click.outside="toggleDropdown = false">
-        <button class="btn orders__filter-btn" type="button" x-on:click="toggleDropdown = !toggleDropdown">
-          <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.50011 1H15.5001C15.6441 1.05051 15.7747 1.13331 15.8817 1.24206C15.9888 1.35082 16.0696 1.48264 16.1178 1.62742C16.1661 1.77221 16.1806 1.92612 16.1602 2.07737C16.1398 2.22861 16.085 2.37318 16.0001 2.5L11.0001 8V15L7.00011 12V8L2.00011 2.5C1.9152 2.37318 1.86044 2.22861 1.84004 2.07737C1.81963 1.92612 1.83411 1.77221 1.88237 1.62742C1.93063 1.48264 2.01139 1.35082 2.11847 1.24206C2.22554 1.13331 2.35609 1.05051 2.50011 1Z" stroke="#F9FBFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>            
-        </button>
-         <form class="orders__filter-dropdown" action="#" method="post" x-bind:class="{'active': toggleDropdown === true }" x-data="{inputVal: 'По умолчанию'}">
-         <ul role="list" class="orders__filter-dropdown-list">
-           <li class="orders__filter-dropdown-list-item">
-              <button type="button" class="orders__filter-dropdown-add-new-filter-btn" x-on:click="addNewFilterPopup = true">
-                <svg class="orders__filter-dropdown-add-new-filter-btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 1V15M1 8H15" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>                  
-                Новый фильтр
-              </button>
-           </li>
-           <li class="orders__filter-dropdown-list-item">
-            <input type="text" class="orders__filter-dropdown-list-item-input" value="Статус" readonly x-on:click="inputVal = 'Статус'">
-         </li>
-         <li class="orders__filter-dropdown-list-item">
-            <input type="text" class="orders__filter-dropdown-list-item-input" value="Ответственный" readonly x-on:click="inputVal = 'Ответственный'">
-         </li>
-         </ul>
-         <fieldset class="orders__filter-dropdown-fieldset">
-             <input type="text" value="По умолчанию" class="orders__filter-dropdown-input-def" x-model="inputVal" readonly x-ref="defInput">
-             <div class="orders__filter-dropdown-fieldset-btn-group">
-               <button class="orders__filter-dropdown-edit-btn" type="button" x-on:click="$refs.defInput.removeAttribute('readonly');$refs.defInput.focus()">
-                <svg class="orders__filter-dropdown-edit-btn-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 3.5L14.5 7.5M1 17.0001H5L15.5 6.50006C16.0304 5.96963 16.3284 5.2502 16.3284 4.50006C16.3284 3.74991 16.0304 3.03049 15.5 2.50006C14.9696 1.96963 14.2501 1.67163 13.5 1.67163C12.7499 1.67163 12.0304 1.96963 11.5 2.50006L1 13.0001V17.0001Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>                  
-               </button>
-               <button class="orders__filter-dropdown-favorite-btn" type="button">
-                  <svg class="orders__filter-dropdown-favorite-btn-icon" width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10.9998 16.75L4.82784 19.995L6.00684 13.122L1.00684 8.25495L7.90684 7.25495L10.9928 1.00195L14.0788 7.25495L20.9788 8.25495L15.9788 13.122L17.1578 19.995L10.9998 16.75Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>                                                   
-               </button>
-               <button class="orders__filter-dropdown-trash-btn" type="button">
-                <svg class="orders__filter-dropdown-trash-btn-icon" width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 5H17M7 9V15M11 9V15M2 5L3 17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19H13C13.5304 19 14.0391 18.7893 14.4142 18.4142C14.7893 18.0391 15 17.5304 15 17L16 5M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H11C11.2652 1 11.5196 1.10536 11.7071 1.29289C11.8946 1.48043 12 1.73478 12 2V5" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>                  
-               </button>
-             </div>
-         </fieldset>
-        </form>
-        </div>
-        <div class="orders__choose-options-btn-wrapper" x-data="{toggleDropdown: false}">
-        <button class="choose-options-btn orders__choose-options-btn" type="button" x-on:click="toggleDropdown = true">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 1V15M1 8H15" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>                    
-        </button>
-        <form action="#" method="post" class="orders__choose-options-btn-dropdown" x-bind:class="{'active': toggleDropdown === true}">
-         <ul role="list" class="orders__choose-options-btn-dropdown-list">
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" name="Статус" id="Статус" readonly value="Статус">
-          </li>
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" name="Организация" id="Организация" readonly value="Организация">
-          </li>
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" readonly value="Документы">
-          </li>
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" readonly value="Документы">
-          </li>
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" readonly value="Документы">
-          </li>
-          <li class="orders__choose-options-btn-dropdown-item">
-            <input type="text" readonly value="Документы">
-          </li>
-         </ul>
-        </form>
-        </div>
+        <SearchForm></SearchForm>
+        <Filter></Filter>
         </div>
         <div class="orders__body-bottom-right-group">
           <button class="orders__body-bottom-right-download-btn" type="button">
@@ -171,7 +93,7 @@ import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
             Организация
           </li>
         </ul>
-        <template x-for="table in tables" :key="table">
+        <template x-for="table in tables">
         <ul role="list" class="orders__table-list">
           <li class="orders__table-list-item">
             25.10.2022
@@ -449,6 +371,11 @@ width: 90px;
       padding-top: 8px;
       padding-left: 16px;
       padding-bottom: 8px;
+      transition: .3s ease-in-out;
+    }
+
+    &__filter-dropdown-list-item:hover {
+      background-color: var(--hover);
     }
 
     &__filter-dropdown-add-new-filter-btn {
@@ -502,46 +429,7 @@ color: var(--dark-grey);
       width: 24px;
       height: 24px;
     }
-
-    &__search-form {
-      display: none;
-      min-width: 280px;
-      height: 34px;
-      border: 1px solid var(--primary);
-      padding-left: 8px;
-      padding-right: 8px;
-      border-radius: 4px;
-    }
-
-    @media (min-width:1200px) {
-      &__search-form {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        align-items: center;
-        gap: 8px;
-    }
-    }
-
-    &__search-form-submit-btn {
-       width: 16px;
-       height: 16px;
-    }
-
-    &__search-form-input {
-      padding: 0;
-      margin: 0;
-      border: none;
-      background-color: transparent;
-      font-weight: 600;
-font-size: 16px;
-line-height: 18px;
-color: var(--primary);
-    }
-
-    &__search-form-input::placeholder {
-      color: inherit;
-    }
-
+    
     &__table-wrapper {
       display: grid;
     }
@@ -615,7 +503,7 @@ transition: .3s ease-in-out;
     &__table-caption-list {
        font-weight: 600;
        position: sticky;
-       z-index: 0;
+       z-index: 1;
       left: -1px;
     }
 
@@ -847,6 +735,11 @@ transition: .3s ease-in-out;
 
     &__choose-status-dropdown-list-item {
       padding: 8px 16px;
+      transition: .3s ease-in-out;
+    }
+
+    &__choose-status-dropdown-list-item:hover {
+      background-color: var(--hover);
     }
 
     &__choose-status-btn {
@@ -896,7 +789,60 @@ text-overflow: ellipsis;
     }
 
     &__choose-options-btn-wrapper {
+      display: none;
+    }
+
+    @media (min-width:1200px) {
+      &__choose-options-btn-wrapper {
       position: relative;
+      display: grid;
+      align-items: center;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    }
+    }
+
+    &__choose-options-btn-wrapper.active {
+      gap: 1rem;
+    }
+
+    &__choose-options-btn-dropdown {
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        z-index: 1;
+        top: 2rem;
+        right: 0;
+        background-color: var(--gray100);
+        border: 1px solid var(--grey-color);
+        box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
+        border-radius: 4px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s ease-in-out;
+        min-width: 166px;
+    }
+
+    &__choose-options-btn-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &__choose-options-btn-dropdown-list {
+      padding: 0;
+      padding-top: 4px;
+      padding-bottom: 8px;
+      margin: 0;
+      display: grid;
+      font-family: 'Inter',sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
+    }
+
+    &__choose-options-btn-dropdown-list-item {
+      padding: 8px 16px;
     }
 
     &__choose-options-btn {
@@ -908,5 +854,48 @@ text-overflow: ellipsis;
       display: flex;
     }
     }
+
+    &__filter-tag-list {
+      padding: 0;
+      margin: 0;
+      display: grid;
+      align-items: center;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      gap: 1rem;
+    }
+
+    &__filter-tag-list-item {
+      position: relative;
+      display:none;
+    }
+
+    &__filter-tag-list-item.active {
+      display: grid;
+    }
+
+    &__filter-tag-list-input {
+       position: absolute;
+       width: 100%;
+       height: 100%;
+       opacity: 0;
+       visibility: hidden;
+    }
+
+    &__filter-tag-list-btn {
+       display: grid;
+       align-items: center;
+       grid-template-columns: repeat(2,max-content);
+       gap: 8px;
+       font-weight: 600;
+       font-size: 16px;
+       line-height: 18px;
+       padding: 5px 8px;
+    }
+
+    &__filter-tag-list-btn-icon {
+      margin-top: 1px;
+    }
+
   }
 </style>

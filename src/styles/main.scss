@@ -8,6 +8,20 @@
 
 @import "common/global";
 
-@import "pages/orders";
+// components
 
 @import "components/searchForm";
+
+@import "components/settingsOrderListPopup";
+
+@import "components/pagination";
+
+@import "components/tableTabs";
+
+@import "components/filter";
+
+// pages
+
+@import "pages/orders";
+
+@import "pages/eventsBoard";

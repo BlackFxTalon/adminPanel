@@ -1,0 +1,17 @@
+<ul role="list" class="site-section__table-tabs">
+    <li class="site-section__table-tabs-item">
+        <button type="button" class="site-section__table-tabs-item-btn" x-on:click="table = 1" x-bind:class="{'active': table === 1}">
+            Последние обращения
+        </button>
+    </li>
+    <li class="site-section__table-tabs-item">
+        <button type="button" class="site-section__table-tabs-item-btn" x-on:click="table = 2" x-bind:class="{'active': table === 2}">
+            Последние заказы
+        </button>
+    </li>
+    <li class="site-section__table-tabs-item">
+        <button type="button" class="site-section__table-tabs-item-btn" x-on:click="table = 3" x-bind:class="{'active': table === 3}">
+            Последние контрагенты
+        </button>
+    </li>
+</ul>

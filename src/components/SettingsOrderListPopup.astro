@@ -2,6 +2,11 @@
 <form action="#" method="post" class="popup__form settings-popup__form">
 <div class="popup__content settings-popup__content">
 <div class="popup__top-row settings-popup__top-row">
+    <button class="popup__close-btn mobile" type="button" x-on:click="settingsOrderListPopup = false">
+        <svg class="popup__close-btn-icon" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>                  
+    </button>
     <button class="popup__close-btn desktop" type="button" x-on:click="settingsOrderListPopup = false">
         <svg class="popup__close-btn-icon" width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.53333 1L1 9.53333M1 1L9.53333 9.53333" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -97,25 +102,3 @@
 </div>
 </form>
 </div>
-
-<style lang="scss" is:global>
- .settings-order-list-popup {
-
-    &__fieldset.btn-control-group {
-        display: grid;
-        align-items: center;
-        grid-template-columns: repeat(2,max-content);
-        gap: 24px;
-    }
-
-    &__select-all-btn,
-    &__cancel-all-btn {
-        font-weight: 400;
-font-size: 14px;
-line-height: 18px;
-color: var(--primary);
-border-bottom: 1px dashed var(--primary);
-padding-bottom: 4px;
-    }
- }
-</style>

@@ -1,0 +1,16 @@
+---
+let items = ['Результат поиска', 'Документы', 'Документы', 'Документы', 'Документы', 'Документы', 'Документы', 'Результат поиска'];
+
+---
+<form action="#" method="post" class="site-section__search-btn-dropdown" x-bind:class="{'active': searchBtnDropdown === true}">
+    <input type="text" class="site-section__search-btn-dropdown-search-input">
+    <ul role="list" class="site-section__search-btn-dropdown-list">
+        {
+            items.map((item) => 
+              <li class="site-section__search-btn-dropdown-list-item">
+                <input readonly class="site-section__search-btn-dropdown-list-item-input" value={item} x-on:click="searchBtnDropdown = false">
+                </li>
+            )
+        }
+    </ul>
+</form>

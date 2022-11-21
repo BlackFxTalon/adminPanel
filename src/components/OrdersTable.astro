@@ -1,4 +1,8 @@
-<div class="site-section__table-wrapper orders__table-wrapper">
+---
+import EditOrderPopup from "./ordersPage/EditOrderPopup.astro";
+---
+
+<div class="site-section__table-wrapper orders__table-wrapper" x-data="{editOrderPopup: false}">
     <nav class="site-section__table orders__table" x-data="{tables: [1,2,3,4,5,6,7,8,9,10]}">
       <ul role="list" class="site-section__table-list site-section__table-caption-list orders__table-list orders__table-caption-list">
         <li class="site-section__table-list-item site-section__table-caption-list-item orders__table-list-item orders__table-list-caption-item">
@@ -38,8 +42,10 @@
         <li class="site-section__table-list-item orders__table-list-item">
           25.10.2022
         </li>
-        <li class="site-section__table-list-item orders__table-list-item">
+        <li class="site-section__table-list-item orders__table-list-item number">
+          <button type="button" class="site-section__edit-order-btn" x-on:click="editOrderPopup = true">
           22.12.2028
+        </button>
         </li>
         <li class="site-section__table-list-item orders__table-list-item">
           <a href="#" class="site-section__contragent-link">
@@ -102,8 +108,8 @@
         Моя компания
       </a>
     </li>
-    <li class="site-section__table-list-item orders__table-list-item site-section__table-list-item--options-btn" x-data="{toggleDeleteBtn:false}" x-on:click.outside="toggleDeleteBtn = false">
-      <button type="button" class="site-section__table-list-item-options-btn" x-on:click="toggleDeleteBtn = !toggleDeleteBtn">
+    <li class="site-section__table-list-item orders__table-list-item site-section__table-list-item--options-btn" x-data="{toggleDropdown:false}" x-on:click.outside="toggleDropdown = false">
+      <button type="button" class="site-section__table-list-item-options-btn" x-on:click="toggleDropdown = !toggleDropdown">
         <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#869AB8"/>
           <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#869AB8"/>
@@ -113,11 +119,24 @@
           <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>            
       </button>
-      <button type="button" class="site-section__table-list-item-options-delete-btn" x-bind:class="{'active': toggleDeleteBtn === true}" x-on:click="tables = tables.filter(i => i !== table)">
-        Удалить         
-      </button>
+      <form action="#" method="post" class="site-section__table-list-item-options-dropdown" x-bind:class="{'active': toggleDropdown === true}">
+        <ul role="list" class="site-section__table-list-item-options-dropdown-list">
+          <li class="site-section__table-list-item-options-dropdown-list-item">
+            <button type="button" class="site-section__table-list-item-options-edit-btn" x-on:click="editOrderPopup = true">
+              Посмотреть         
+            </button>
+          </li>
+          <li class="site-section__table-list-item-options-dropdown-list-item">
+            <button type="button" class="site-section__table-list-item-options-delete-btn" x-on:click="tables = tables.filter(i => i !== table)">
+              Удалить         
+            </button>
+          </li>
+        </ul>
+      </form>
     </li>
       </ul>
     </template>
     </nav>
+
+    <EditOrderPopup></EditOrderPopup>
 </div>

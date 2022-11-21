@@ -141,6 +141,15 @@ input::placeholder {
   color: inherit;
 }
 
+textarea {
+  resize: none;
+  background-color: var(--gray100);
+    border: 1px solid var(--grey-color);
+    border-radius: 4px;
+    color: var(--grey600);
+    overflow: hidden;
+}
+
 select {
   width: 100%;
   background-color: transparent;
@@ -182,7 +191,7 @@ select:focus-within {
 
 .btn--info:disabled,
 .btn--info.disabled {
-   opacity: .8;
+  opacity: .2;
    pointer-events: none;
    cursor: not-allowed;
 }
@@ -203,7 +212,7 @@ select:focus-within {
 
 .btn--primary:disabled,
 .btn--primary.disabled {
-   opacity: .8;
+  opacity: .2;
    pointer-events: none;
    cursor: not-allowed;
 }
@@ -224,7 +233,7 @@ select:focus-within {
 
 .btn--secondary:disabled,
 .btn--secondary.disabled {
-   opacity: .8;
+   opacity: .2;
    pointer-events: none;
    cursor: not-allowed;
 }
@@ -354,7 +363,8 @@ color: var(--dark);
   &__body {
     padding-left: 30px;
     border-top: 1px solid var(--grey-color);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
 }
 
@@ -876,31 +886,46 @@ transition: .3s ease-in-out;
     height: 24px;
   }
 
-  &__table-list-item-options-delete-btn {
+  &__table-list-item-options-dropdown {
     position: absolute;
     z-index: 9;
     top: 36px;
     right: 0;
     min-width: 218px;
-    height: 50px;
     background-color: var(--gray100);
     border: 1px solid var(--grey-color);
     box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
     border-radius: 4px;
-    font-family: 'Inter',sans-serif;
-font-weight: 400;
-font-size: 16px;
-line-height: 18px;
-color: var(--danger);
 opacity: 0;
 visibility: hidden;
 transition: .3s ease-in-out;
 margin-right: 2rem;
   }
 
-  &__table-list-item-options-delete-btn.active {
+  &__table-list-item-options-dropdown.active {
     opacity: 1;
     visibility: visible;
+  }
+
+  &__table-list-item-options-dropdown-list {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter',sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: grid;
+    color: var(--dark);
+  }
+
+  &__table-list-item-options-delete-btn {
+    color: var(--danger);
+  }
+
+  &__table-list-item-options-dropdown-list-item {
+     padding-top: 8px;
+     padding-bottom: 8px;
+     padding-left: 16px;
   }
 
   &__table-list-item--cost {

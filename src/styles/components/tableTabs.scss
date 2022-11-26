@@ -1,9 +1,6 @@
 .site-section {
     &__table-tabs {
-       display: none;
-
-       @include media-extra-large() {
-        padding: 0;
+       padding: 0;
         margin: 0;
         display: grid;
         align-items: center;
@@ -12,7 +9,11 @@
         gap: 52px;
         position: relative;
         top: 2px;
-       }
+        scrollbar-width: none;
+    }
+
+    &__table-tabs::-webkit-scrollbar {
+      display: none;
     }
 
     &__table-tabs-item-btn {

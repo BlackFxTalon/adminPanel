@@ -1,8 +1,15 @@
 ---
 let items = ['Результат поиска', 'Документы', 'Документы', 'Документы', 'Документы', 'Документы', 'Документы', 'Результат поиска'];
 
+let classes;
+
+if(Astro.url.pathname === '/financesPage' || Astro.url.pathname === '/financesPage.html') {
+    classes = 'site-section__search-btn-dropdown finances-page__search-btn-dropdown';
+} else {
+    classes = 'site-section__search-btn-dropdown';
+}
 ---
-<form action="#" method="post" class="site-section__search-btn-dropdown" x-bind:class="{'active': searchBtnDropdown === true}">
+<div action="#" method="post" class={classes} x-bind:class="{'active': searchBtnDropdown === true}">
     <input type="text" class="site-section__search-btn-dropdown-search-input">
     <ul role="list" class="site-section__search-btn-dropdown-list">
         {
@@ -13,4 +20,4 @@ let items = ['Результат поиска', 'Документы', 'Доку�
             )
         }
     </ul>
-</form>
+</div>

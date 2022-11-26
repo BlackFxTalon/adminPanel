@@ -16,6 +16,8 @@
 
 @import "components/tableTabs";
 
+@import "components/addNewFilter";
+
 @import "components/filter";
 
 @import "components/paramsLists";
@@ -30,9 +32,29 @@
 
 @import "components/ordersPage/editOrderPopup";
 
+@import "components/financePage/financesPageOfferPopup";
+
+@import "components/financePage/settingsFinanceModulePopup";
+
+@import "components/financePage/addOrganizationPopup";
+
+@import "components/financePage/sendOfferPopup";
+
+@import "components/financePage/createUserAccountPopup";
+
+@import "components/financePage/createOfferPopup";
+
+@import "components/financePage/paymentRequirementsDropdownOffer";
+
+@import "components/financePage/paramsListsOffer";
+
+@import "components/financePage/ChooseTransportCompanyDropdownOffer";
+
 
 // pages
 
 @import "pages/orders";
 
 @import "pages/eventsBoard";
+
+@import "pages/financesPage";

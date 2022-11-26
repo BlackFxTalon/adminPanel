@@ -5,6 +5,14 @@
         padding-bottom: 5rem;
     }
 
+    &__table-tabs {
+        display: none;
+
+        @include media-extra-large() {
+            display: grid;
+        }
+    }
+
     &__body {
 
         @include media-custom-max(1199px) {

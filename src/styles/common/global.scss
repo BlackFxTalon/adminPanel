@@ -250,6 +250,19 @@ select:focus-within {
    cursor: not-allowed;
 }
 
+.btn--danger {
+  background-color: var(--danger);
+  color: var(--gray100);
+  border: 1px solid var(--danger);
+}
+
+.btn--danger:disabled,
+.btn--danger.disabled {
+   opacity: .2;
+   pointer-events: none;
+   cursor: not-allowed;
+}
+
 .popup {
   position: fixed;
   z-index: 999;
@@ -329,6 +342,10 @@ select:focus-within {
 font-size: 24px;
 line-height: 22px;
 color: var(--dark);
+
+@include media-extra-large() {
+  line-height: 28px;
+}
   }
 
   &__top-row-controls {
@@ -685,6 +702,7 @@ color: var(--gray100);
     border: 1px solid var(--grey-color);
     background-color: var(--gray100);
     border-radius: 4px;
+    position: relative;
   }
 
   @media (min-width:1200px) {
@@ -704,6 +722,22 @@ color: var(--gray100);
     &__top-row {
     display: none;
   }
+  }
+
+  &__create-order-btn {
+    font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+padding: 8px 16px;
+width: 90px;
+  }
+
+
+  &__top-row-btn-group {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2,max-content);
+    gap: 20px;
   }
 
   &__title {

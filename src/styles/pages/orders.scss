@@ -4,7 +4,6 @@
 
   &__body {
     padding-bottom: 36px;
-    position: relative;
   }
 
   &__body-top {
@@ -21,13 +20,6 @@
     }
   }
 
-    &__top-row-btn-group {
-      display: grid;
-      align-items: center;
-      grid-template-columns: repeat(2,max-content);
-      gap: 20px;
-    }
-
     &__body-top-btn-group {
         display: grid;
         grid-auto-flow: column;
@@ -35,15 +27,6 @@
         align-items: center;
         gap: 16px;
     }
-
-    &__create-order-btn {
-      font-weight: 600;
-font-size: 16px;
-line-height: 18px;
-padding: 8px 16px;
-width: 90px;
-    }
-
     
     &__pagination {
       padding-left: 20px;

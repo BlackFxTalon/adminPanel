@@ -38,6 +38,12 @@
             display: block;
     }
 
+    &__table {
+        @include media-extra-large() {
+            max-height: 580px;
+        }
+    }
+
     &__table-tabs {
         padding: 0;
         padding-bottom: 1rem;

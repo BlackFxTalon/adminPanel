@@ -28,21 +28,22 @@
         margin-left: 16px;
         margin-right: 16px;
         display: none;
+        overflow: auto;
+        scrollbar-width: none;
 
         @include media-extra-large() {
             padding-top: 30px;
         }
     }
 
+    &__tab-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
     &__tab-wrapper.active {
             display: block;
     }
 
-    &__table {
-        @include media-extra-large() {
-            max-height: 580px;
-        }
-    }
 
     &__table-tabs {
         padding: 0;

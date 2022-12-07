@@ -50,6 +50,22 @@
 
 @import "components/financePage/ChooseTransportCompanyDropdownOffer";
 
+@import "components/contragentsPage/settingsContragentsModulePopup";
+
+@import "components/contragentsPage/importCompanyCSVPopup";
+
+@import "components/contragentsPage/createContragentPopup";
+
+@import "components/contragentsPage/editContragentPopup";
+
+@import "components/contragentsPage/normalizeDataPopup";
+
+@import "components/contragentsPage/editEventPopup";
+
+@import "components/contragentsPage/createEventPopup";
+
+@import "components/contragentsPage/createTaskPopup";
+
 
 // pages
 
@@ -58,3 +74,5 @@
 @import "pages/eventsBoard";
 
 @import "pages/financesPage";
+
+@import "pages/contragentsPage";

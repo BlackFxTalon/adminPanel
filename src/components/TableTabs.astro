@@ -20,7 +20,15 @@ listClasses = 'site-section__table-tabs events-board-page__table-tabs';
 ]
 
 listClasses = 'site-section__table-tabs finances-page__table-tabs'; 
-}
+} else if (Astro.url.pathname === '/contragentsPage' || Astro.url.pathname === '/contragentsPage.html') {
+    tabs = [
+    {name: 'Все', id: 1, listItemClasses: 'site-section__table-tabs-item contragents-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn contragents-page__table-tabs-item-btn'},
+    {name: 'Компании', id: 2, listItemClasses: 'site-section__table-tabs-item contragents-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn contragents-page__table-tabs-item-btn'},
+    {name: 'Контакты', id: 3, listItemClasses: 'site-section__table-tabs-item contragents-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn contragents-page__table-tabs-item-btn'}
+]
+
+listClasses = 'site-section__table-tabs contragents-page__table-tabs'; 
+} 
 ---
 
 <ul role="list" class={listClasses}>

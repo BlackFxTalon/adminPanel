@@ -81,6 +81,8 @@ select {
   --red_light:#F7BBC2;
   --blue-light:#5495F2;
   --hover:#ECEFF3;
+  --orange:#E56521;
+  --yellow: #FFC107;
 }
 
 body {
@@ -1050,9 +1052,6 @@ min-width: 133px;
     background-color: var(--blue-light);
     color: var(--gray100);
   }
-
-
-
 
   &__choose-status-dropdown-wrapper {
     position: relative;

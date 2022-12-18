@@ -28,6 +28,8 @@
 
 @import "components/settingsOrderListPopup";
 
+@import "components/authRegPopup";
+
 @import "components/ordersPage/createOrderPopup";
 
 @import "components/ordersPage/editOrderPopup";
@@ -66,6 +68,30 @@
 
 @import "components/contragentsPage/createTaskPopup";
 
+@import "components/taskPage/editTaskPopup";
+
+@import "components/goodsPage/editGoodPopup";
+
+@import "components/goodsPage/addGoodPopup";
+
+@import "components/goodsPage/priceTable";
+
+@import "components/goodsPage/goodsCharsTable";
+
+@import "components/goodsPage/editGoodsPagePriceTablePopup";
+
+@import "components/goodsPage/editGoodsCategoriesTablePopup";
+
+@import "components/goodsPage/addPricePopup";
+
+@import "components/goodsPage/addGoodCatPopup";
+
+@import "components/goodsPage/createCharsPopup";
+
+@import "components/goodsPage/addCharsValuePopup";
+
+@import "components/goodsPage/editCharsValueAltPopup";
+
 
 // pages
 
@@ -76,3 +102,7 @@
 @import "pages/financesPage";
 
 @import "pages/contragentsPage";
+
+@import "pages/taskPage";
+
+@import "pages/goodsPage";

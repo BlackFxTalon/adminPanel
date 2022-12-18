@@ -1,6 +1,7 @@
 ---
 import FooterMobileMenu from "../components/FooterMobileMenu.astro";
 import AccountEnterPopup from "../components/AccountEnterPopup.astro";
+import AuthRegPopup from "./AuthRegPopup.astro";
 ---
 
 <footer class="footer" x-data="{footerMobileMenu:false, accountEnterPopup: false}">
@@ -42,6 +43,8 @@ import AccountEnterPopup from "../components/AccountEnterPopup.astro";
     <FooterMobileMenu></FooterMobileMenu>
     <AccountEnterPopup></AccountEnterPopup>
 </footer>
+
+<AuthRegPopup></AuthRegPopup>
 
 <style lang="scss" is:global>
 .footer {

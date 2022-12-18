@@ -9,7 +9,7 @@ if(Astro.url.pathname === '/financesPage' || Astro.url.pathname === '/financesPa
     classes = 'site-section__search-btn-dropdown';
 }
 ---
-<div action="#" method="post" class={classes} x-bind:class="{'active': searchBtnDropdown === true}">
+<div class={classes} x-bind:class="{'active': searchBtnDropdown === true}">
     <input type="text" class="site-section__search-btn-dropdown-search-input">
     <ul role="list" class="site-section__search-btn-dropdown-list">
         {

@@ -1,0 +1,8 @@
+.goods-page-chars-table {
+   
+    &__table-list {
+        grid-template-columns: 24px repeat(2,1fr) 24px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

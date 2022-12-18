@@ -12,7 +12,8 @@ if(Astro.url.pathname === '/eventsBoard' || Astro.url.pathname === '/eventsBoard
 
 listClasses = 'site-section__table-tabs events-board-page__table-tabs'; 
 
-} else if (Astro.url.pathname === '/financesPage' || Astro.url.pathname === '/financesPage.html') {
+} 
+else if (Astro.url.pathname === '/financesPage' || Astro.url.pathname === '/financesPage.html') {
     tabs = [
     {name: 'Счета', id: 1, listItemClasses: 'site-section__table-tabs-item finances-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn finances-page__table-tabs-item-btn'},
     {name: 'Предложения', id: 2, listItemClasses: 'site-section__table-tabs-item finances-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn finances-page__table-tabs-item-btn'},
@@ -20,7 +21,8 @@ listClasses = 'site-section__table-tabs events-board-page__table-tabs';
 ]
 
 listClasses = 'site-section__table-tabs finances-page__table-tabs'; 
-} else if (Astro.url.pathname === '/contragentsPage' || Astro.url.pathname === '/contragentsPage.html') {
+} 
+else if (Astro.url.pathname === '/contragentsPage' || Astro.url.pathname === '/contragentsPage.html') {
     tabs = [
     {name: 'Все', id: 1, listItemClasses: 'site-section__table-tabs-item contragents-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn contragents-page__table-tabs-item-btn'},
     {name: 'Компании', id: 2, listItemClasses: 'site-section__table-tabs-item contragents-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn contragents-page__table-tabs-item-btn'},
@@ -28,6 +30,17 @@ listClasses = 'site-section__table-tabs finances-page__table-tabs';
 ]
 
 listClasses = 'site-section__table-tabs contragents-page__table-tabs'; 
+} 
+
+else if (Astro.url.pathname === '/goodsPage' || Astro.url.pathname === '/goodsPage.html') {
+    tabs = [
+    {name: 'Товары', id: 1, listItemClasses: 'site-section__table-tabs-item goods-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn goods-page__table-tabs-item-btn'},
+    {name: 'Цены', id: 2, listItemClasses: 'site-section__table-tabs-item goods-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn goods-page__table-tabs-item-btn'},
+    {name: 'Категории товаров', id: 3, listItemClasses: 'site-section__table-tabs-item goods-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn goods-page__table-tabs-item-btn'},
+    {name: 'Характеристики', id: 4, listItemClasses: 'site-section__table-tabs-item goods-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn goods-page__table-tabs-item-btn'}
+]
+
+listClasses = 'site-section__table-tabs goods-page__table-tabs'; 
 } 
 ---
 

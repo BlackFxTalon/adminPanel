@@ -92,6 +92,14 @@
 
 @import "components/goodsPage/editCharsValueAltPopup";
 
+@import "components/feedbackPage/Q&ATable";
+
+@import "components/feedbackPage/Q&AEditMessageAltPopup";
+
+@import "components/feedbackPage/applicationsTable";
+
+@import "components/feedbackPage/editApplicationAltPopup";
+
 
 // pages
 
@@ -106,3 +114,5 @@
 @import "pages/taskPage";
 
 @import "pages/goodsPage";
+
+@import "pages/feedbackPage";

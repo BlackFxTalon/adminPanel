@@ -87,6 +87,7 @@ select {
   --orange:#E56521;
   --yellow: #FFC107;
   --yellow_light:#FFF9E6;
+  --message-box:#d9d9d900;
 }
 
 body {
@@ -716,7 +717,16 @@ padding-bottom: 24px;
 
 &__fieldset {
   display: grid;
+  padding-bottom: 16px;
   gap: 16px;
+}
+
+&__fieldset.m-b {
+  margin-bottom: 24px;
+}
+
+&__fieldset.b-b {
+  border-bottom: 1px solid var(--grey-color);
 }
 
 &__form-control-group {
@@ -994,6 +1004,14 @@ width: 90px;
     align-items: center;
     grid-template-columns: repeat(2,max-content);
     gap: 20px;
+  }
+
+  &__page-title {
+    font-family: 'Inter',sans-serif;
+    font-weight: 600;
+font-size: 23px;
+line-height: 28px;
+color: var(--dark);
   }
 
   &__title {
@@ -1315,6 +1333,13 @@ z-index: 1;
   }
 }
 
+&__indicator-new {
+  width: 20px;
+  height: 20px;
+  background-color: var(--green);
+  border-radius: 50%;
+}
+
 &__tag-btn {
   font-weight: 600;
   font-size: 15px;
@@ -1484,6 +1509,18 @@ transition: .3s ease-in-out;
   &__choose-status-dropdown-list-item:hover {
     background-color: var(--hover);
   }
+
+  &__choose-status-dropdown-list-item-input {
+    font-family: 'Inter',sans-serif;
+    font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
+}
+
+&__choose-status-dropdown-list-item-input.delete {
+  color: var(--danger);
+}
 
   &__choose-status-btn {
      width: 24px;
@@ -1951,7 +1988,9 @@ color: var(--grey600);
 }
 
 }
-
+.choose-options-dropdown-wrapper {
+  position: relative;
+}
 .choose-options-btn {
   width: 24px;
   height: 24px;
@@ -1960,6 +1999,50 @@ color: var(--grey600);
   justify-content: center;
   background-color: transparent;
   border: none;
+}
+.choose-options-dropdown {
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  width:100%;
+  z-index: 9;
+  background-color: var(--gray100);
+  border: 1px solid var(--grey-color);
+  box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s ease-in-out;
+  min-width: 232px;
+
+  &__list {
+     display: grid;
+     padding: 8px 0;
+     margin: 0;
+  }
+
+  &__choose-options-dropdown-list-item {
+     padding-top: 8px;
+     padding-bottom: 8px;
+     padding-left: 16px;
+  }
+
+  &__choose-options-dropdown-list-item-input {
+    font-family: 'Inter',sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
+  }
+
+  &__choose-options-dropdown-list-item-input.delete {
+    color: var(--danger);
+  }
+}
+
+.choose-options-dropdown.active {
+  opacity: 1;
+  visibility: visible;
 }
 .tempus-dominus-widget {
   padding: 16px;

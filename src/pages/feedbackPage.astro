@@ -10,9 +10,11 @@ import QATable from "../components/feedbackPage/Q&ATable.astro";
 import ApplicationsTable from "../components/feedbackPage/ApplicationsTable.astro";
 import QAEditMessageAltPopup from "../components/feedbackPage/Q&AEditMessageAltPopup.astro";
 import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationAltPopup.astro";
+import DeleteChatAltPopup from "../components/feedbackPage/DeleteChatAltPopup.astro";
+import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.astro";
 ---
 <Layout title="страница Заявки и обращения">
-  <section class="site-section feedback-page__site-section" x-data="{table: 1, searchBtnDropdown: false, QandAEditMessagesAltPopup: false, editApplicationAltPopup: false }">
+  <section class="site-section feedback-page__site-section" x-data="{table: 1, searchBtnDropdown: false, QandAEditMessagesAltPopup: false, editApplicationAltPopup: false, deleteChatAltPopup: false, archiveChatAltPopup: false }">
     <h1 class="site-section__page-title feedback-page__page-title">Обратная связь</h1>
     <TableTabs></TableTabs>
     <div class="site-section__tab-wrapper" x-show="table === 1">
@@ -266,7 +268,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                </button>
              </div>
              <ul role="list" class="feedback-page__chats-list">
-                <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Степан Кириллович'">
+                <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Степан Кириллович'" x-ref="feedbackPageChatsListItem">
                   <div class="feedback-page__chats-list-item-left">
                     <span class="feedback-page__chats-list-item-indicator-new blinking"></span>
                     <div class="feedback-page__chats-list-item-info">
@@ -277,8 +279,9 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                     </div>
                   </div>
                   <time datetime="15:35" class="feedback-page__chats-list-item-time">15:35</time>
+                  <DeleteChatAltPopup></DeleteChatAltPopup>
                 </li>
-                <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Иван Воробьёв'">
+                <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Иван Воробьёв'" x-ref="feedbackPageChatsListItem2">
                  <div class="feedback-page__chats-list-item-left">
                    <span class="feedback-page__chats-list-item-indicator-new blinking"></span>
                    <div class="feedback-page__chats-list-item-info">
@@ -290,7 +293,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                  </div>
                  <time datetime="15:35" class="feedback-page__chats-list-item-time">15:35</time>
                </li>
-               <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Иван Шашклычкофф'">
+               <li class="feedback-page__chats-list-item" x-on:click="directChat = 'Иван Шашклычкофф'" x-ref="feedbackPageChatsListItem3">
                  <div class="feedback-page__chats-list-item-left">
                    <span class="feedback-page__chats-list-item-indicator-new blinking"></span>
                    <div class="feedback-page__chats-list-item-info">
@@ -354,7 +357,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
            </div>
          </div>
         <div class="feedback-page__chat-grid-main">
-        <div class="feedback-page__direct-chat" x-show="directChat === 'Степан Кириллович'">
+        <div class="feedback-page__direct-chat" x-show="directChat === 'Степан Кириллович'" x-ref="feedbackPageDirectChat1">
            <div class="feedback-page__direct-chat-top">
               <div class="feedback-page__direct-chat-top-left">
                  <button type="button" class="feedback-page__direct-chat-back-btn" x-on:click="directChat = ''">
@@ -396,7 +399,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                     <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input" value="Открыть чат" x-on:click="toggleStatusDropdown = false">
                  </li>
                  <li class="site-section__choose-status-dropdown-list-item feedback-page__choose-status-dropdown-list-item">
-                  <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false">
+                  <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false; deleteChatAltPopup = true">
                </li>
               </ul>
             </div>
@@ -533,7 +536,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
             </div>
            </div>
         </div>
-        <div class="feedback-page__direct-chat" x-show="directChat === 'Иван Воробьёв'">
+        <div class="feedback-page__direct-chat" x-show="directChat === 'Иван Воробьёв'" x-ref="feedbackPageDirectChat2">
           <div class="feedback-page__direct-chat-top">
              <div class="feedback-page__direct-chat-top-left">
                 <button type="button" class="feedback-page__direct-chat-back-btn" x-on:click="directChat = ''">
@@ -575,7 +578,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                     <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input" value="Открыть чат" x-on:click="toggleStatusDropdown = false">
                  </li>
                  <li class="site-section__choose-status-dropdown-list-item feedback-page__choose-status-dropdown-list-item">
-                  <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false">
+                  <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false;deleteChatAltPopup = true">
                </li>
               </ul>
             </div>
@@ -712,7 +715,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
             </div>
           </div>
        </div>
-       <div class="feedback-page__direct-chat" x-show="directChat === 'Иван Шашклычкофф'">
+       <div class="feedback-page__direct-chat" x-show="directChat === 'Иван Шашклычкофф'" x-ref="feedbackPageDirectChat3">
         <div class="feedback-page__direct-chat-top">
            <div class="feedback-page__direct-chat-top-left">
               <button type="button" class="feedback-page__direct-chat-back-btn" x-on:click="directChat = ''">
@@ -754,7 +757,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
                   <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input" value="Открыть чат" x-on:click="toggleStatusDropdown = false">
                </li>
                <li class="site-section__choose-status-dropdown-list-item feedback-page__choose-status-dropdown-list-item">
-                <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false">
+                <input type="text" readonly="" class="site-section__choose-status-dropdown-list-item-input feedback-page__choose-status-dropdown-list-item-input delete" value="Удалить чат" x-on:click="toggleStatusDropdown = false;deleteChatAltPopup = true">
              </li>
             </ul>
           </div>
@@ -896,6 +899,7 @@ import EditApplicationAltPopup from "../components/feedbackPage/EditApplicationA
     </div>
     <QAEditMessageAltPopup></QAEditMessageAltPopup>
     <EditApplicationAltPopup></EditApplicationAltPopup>
+    <ArchiveChatAltPopup></ArchiveChatAltPopup>
   </section>
 </Layout>
 

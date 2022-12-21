@@ -52,6 +52,16 @@ else if (Astro.url.pathname === '/feedbackPage' || Astro.url.pathname === '/feed
 
 listClasses = 'site-section__table-tabs feedback-page__table-tabs'; 
 } 
+
+else if (Astro.url.pathname === '/settingsPage' || Astro.url.pathname === '/settingsPage.html') {
+    tabs = [
+    {name: 'Данные', id: 1, listItemClasses: 'site-section__table-tabs-item settings-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn settings-page__table-tabs-item-btn indicator-new'},
+    {name: 'Пароль', id: 2, listItemClasses: 'site-section__table-tabs-item settings-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn settings-page__table-tabs-item-btn indicator-new'},
+    {name: 'Прочие', id: 3, listItemClasses: 'site-section__table-tabs-item settings-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn settings-page__table-tabs-item-btn indicator-new'}
+]
+
+listClasses = 'site-section__table-tabs settings-page__table-tabs'; 
+} 
 ---
 
 <ul role="list" class={listClasses}>

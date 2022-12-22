@@ -331,23 +331,23 @@ import TableTabs from "../components/TableTabs.astro";
                <ul role="list" class="user-page__admin-permissions-list" x-data="{items: [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}">
                 <li class="user-page__admin-permissions-list-item">
                     <div class="user-page__checkbox-item">
-                        <input type="checkbox" name="adminPermissions" id="adminPermission1" class="user-page__checkbox" checked>
-                        <label for="adminPermission1" class="user-page__checkbox-label">Разрешение</label>
+                        <input type="checkbox" name="adminPermissionsDesktop" id="adminPermissionDesktop1" class="user-page__checkbox" checked>
+                        <label for="adminPermissionDesktop1" class="user-page__checkbox-label">Разрешение</label>
                      </div>
                 </li>
                 <li class="user-page__admin-permissions-list-item">
                     <div class="user-page__checkbox-item">
-                        <input type="checkbox" name="adminPermissions" id="adminPermission2" class="user-page__checkbox" checked>
-                        <label for="adminPermission2" class="user-page__checkbox-label">Разрешение</label>
+                        <input type="checkbox" name="adminPermissionsDesktop" id="adminPermissionDesktop2" class="user-page__checkbox" checked>
+                        <label for="adminPermissionDesktop2" class="user-page__checkbox-label">Разрешение</label>
                      </div>
                 </li>
                 <template x-for="(item,index) in items">
                     <li class="user-page__admin-permissions-list-item">
                         <div class="user-page__checkbox-item">
-                            <input type="checkbox" name="adminPermissions"
-                            x-bind:id="'adminPermission'+item"
+                            <input type="checkbox" name="adminPermissionsDesktop"
+                            x-bind:id="'adminPermissionDesktop'+item"
                             class="user-page__checkbox">
-                            <label x-bind:for="'adminPermission'+item" class="user-page__checkbox-label">Разрешение</label>
+                            <label x-bind:for="'adminPermissionDesktop'+item" class="user-page__checkbox-label">Разрешение</label>
                          </div>
                     </li>
                 </template>

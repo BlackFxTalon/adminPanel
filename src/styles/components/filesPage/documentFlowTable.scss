@@ -1,0 +1,12 @@
+.document-flow-table {
+
+    &__resp-wrapper {
+        grid-template-columns: repeat(2,max-content);
+    }
+    &__resp-title {
+        max-width: 14ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

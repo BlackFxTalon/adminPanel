@@ -104,6 +104,37 @@
 
 @import "components/feedbackPage/archiveChatAltPopup";
 
+@import "components/usersPage/usersTable";
+
+@import "components/usersPage/inviteUserPopup";
+
+@import "components/usersPage/inviteUserTable";
+
+@import "components/usersPage/usersGroupTable";
+
+@import "components/usersPage/newUsersGroupPopup";
+
+@import "components/usersPage/findUsersAltPopup";
+
+@import "components/usersPage/usersGroupPopupTable";
+
+@import "components/usersPage/editUsersGroupPopup";
+
+@import "components/usersPage/chooseUsersAltPopup";
+
+@import "components/filesPage/documentFlowTable";
+
+@import "components/filesPage/documentFlowCardsList";
+
+@import "components/filesPage/viewCardInfoAltPopup";
+
+@import "components/filesPage/transferSectionsAltPopup";
+
+@import "components/filesPage/editActionsAltPopup";
+
+@import "components/filesPage/addPassportFolderAltPopup";
+
+
 
 // pages
 
@@ -124,3 +155,7 @@
 @import "pages/settingsPage";
 
 @import "pages/userPage";
+
+@import "pages/usersPage";
+
+@import "pages/filesPage";

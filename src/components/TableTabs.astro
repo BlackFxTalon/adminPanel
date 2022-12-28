@@ -65,12 +65,32 @@ listClasses = 'site-section__table-tabs settings-page__table-tabs';
 
 else if (Astro.url.pathname === '/userPage' || Astro.url.pathname === '/userPage.html') {
     tabs = [
-    {name: 'Данные', id: 1, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn indicator-new'},
-    {name: 'Компании', id: 2, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn indicator-new'},
-    {name: 'Разрешения', id: 3, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn indicator-new'}
+    {name: 'Данные', id: 1, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn'},
+    {name: 'Компании', id: 2, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn'},
+    {name: 'Разрешения', id: 3, listItemClasses: 'site-section__table-tabs-item user-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn user-page__table-tabs-item-btn'}
 ]
 
 listClasses = 'site-section__table-tabs user-page__table-tabs'; 
+} 
+
+else if (Astro.url.pathname === '/usersPage' || Astro.url.pathname === '/usersPage.html') {
+    tabs = [
+    {name: 'Пользователи', id: 1, listItemClasses: 'site-section__table-tabs-item users-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn users-page__table-tabs-item-btn'},
+    {name: 'Приглашения', id: 2, listItemClasses: 'site-section__table-tabs-item users-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn users-page__table-tabs-item-btn'},
+    {name: 'Приглашённые', id: 3, listItemClasses: 'site-section__table-tabs-item users-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn users-page__table-tabs-item-btn'},
+    {name: 'Группы', id: 4, listItemClasses: 'site-section__table-tabs-item users-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn users-page__table-tabs-item-btn'}
+]
+
+listClasses = 'site-section__table-tabs users-page__table-tabs'; 
+} 
+
+else if (Astro.url.pathname === '/filesPage' || Astro.url.pathname === '/filesPage.html') {
+    tabs = [
+    {name: 'Документооборот', id: 1, listItemClasses: 'site-section__table-tabs-item files-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn files-page__table-tabs-item-btn'},
+    {name: 'Паспорта', id: 2, listItemClasses: 'site-section__table-tabs-item files-page__table-tabs-item', listItemBtnClasses: 'site-section__table-tabs-item-btn users-page__table-tabs-item-btn'},
+]
+
+listClasses = 'site-section__table-tabs files-page__table-tabs'; 
 } 
 ---
 

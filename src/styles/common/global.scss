@@ -1695,7 +1695,7 @@ color: var(--dark-grey);
   opacity: 0;
   visibility: hidden;
   transition: .3s ease-in-out;
-  min-width: 232px;
+  min-width: 240px;
 }
 
 &__create-btn-dropdown.active {
@@ -1723,6 +1723,7 @@ color: var(--dark-grey);
 }
 
 &__create-btn-dropdown-list-item-input {
+  font-family: 'Inter',sans-serif;
  font-weight: 400;
 font-size: 16px;
 line-height: 18px;
@@ -2019,6 +2020,19 @@ color: var(--grey600);
      display: grid;
      padding: 8px 0;
      margin: 0;
+  }
+
+  &__list-item {
+    padding: 16px 0 16px 16px;
+    transition: .3s ease-in-out;
+  }
+
+  &__add-btn {
+    color: var(--dark-grey);
+    font-family: 'Inter',sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
   }
 
   &__choose-options-dropdown-list-item {

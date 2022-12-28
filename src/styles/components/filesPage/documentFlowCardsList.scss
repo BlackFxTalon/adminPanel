@@ -1,0 +1,65 @@
+.document-flow-cards-list {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    border-top: 1px solid var(--grey-color);
+    border-bottom: 1px solid var(--grey-color);
+
+    &__card {
+        max-width: 220px;
+        max-height: 276px;
+        padding: 20px 0;
+        border-right: 1px solid var(--grey-color);
+    }
+
+    &__card-top {
+        padding: 0 16px;
+        display: grid;
+        gap: 16px;
+    }
+
+    &__card-img {
+        height: 120px;
+        max-width: 188px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    &__card-title {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+max-width: 14ch;
+    }
+
+    &__figcaption {
+        padding-top: 16px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        border-top: 1px solid var(--grey-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__toggle-view-btn,
+    &__info-btn,
+    &__download-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.document-flow-cards-list::-webkit-scrollbar {
+    display: none;
+}

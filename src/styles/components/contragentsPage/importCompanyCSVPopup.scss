@@ -67,14 +67,18 @@ transition: .3s ease-in-out;
     }
 
     &__step-progress-titles {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      align-items: center;
-      justify-content: space-between;
-      max-width: 643px;
-      margin-left: auto;
-      margin-right: auto;
-      padding-bottom: 24px;
+      display: none;
+
+      @include media-extra-large() {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        align-items: center;
+        justify-content: space-between;
+        max-width: 643px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 24px;
+      }
     }
 
     &__step-progress-title {

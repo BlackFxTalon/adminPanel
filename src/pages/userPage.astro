@@ -174,23 +174,23 @@ import TableTabs from "../components/TableTabs.astro";
   </section>
   <section class="site-section user-page__site-section mobile-hide" x-data="{table: 1, attachAvatarPhoto: false }">
     <h1 class="site-section__page-title user-page__page-title">vtr@uralreduktor.ru</h1>
-    <div class="user-page__grid">
-    <div class="site-section__tab-wrapper" x-data="{
-        toggleBtn: 'edit',
-        avatarBtnStatus: 'online',
-        editFields() {
-            const inputs = $el.querySelectorAll('input');
-            [...inputs].forEach((input) => {
-                input.removeAttribute('disabled');
-              })
-        },
-        saveFields() {
-            const inputs = $el.querySelectorAll('input');
-            [...inputs].forEach((input) => {
-                input.setAttribute('disabled', 'true');
-              })
-        }
-    }">
+    <div class="user-page__grid" x-data="{
+      toggleBtn: 'edit',
+      avatarBtnStatus: 'online',
+      editFields() {
+          const inputs = $el.querySelectorAll('input');
+          [...inputs].forEach((input) => {
+              input.removeAttribute('disabled');
+            })
+      },
+      saveFields() {
+          const inputs = $el.querySelectorAll('input');
+          [...inputs].forEach((input) => {
+              input.setAttribute('disabled', 'true');
+            })
+      }
+  }">
+    <div class="site-section__tab-wrapper">
         <form action="#" method="post" class="site-section__body user-page__body personal-data">
             <div class="user-page__attach-avatar-wrapper">
                 <div class="user-page__avatar">

@@ -107,6 +107,19 @@
         border-top: 1px solid var(--grey-color);
         border-bottom: 1px solid var(--grey-color);
         padding: 16px;
+
+        @include media-extra-large() {
+            padding: 0;
+            padding-bottom: 17px;
+            gap: 28px;
+            border: none;
+        }
+    }
+
+    &__body-btn-controls-group.desktop-hide {
+        @include media-extra-large() {
+            display: none;
+        }
     }
 
     &__body-btn-controls-group.disabled {
@@ -120,8 +133,22 @@
     &__swap-btn,
     &__copy-btn,
     &__menu-btn {
-        width: 32px;
-        height: 32px;
+
+        @include media-custom-max(1199px) {
+            width: 32px;
+            height: 32px;
+        }
+
+        @include media-extra-large() {
+            display: grid;
+            grid-template-columns: repeat(2,max-content);
+            align-items: center;
+            gap: 7px;
+            font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--grey600);
+        }
     }
 
     &__create-btn-dropdown-list-item.passport-list-item {
@@ -141,6 +168,15 @@
         position: relative;
         height: 276px;
         border-bottom: 1px dashed var(--grey-color);
+        border-radius: 4px;
+
+        @include media-extra-large() {
+            border: 1px dashed var(--grey-color);
+            height: 272px;
+            grid-gap: 0;
+            gap: 0;
+            margin:0 1rem;
+        }
     }
 
     &__upload-file-zone-input {
@@ -157,6 +193,18 @@ line-height: 24px;
 color: var(--primary);
 border-bottom: 1px dashed var(--primary);
 padding-bottom: 4px;
+
+@include media-extra-large() {
+    margin-top: 40px;
+    margin-bottom: 12px;
+}
+    }
+
+    &__upload-file-zone-text-2 {
+        font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark-grey);
     }
 
     &__top-row-btn-group {
@@ -245,5 +293,123 @@ color: var(--grey600);
          cursor: pointer;
      }
 
+      &__view-layout-grid.desktop-hide {
+          @include media-extra-large() {
+            display: none;
+          }
+      }
 
+      &__view-layout-grid.mobile-hide {
+        display: none;
+        @include media-extra-large() {
+          display: grid;
+        }
+    }
+
+    &__view-layout-grid {
+        @include media-extra-large() {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 107px;
+            padding: 0 20px;
+            padding-top: 8px;
+        }
+    }
+
+    &__document-flow-card-aside {
+        padding: 20px;
+        border: 1px solid var(--grey-color);
+    }
+
+    &__document-flow-card-aside-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 37px;
+        grid-gap: 37px;
+    }
+
+    &__document-flow-card-aside-figure {
+        display: grid;
+        gap: 24px;
+    }
+
+    &__document-flow-card-aside-figure-top {
+        display: grid;
+        gap: 16px;
+    }
+
+    &__card-aside-img {
+        width: 100%;
+        height: 180px;
+    }
+
+    &__document-flow-card-aside-title {
+        font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+text-align: center;
+    }
+
+    &__document-flow-card-aside-img {
+        justify-self: center;
+    }
+
+    &__document-flow-card-aside-view-btn {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--gray100);
+    }
+
+    &__document-flow-card-aside-download-btn {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--gray100);
+    }
+
+    &__document-flow-card-aside-list {
+        padding: 0;
+        padding-left: 15px;
+        margin: 0;
+        display: grid;
+        gap: 24px;
+    }
+
+    &__document-flow-card-aside-list-item {
+        display: grid;
+        gap: 8px;
+    }
+
+    &__document-flow-card-aside-list-item-top,
+    &__document-flow-card-aside-list-item-bottom {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(2,max-content);
+        gap: 8px;
+    }
+
+    &__document-flow-card-aside-list-item-title {
+        font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+    }
+
+    &__document-flow-card-aside-list-item-info {
+        font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+    }
+
+    &__document-flow-card-aside-list-item-mail {
+        font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--primary);
+    }
 }

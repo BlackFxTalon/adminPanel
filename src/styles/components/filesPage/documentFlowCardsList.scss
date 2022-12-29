@@ -2,26 +2,50 @@
     padding: 0;
     margin: 0;
     display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
     scrollbar-width: none;
-    border-top: 1px solid var(--grey-color);
+
+    @include media-custom-max(1199px) {
+        grid-auto-flow: column;
+        grid-auto-columns: max-content;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        border-top: 1px solid var(--grey-color);
     border-bottom: 1px solid var(--grey-color);
+    }
+    
+    @include media-extra-large() {
+         grid-template-columns: repeat(3, max-content);
+         gap: 14px;
+    }
 
     &__card {
         max-width: 220px;
         max-height: 276px;
         padding: 20px 0;
         border-right: 1px solid var(--grey-color);
+        transition: .3s ease-in-out;
+
+        @include media-extra-large() {
+            max-width: 100%;
+            min-width: 240px;
+            max-height: 296px;
+            border: 2px solid var(--grey-color);
+        }
+    }
+
+    &__card.active {
+        @include media-extra-large() {
+            border-color: var(--primary);
+        }
     }
 
     &__card-top {
         padding: 0 16px;
-        display: grid;
+        display: flex;
+        flex-direction: column;
         gap: 16px;
+        grid-gap: 16px;
     }
 
     &__card-img {
@@ -29,6 +53,13 @@
         max-width: 188px;
         object-fit: cover;
         border-radius: 4px;
+
+        @include media-extra-large() {
+            max-width: 200px;
+            width: 100%;
+            height: 180px;
+            padding-bottom: 8px;
+        }
     }
 
     &__card-title {
@@ -36,7 +67,26 @@
 font-size: 16px;
 line-height: 18px;
 color: var(--dark);
-max-width: 14ch;
+display: flex;
+flex-direction: column;
+
+@include media-extra-large() {
+    flex-direction: row;
+    gap: 4px;
+    grid-gap: 4px;
+}
+    }
+
+    &__time {
+        display: none;
+
+        @include media-extra-large() {
+            display: block;
+            font-weight: 400;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
+        }
     }
 
     &__figcaption {
@@ -50,6 +100,10 @@ max-width: 14ch;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        @include media-extra-large() {
+            display: none;
+        }
     }
 
     &__toggle-view-btn,

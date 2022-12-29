@@ -1,11 +1,12 @@
 <ul class="document-flow-cards-list files-page__document-flow-cards-list" role="list" x-show="toggleView === 'layout'">
-    <template x-for="file in files" :key="file.name">
+    <template x-for="(file,index) in files" :key="file.name">
      <li class="document-flow-cards-list__item files-page__document-flow-cards-list-item" x-data="{viewCardInfoAltPopup: false}">
-       <figure class="document-flow-cards-list__card files-page__document-flow-card">
+       <figure class="document-flow-cards-list__card files-page__document-flow-card" x-on:click="toggleCardInfoView = index" x-bind:class="{'active': toggleCardInfoView === index }">
           <div class="document-flow-cards-list__card-top files-page__document-flow-card-top">
               <img class="document-flow-cards-list__card-img files-page__document-flow-card-img" src="/images/document-flow-cards-img.png" alt="footer avatar" width="188" height="120" loading="lazy" decoding="async">
               <p class="document-flow-cards-list__card-title files-page__document-flow-card-title" x-text="file.name">
               </p>
+              <time datetime="12.05.2022" class="document-flow-cards-list__time">12.05.2022</time>
           </div>
           <figcaption class="document-flow-cards-list__figcaption files-page__document-flow-card-figcaption">
               <button type="button" class="document-flow-cards-list__toggle-view-btn files-page__document-flow-card-toggle-view-btn">

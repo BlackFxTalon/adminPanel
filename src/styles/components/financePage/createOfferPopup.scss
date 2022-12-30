@@ -357,7 +357,11 @@ color: var(--dark-grey);
 
     &__form-control-input-wrapper.datetimepicker-wrapper {
        margin-right: 4px;
-       max-width: 282px;
+       max-width: 135px;
+
+       @include media-extra-large() {
+        max-width: 282px;
+       }
     }
 
     @media (min-width:1200px) {

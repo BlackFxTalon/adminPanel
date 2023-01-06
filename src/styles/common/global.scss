@@ -586,7 +586,7 @@ padding: 8px 16px;
 &__add-tags-dropdown {
   position: absolute;
    z-index: 99;
-   top: 1.5rem;
+   bottom: 1.5rem;
    left: 0;
    background: var(--gray100);
    border: 1px solid var(--grey-color);
@@ -1478,6 +1478,7 @@ min-width: 133px;
     margin: 0;
     display: flex;
     flex-direction: column;
+    font-family: 'Inter',sans-serif;
     font-weight: 400;
 font-size: 16px;
 line-height: 18px;

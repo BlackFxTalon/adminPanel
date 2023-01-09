@@ -1495,6 +1495,12 @@ min-width: 143px;
 opacity: 0;
 visibility: hidden;
 transition: .3s ease-in-out;
+overflow-y: scroll;
+scrollbar-width:none;
+  }
+
+  &__choose-status-dropdown-list::-webkit-scrollbar {
+    display: none;
   }
 
   &__choose-status-dropdown-list.active {

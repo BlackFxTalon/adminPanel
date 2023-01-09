@@ -10,6 +10,22 @@
 
 // global components
 
+@import "components/header";
+
+@import "components/headerProfileDropdown";
+
+@import "components/headerEnterAccountDropdown";
+
+@import "components/footer";
+
+@import "components/footerMobileMenu";
+
+@import "components/footerProfileMenu";
+
+@import "components/accountEnterPopup";
+
+@import "components/asideNavMenu";
+
 @import "components/searchForm";
 
 @import "components/pagination";
@@ -29,16 +45,6 @@
 @import "components/settingsOrderListPopup";
 
 @import "components/authRegPopup";
-
-@import "components/footer";
-
-@import "components/footerMobileMenu";
-
-@import "components/footerProfileMenu";
-
-@import "components/accountEnterPopup";
-
-@import "components/asideNavMenu";
 
 // pages + components
 

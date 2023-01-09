@@ -1,8 +1,9 @@
 ---
 import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
+import HeaderEnterAccountDropdown from "./HeaderEnterAccountDropdown.astro";
 ---
 
-<header class="header" x-data="{headerProfileDropdown: false}" x-on:click.outside="headerProfileDropdown = false" x-on:click.self="toggleAddOptionsDropdown = false">
+<header class="header" x-data="{headerProfileDropdown: false, headerEnterAccountDropdown: false}" x-on:click.outside="headerProfileDropdown = false; headerEnterAccountDropdown = false" x-on:click.self="toggleAddOptionsDropdown = false">
     <div class="container header__container">
         <div class="header__left">
             <a href="/" class="header__logo">
@@ -80,133 +81,16 @@ import HeaderProfileDropdown from "../components/HeaderProfileDropdown.astro";
                 <path d="M6 15V16C6 16.7956 6.31607 17.5587 6.87868 18.1213C7.44129 18.6839 8.20435 19 9 19C9.79565 19 10.5587 18.6839 11.1213 18.1213C11.6839 17.5587 12 16.7956 12 16V15M7 3C7 2.46957 7.21071 1.96086 7.58579 1.58579C7.96086 1.21071 8.46957 1 9 1C9.53043 1 10.0391 1.21071 10.4142 1.58579C10.7893 1.96086 11 2.46957 11 3C12.1484 3.54303 13.1274 4.38833 13.8321 5.4453C14.5367 6.50227 14.9404 7.73107 15 9V12C15.0753 12.6217 15.2954 13.2171 15.6428 13.7381C15.9902 14.2592 16.4551 14.6914 17 15H1C1.54494 14.6914 2.00981 14.2592 2.35719 13.7381C2.70457 13.2171 2.92474 12.6217 3 12V9C3.05956 7.73107 3.4633 6.50227 4.16795 5.4453C4.8726 4.38833 5.85159 3.54303 7 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>                
            </button>
-           <button class="header__avatar-btn" type="button" x-on:click="headerProfileDropdown = !headerProfileDropdown">
+           <button class="header__calc-btn" type="button">
+            <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.44444 13.2222V13.2333M9.88889 13.2222V13.2333M14.3333 13.2222V13.2333M5.44444 16.5556V16.5667M9.88889 16.5556V16.5667M14.3333 16.5556V16.5667M3.22222 1H16.5556C17.7829 1 18.7778 1.99492 18.7778 3.22222V18.7778C18.7778 20.0051 17.7829 21 16.5556 21H3.22222C1.99492 21 1 20.0051 1 18.7778V3.22222C1 1.99492 1.99492 1 3.22222 1ZM6.55556 5.44444H13.2222C13.8359 5.44444 14.3333 5.94191 14.3333 6.55556V7.66667C14.3333 8.28032 13.8359 8.77778 13.2222 8.77778H6.55556C5.94191 8.77778 5.44444 8.28032 5.44444 7.66667V6.55556C5.44444 5.94191 5.94191 5.44444 6.55556 5.44444Z" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                          
+           </button>
+           <button class="header__avatar-btn" type="button" x-on:click="headerEnterAccountDropdown = !headerEnterAccountDropdown">
             <img class="header__avatar-btn-img" src="/images/header-avatar-placeholder.svg" alt="header avatar" width="36" height="36">
            </button>
         </div>
     </div>
     <HeaderProfileDropdown></HeaderProfileDropdown>
+    <HeaderEnterAccountDropdown></HeaderEnterAccountDropdown>
 </header>
-
-
-
-<style lang="scss" is:global>
-   .header {
-    padding: 15px 0;
-    border-bottom: 1px solid var(--grey-color);
-    background-color: var(--gray200);
-    position: sticky;
-    z-index: 99;
-    top: 0;
-    left: 0;
-    display: none;
-
-    &__container {
-        --max-width:100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-left: 33px;
-	    padding-right: 30px;
-    }
-
-    &__left {
-        display: grid;
-        align-items: center;
-        grid-template-columns: repeat(2,max-content);
-        gap: 96px;
-    }
-
-    &__logo {
-        text-decoration: none;
-    }
-
-    &__choose-options-btn {
-        margin-top: -4px;
-    }
-
-    &__choose-options-dropdown-wrapper {
-        position: relative;
-    }
-
-    &__choose-options-dropdown {
-        min-width: 197px;
-        position: absolute;
-        z-index: 99;
-        top: 0;
-        left: 0;
-        background-color: var(--gray100);
-        border: 1px solid var(--grey-color);
-        box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
-        border-radius: 4px;
-        margin-top: 27px;
-        padding-bottom: 16px;
-        opacity: 0;
-        visibility: hidden;
-        transition: .3s ease-in-out;
-    }
-
-    &__choose-options-dropdown.active {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    &__choose-options-dropdown-list {
-        display: grid;
-        padding: 0;
-        margin: 0;
-    }
-
-    &__choose-options-dropdown-list--b-b {
-        border-bottom: 1px solid var(--grey-color);
-    }
-
-    &__choose-options-dropdown-list-item {
-        padding: 16px;
-        padding-right: 0;
-        transition: .3s ease-in-out;
-    }
-
-    &__choose-options-dropdown-list-item:hover {
-        background-color: var(--hover);
-    }
-
-    &__choose-options-dropdown-btn {
-        font-family: Inter,sans-serif;
-        font-weight: 400;
-font-size: 16px;
-line-height: 18px;
-color: var(--dark-grey);
-    }
-
-    &__right {
-        display: grid;
-        align-items: center;
-        grid-template-columns: repeat(3,max-content);
-    }
-
-    &__board-btn {
-        width: 14px;
-        height: 18px;
-        margin-right: 39px;
-    }
-
-    &__notify-btn {
-        width: 16px;
-        height: 18px;
-        margin-right: 34px;
-    }
-
-    &__avatar-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50px;
-    }
-   }
-
-   @media (min-width:1200px) {
-     .header {
-          display: block;
-     }
-   }
-</style>

@@ -3,7 +3,7 @@ const items = ['Статус', 'Организация', 'Документы 1',
 
 let filterBtnWrapperClass;
 
-if(Astro.url.pathname === '/eventsBoard') {
+if(Astro.url.pathname === '/eventsBoard' || Astro.url.pathname === '/eventsBoard.html') {
   filterBtnWrapperClass = 'site-section__filter-btn-wrapper events-board-page__filter-btn-wrapper';
 } else {
   filterBtnWrapperClass = 'site-section__filter-btn-wrapper';

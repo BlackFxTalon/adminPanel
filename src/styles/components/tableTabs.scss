@@ -10,6 +10,7 @@
         position: relative;
         top: 2px;
         scrollbar-width: none;
+        z-index: 1;
     }
 
     &__table-tabs::-webkit-scrollbar {

@@ -32,7 +32,7 @@ x-data={`{url: '${Astro.url.pathname}'}`}
                 <svg class="aside-nav-menu__list-icon" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': url === '' || url === ''}">
                     <path d="M19 3C19 1.89543 18.1046 1 17 1H3C1.89543 1 1 1.89543 1 3M19 3V13C19 14.1046 18.1046 15 17 15H3C1.89543 15 1 14.1046 1 13V3M19 3L10 9L1 3" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
-                    <span class="aside-nav-menu__list-item-title" x-bind:class="{'active': url === '/feedbackPage.html' || url === '/feedbackPage'}">Обращения</span>          
+                    <span class="aside-nav-menu__list-item-title" x-bind:class="{'active': url === '/feedbackPage.html' || url === '/feedbackPage'}">Обратная связь</span>          
             </a>
             <span class="aside-nav-menu__indicator-new blinking"></span>
         </li>
@@ -55,6 +55,25 @@ x-data={`{url: '${Astro.url.pathname}'}`}
                     <span x-bind:class="{'active': url === '/financesPage.html' || url === '/financesPage'}" class="aside-nav-menu__list-item-title" >Финансы</span>          
             </a>
         </li>
+        <li class="aside-nav-menu__list-item" x-bind:class="{'active': toggleSubMenu === true }" x-data="{toggleSubMenu: false}">
+            <a class="aside-nav-menu__list-link" x-on:click="toggleSubMenu = !toggleSubMenu">
+                <svg class="aside-nav-menu__list-icon" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleSubMenu === true }">
+                    <path d="M10 1V5C10 5.26522 10.1054 5.51957 10.2929 5.70711C10.4804 5.89464 10.7348 6 11 6H15M10 1H3C2.46957 1 1.96086 1.21071 1.58579 1.58579C1.21071 1.96086 1 2.46957 1 3V17C1 17.5304 1.21071 18.0391 1.58579 18.4142C1.96086 18.7893 2.46957 19 3 19H13C13.5304 19 14.0391 18.7893 14.4142 18.4142C14.7893 18.0391 15 17.5304 15 17V6M10 1L15 6M5 7H6M5 11H11M5 15H11" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                 
+                    <span class="aside-nav-menu__list-item-title" x-bind:class="{'active': toggleSubMenu === true }">Документы</span>          
+            </a>
+            <ul role="list" x-bind:class="{'active': toggleSubMenu === true }" class="aside-nav-menu__sublist" x-show="toggleSubMenu === true" x-collapse.duration.750ms>
+                <li class="aside-nav-menu__sublist-item">
+                    <a href="#" class="aside-nav-menu__sublist-item-link">Документы</a>
+                </li>
+                <li class="aside-nav-menu__sublist-item">
+                    <a href="#" class="aside-nav-menu__sublist-item-link">Документы</a>
+                </li>
+            </ul>
+            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="aside-nav-menu__list-item-submenu-arrow" x-bind:class="{'active': toggleSubMenu === true}">
+                <path d="M5 1L1 5L5 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>                    
+        </li>
         <li class="aside-nav-menu__list-item" x-bind:class="{'active': url === '/contragentsPage.html' || url === '/contragentsPage'}">
             <a href="/contragentsPage" class="aside-nav-menu__list-link">
                 <svg  x-bind:class="{'active': url === '/contragentsPage.html' || url === '/contragentsPage'}" class="aside-nav-menu__list-icon" width="18" height="21" viewBox="0 0 8 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,13 +92,24 @@ x-data={`{url: '${Astro.url.pathname}'}`}
                     <span x-bind:class="{'active': url === '/goodsPage.html' || url === '/goodsPage'}" class="aside-nav-menu__list-item-title" >Товары</span>          
             </a>
         </li>
-        <li class="aside-nav-menu__list-item" x-bind:class="{'active': url === '/filesPage.html' || url === '/filesPage'}">
-            <a href="/filesPage" class="aside-nav-menu__list-link">
-                <svg x-bind:class="{'active': url === '/filesPage.html' || url === '/filesPage'}" class="aside-nav-menu__list-icon" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <li class="aside-nav-menu__list-item" x-bind:class="{'active': toggleSubMenu === true || url === '/filesPage.html' || url === '/filesPage' }" x-data="{toggleSubMenu: false}">
+            <a class="aside-nav-menu__list-link" x-on:click="toggleSubMenu = !toggleSubMenu">
+                <svg class="aside-nav-menu__list-icon" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleSubMenu === true || url === '/filesPage.html' || url === '/filesPage' }">
                     <path d="M10 1V5C10 5.26522 10.1054 5.51957 10.2929 5.70711C10.4804 5.89464 10.7348 6 11 6H15M10 1H3C2.46957 1 1.96086 1.21071 1.58579 1.58579C1.21071 1.96086 1 2.46957 1 3V17C1 17.5304 1.21071 18.0391 1.58579 18.4142C1.96086 18.7893 2.46957 19 3 19H13C13.5304 19 14.0391 18.7893 14.4142 18.4142C14.7893 18.0391 15 17.5304 15 17V6M10 1L15 6M5 7H6M5 11H11M5 15H11" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>                   
-                    <span x-bind:class="{'active': url === '/filesPage.html' || url === '/filesPage'}" class="aside-nav-menu__list-item-title">Файлы</span>          
+                    </svg>                 
+                    <span class="aside-nav-menu__list-item-title" x-bind:class="{'active': toggleSubMenu === true || url === '/filesPage.html' || url === '/filesPage' }">Файлы</span>          
             </a>
+            <ul role="list" x-bind:class="{'active': toggleSubMenu === true }" class="aside-nav-menu__sublist" x-show="toggleSubMenu === true" x-collapse.duration.750ms>
+                <li class="aside-nav-menu__sublist-item">
+                    <a href="/filesPage" class="aside-nav-menu__sublist-item-link">Файлы</a>
+                </li>
+                <li class="aside-nav-menu__sublist-item">
+                    <a href="/filesPage" class="aside-nav-menu__sublist-item-link">Файлы</a>
+                </li>
+            </ul>
+            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="aside-nav-menu__list-item-submenu-arrow" x-bind:class="{'active': toggleSubMenu === true}">
+                <path d="M5 1L1 5L5 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>                    
         </li>
         <li class="aside-nav-menu__list-item" x-bind:class="{'active': url === '/usersPage.html' || url === '/usersPage'}">
             <a href="/usersPage" class="aside-nav-menu__list-link" x-bind:class="{'active': url === '/usersPage.html' || url === '/usersPage'}">
@@ -101,15 +131,6 @@ x-data={`{url: '${Astro.url.pathname}'}`}
             </a>
         </li>
         <li class="aside-nav-menu__list-item" >
-            <a href="#" class="aside-nav-menu__list-link">
-                <svg class="aside-nav-menu__list-icon" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" >
-                    <path d="M19 3C19 1.89543 18.1046 1 17 1H3C1.89543 1 1 1.89543 1 3M19 3V13C19 14.1046 18.1046 15 17 15H3C1.89543 15 1 14.1046 1 13V3M19 3L10 9L1 3" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>                                   
-                    <span class="aside-nav-menu__list-item-title" >Обратная связь</span>          
-            </a>
-            <span class="aside-nav-menu__indicator-new blinking"></span>
-        </li>
-        <li class="aside-nav-menu__list-item" >
             <a class="aside-nav-menu__list-link" x-on:click="authRegAltPopup = true">
                 <svg  class="aside-nav-menu__list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 10V10.01M1 19H19M3 19V3C3 2.46957 3.21071 1.96086 3.58579 1.58579C3.96086 1.21071 4.46957 1 5 1H12.5M15 11.5V19M12 5H19M19 5L16 2M19 5L16 8" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -120,91 +141,3 @@ x-data={`{url: '${Astro.url.pathname}'}`}
     </ul>
 </nav>
 </aside>
-
-<style lang="scss" is:global>
-
-    .aside-nav-menu {
-        background-color: var(--secondary);
-        border-radius: 4px;
-        display: none;
-
-
-        &__nav {
-            display: grid;
-            gap: 40px;
-        }
-
-        &__list {
-            display: grid;
-            padding: 0;
-            margin: 0;
-            font-family: 'Inter',sans-serif;
-font-weight: 400;
-font-size: 16px;
-line-height: 18px;
-color: var(--dark-grey);
-        }
-
-        &__list-item {
-            position: relative;
-            transition: .3s ease-in-out;
-        }
-
-        &__list-item:hover,
-        &__list-item:active,
-        &__list-item:focus {
-            background-color: var(--menu-hover);
-        }
-
-        &__list-item.active {
-            background-color: var(--menu-hover);
-        }
-
-        &__list-item-title--name {
-            max-width: 6ch;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        &__list-link {
-            display: grid;
-            align-items: center;
-            grid-template-columns: max-content 1fr;
-            gap: 12px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            padding-left: 24px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        &__list-icon.active path {
-            stroke: var(--primary);
-        }
-
-        &__list-item-title.active {
-            color: var(--primary);
-        }
-
-        &__indicator-new {
-            width: 12px;
-            height: 12px;
-            background-color: var(--green);
-            border-radius: 12px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            margin-top: 12px;
-            margin-right: 14px;
-        }
-    }
-
-    @media(min-width:1200px) {
-        .aside-nav-menu {
-            display: block;
-            grid-row: span 2;
-            min-height: 852px;
-        }
-    }
-</style>

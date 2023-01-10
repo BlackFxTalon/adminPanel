@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Pagination from "../components/Pagination.astro";
 import CreateOrderPopup from "../components/CreateOrderPopup.astro";
+import CreateContragentPopup from "../components/contragentsPage/CreateContragentPopup.astro";
 import AddNewFilterPopup from "../components/AddNewFilterPopup.astro";
 import Filter from "../components/Filter.astro";
 import SearchForm from "../components/SearchForm.astro";
@@ -10,7 +11,7 @@ import SearchBtn from "../components/SearchBtn.astro";
 import SearchBtnDropdown from "../components/SearchBtnDropdown.astro";
 ---
 <Layout title="страница заказы">
-  <section class="site-section orders__site-section" x-data="{createOrderPopup: false, addNewFilterPopup: false, searchBtnDropdown: false}">
+  <section class="site-section orders__site-section" x-data="{createOrderPopup: false, createContragentPopup: false,addNewFilterPopup: false, searchBtnDropdown: false}">
     <div class="site-section__top-row orders__top-row">
     <h2 class="site-section__title orders__title">Заказы</h2>
     <div class="site-section__top-row-btn-group orders__top-row-btn-group">
@@ -63,6 +64,7 @@ import SearchBtnDropdown from "../components/SearchBtnDropdown.astro";
       </ul>
     </div>
     <CreateOrderPopup></CreateOrderPopup>
+    <CreateContragentPopup></CreateContragentPopup>
     <AddNewFilterPopup></AddNewFilterPopup>
   </section>
 </Layout>

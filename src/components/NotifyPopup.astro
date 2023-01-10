@@ -35,6 +35,9 @@
        <ul class="popup__filter-tag-group" role="list">
         <li class="popup__filter-tag-group-item">
             <button type="button" class="btn popup__filter-tag-btn" x-bind:class="{'active': tabs === 'mail'}" x-on:click.self="tabs = 'mail'">
+                <p class="popup__filter-tag-btn-nots-counter" x-show="tabs === ''">
+                    29
+                </p>
                 Почта
                 <svg x-on:click.self="tabs = ''" class="popup__filter-tag-btn-icon" x-show="tabs === 'mail'" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 1L1 9M1 1L9 9" stroke="#F9FBFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -51,6 +54,9 @@
         </li>
         <li class="popup__filter-tag-group-item">
             <button type="button" class="btn popup__filter-tag-btn" x-bind:class="{'active': tabs === 'offers'}" x-on:click.self="tabs ='offers'">
+                <p class="popup__filter-tag-btn-nots-counter" x-show="tabs === ''">
+                    29
+                </p>
                 Предложения
                 <svg x-on:click="tabs = ''" class="popup__filter-tag-btn-icon" x-show="tabs === 'offers'" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 1L1 9M1 1L9 9" stroke="#F9FBFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

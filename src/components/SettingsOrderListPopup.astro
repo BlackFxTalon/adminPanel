@@ -16,67 +16,82 @@
         Настройка списка
     </h2>
 </div>
-<div class="popup__body settings-popup__body">
+<div class="popup__body settings-popup__body" 
+x-data="{
+    checkAllCheckboxes() {
+        const checkboxes = $el.querySelectorAll('.settings-popup__list-item-checkbox');
+        for (const checkbox of checkboxes) {
+            checkbox.checked = true;
+        }
+    },
+    uncheckAllCheckboxes() {
+        const checkboxes = $el.querySelectorAll('.settings-popup__list-item-checkbox');
+        for (const checkbox of checkboxes) {
+            checkbox.checked = false;
+        }
+    },
+}"
+>
     <fieldset class="settings-popup__fieldset settings-order-list-popup__fieldset btn-control-group">
-      <button type="button" class="settings-order-list-popup__select-all-btn" x-on:click="checkedState = true">
+      <button type="button" class="settings-order-list-popup__select-all-btn" x-on:click="checkAllCheckboxes">
         Выделить всё
       </button>
-      <button type="button" class="settings-order-list-popup__cancel-all-btn" x-on:click="checkedState = false">
+      <button type="button" class="settings-order-list-popup__cancel-all-btn" x-on:click="uncheckAllCheckboxes">
         Отменить всё
       </button>
     </fieldset>
     <fieldset class="settings-popup__fieldset">
     <ul role="list" class="settings-popup__list">
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="1" id="№" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="1" id="№" class="settings-popup__list-item-checkbox">
             <label for="№" class="settings-popup__list-item-label">№</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Дата" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Дата" class="settings-popup__list-item-checkbox">
             <label for="Дата" class="settings-popup__list-item-label">Дата</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Сумма" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Сумма" class="settings-popup__list-item-checkbox">
             <label for="Сумма" class="settings-popup__list-item-label">Сумма</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Контрагент" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Контрагент" class="settings-popup__list-item-checkbox">
             <label for="Контрагент" class="settings-popup__list-item-label">Контрагент</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Статус" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Статус" class="settings-popup__list-item-checkbox">
             <label for="Статус" class="settings-popup__list-item-label">Статус</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Организация" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Организация" class="settings-popup__list-item-checkbox">
             <label for="Организация" class="settings-popup__list-item-label">Организация</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Ответственный" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Ответственный" class="settings-popup__list-item-checkbox">
             <label for="Ответственный" class="settings-popup__list-item-label">Ответственный</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Срок действия" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Срок действия" class="settings-popup__list-item-checkbox">
             <label for="Срок действия" class="settings-popup__list-item-label">Срок действия</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Счет" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Счет" class="settings-popup__list-item-checkbox">
             <label for="Счет" class="settings-popup__list-item-label">Счет</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Основание" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Основание" class="settings-popup__list-item-checkbox">
             <label for="Основание" class="settings-popup__list-item-label">Основание</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Печатная форма" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Печатная форма" class="settings-popup__list-item-checkbox">
             <label for="Печатная форма" class="settings-popup__list-item-label">Печатная форма</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Изменено" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Изменено" class="settings-popup__list-item-checkbox">
             <label for="Изменено" class="settings-popup__list-item-label">Изменено</label>
         </li>
         <li class="settings-popup__list-item">
-            <input type="checkbox" name="2" id="Последний комментарий" class="settings-popup__list-item-checkbox" x-bind:checked="checkedState === true ? true : false">
+            <input type="checkbox" name="2" id="Последний комментарий" class="settings-popup__list-item-checkbox">
             <label for="Последний комментарий" class="settings-popup__list-item-label">Последний комментарий</label>
         </li>
     </ul>

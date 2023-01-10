@@ -4,7 +4,7 @@ import PaymentRequirementsDropdown from "../components/PaymentRequirementsDropdo
 import ParamsLists from "../components/ParamsLists.astro";
 ---
 
-<div class="popup create-order-popup" x-bind:class="{'active': createOrderPopup === true}" x-data="paramsList">
+<div class="popup create-order-popup" x-bind:class="{'active': createOrderPopup === true}">
     <form action="#" method="post" class="popup__form create-order-popup__form">
     <div class="popup__content create-order-popup__content">
   <div class="popup__top-row events-board-popup__top-row">
@@ -77,10 +77,10 @@ import ParamsLists from "../components/ParamsLists.astro";
           <p class="create-order-popup__form-control-group-title data-title">
               Дата
           </p>
-          <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper datetimepicker-wrapper" id="datetimepicker1" data-td-target-input="nearest" data-td-target-toggle="nearest">
+          <div class="create-order-popup__form-control-wrapper create-order-popup__form-control-input-wrapper datetimepicker-wrapper" id="createOrderPopupDatetimepicker1" data-td-target-input="nearest" data-td-target-toggle="nearest">
             <input class="create-order-popup__form-control-input-date"
-          id="datetimepicker1Input" type="text" data-td-target="#datetimepicker1" readonly/>
-          <button type="button" data-td-target="#datetimepicker1" data-td-toggle="datetimepicker" class="create-order-popup__form-control-datepicker-btn">
+          id="createOrderPopupDatetimepicker1Input" type="text" data-td-target="#createOrderPopupDatetimepicker1" readonly/>
+          <button type="button" data-td-target="#createOrderPopupDatetimepicker1" data-td-toggle="datetimepicker" class="create-order-popup__form-control-datepicker-btn">
             <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13 1V5M5 1V5M1 9H17M3 3H15C16.1046 3 17 3.89543 17 5V17C17 18.1046 16.1046 19 15 19H3C1.89543 19 1 18.1046 1 17V5C1 3.89543 1.89543 3 3 3ZM5 13H7V15H5V13Z" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>              
@@ -115,7 +115,7 @@ import ParamsLists from "../components/ParamsLists.astro";
                 </ul>
                 <ul role="list" class="create-order-popup__form-control-select-list b-t">
                   <li class="create-order-popup__form-control-select-list-item">
-                  <button type="button" class="create-order-popup__create-contragent-btn">
+                  <button type="button" class="create-order-popup__create-contragent-btn" x-on:click="createContragentPopup = true">
                     <svg class="create-order-popup__create-contragent-btn-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M7.00033 1.16663V12.8333M1.16699 6.99996H12.8337" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>    
@@ -358,7 +358,7 @@ import ParamsLists from "../components/ParamsLists.astro";
   // Tempus Dominus JavaScript datepicker https://getdatepicker.com/ 
   import { TempusDominus } from 'https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.esm.js';
 
-  new TempusDominus(document.getElementById('datetimepicker1'), {
+  new TempusDominus(document.getElementById('createOrderPopupDatetimepicker1'), {
     display: {
       theme: 'light',
       buttons: {

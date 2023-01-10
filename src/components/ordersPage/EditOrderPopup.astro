@@ -13,7 +13,7 @@ let orderDocsList = [
 ]
 ---
 
-<div class="popup edit-order-popup" x-bind:class="{'active': editOrderPopup === true}" x-data="paramsList">
+<div class="popup edit-order-popup" x-bind:class="{'active': editOrderPopup === true}">
     <form action="#" method="post" class="popup__form edit-order-popup__form" x-data="{mobileTab: 'order', desktopTab: 'delivery'}">
     <div class="popup__content edit-order-popup__content">
   <div class="popup__top-row edit-order-popup__top-row">
@@ -594,43 +594,6 @@ let orderDocsList = [
         </textarea>
         <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn desktop-publish-btn" x-on:click="publishComment;textAreaVal = ''" x-bind:class="{'disabled': textAreaVal.length < 1}">Опубликовать</button>
         </div>
-        <script is:inline>
-          document.addEventListener('alpine:init', () => {
-            Alpine.data('comments', () => ({
-              
-              publishComment() {
-                const commentsTextareaDesktop = document.querySelector('.edit-order-popup__comments-textarea.desktop-textarea');
-                const commentsPublishBtnDesktop = document.querySelector('.edit-order-popup__comments-publish-btn.desktop-publish-btn');
-                const commentsList = document.querySelector('.edit-order-popup__comments-list.main-list');
-                const commentsListItemHtml = `
-                <li class="edit-order-popup__comments-list-item">
-            <div class="edit-order-popup__comments-list-item-block">
-            <img class="edit-order-popup__comments-img" src="/images/comment-avatar-placeholder.png" alt="order docs avatar" width="36" height="36">
-            <div class="edit-order-popup__comments-list-item-right">
-              <div class="edit-order-popup__comments-list-item-top-row">
-                <p class="edit-order-popup__comments-list-item-name">vtr@uralreduktor.ru</p>
-                <div class="edit-order-popup__comments-list-item-date-time">
-                  <time datetime="18.08.2022" class="edit-order-popup__comments-list-item-date">18.08.2022</time>
-                  в
-                  <time datetime="15:45" class="edit-order-popup__comments-list-item-time">15:45</time>
-                  </div>
-                </div>
-                <div class="edit-order-popup__comments-window">
-                  <p class="edit-order-popup__comments-window-text">${commentsTextareaDesktop.value}</p>
-                </div>
-                <button type="button" class="edit-order-popup__reply-btn">
-                  Ответить
-                  </button>
-            </div>
-            </div>
-          </li>
-                `;
-
-                commentsList.insertAdjacentHTML('beforeEnd', commentsListItemHtml);
-               }
-            }))
-         })
-        </script>
         </div>
         <div class="edit-order-popup__tabs-body" x-show="desktopTab === 'order complete'">
           <div class="edit-order-popup__order-complete-wrapper">
@@ -732,4 +695,40 @@ let orderDocsList = [
     }
   });
 </script>
-  
+<script is:inline>
+          document.addEventListener('alpine:init', () => {
+            Alpine.data('comments', () => ({
+              
+              publishComment() {
+                const commentsTextareaDesktop = document.querySelector('.edit-order-popup__comments-textarea.desktop-textarea');
+                const commentsPublishBtnDesktop = document.querySelector('.edit-order-popup__comments-publish-btn.desktop-publish-btn');
+                const commentsList = document.querySelector('.edit-order-popup__comments-list.main-list');
+                const commentsListItemHtml = `
+                <li class="edit-order-popup__comments-list-item">
+            <div class="edit-order-popup__comments-list-item-block">
+            <img class="edit-order-popup__comments-img" src="/images/comment-avatar-placeholder.png" alt="order docs avatar" width="36" height="36">
+            <div class="edit-order-popup__comments-list-item-right">
+              <div class="edit-order-popup__comments-list-item-top-row">
+                <p class="edit-order-popup__comments-list-item-name">vtr@uralreduktor.ru</p>
+                <div class="edit-order-popup__comments-list-item-date-time">
+                  <time datetime="18.08.2022" class="edit-order-popup__comments-list-item-date">18.08.2022</time>
+                  в
+                  <time datetime="15:45" class="edit-order-popup__comments-list-item-time">15:45</time>
+                  </div>
+                </div>
+                <div class="edit-order-popup__comments-window">
+                  <p class="edit-order-popup__comments-window-text">${commentsTextareaDesktop.value}</p>
+                </div>
+                <button type="button" class="edit-order-popup__reply-btn">
+                  Ответить
+                  </button>
+            </div>
+            </div>
+          </li>
+                `;
+
+                commentsList.insertAdjacentHTML('beforeEnd', commentsListItemHtml);
+               }
+            }))
+         })
+</script>  

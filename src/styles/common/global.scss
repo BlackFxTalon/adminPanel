@@ -429,11 +429,19 @@ color: var(--dark);
 
 &__filter-tag-group {
   padding: 0;
+  padding-left: 16px;
   margin: 0;
   display: grid;
-  align-items: center;
   grid-template-columns: repeat(3,max-content);
+  align-items: center;
+  overflow-x: scroll;
+  white-space: nowrap;
   gap: 13px;
+  scrollbar-width: none;
+}
+
+&__filter-tag-group::-webkit-scrollbar {
+  display: none;
 }
 
 &__filter-tag-btn {
@@ -447,6 +455,20 @@ color: var(--dark);
   grid-auto-columns: max-content;
   gap: 12px;
   transition: .3s ease-in-out;
+}
+
+&__filter-tag-btn-nots-counter {
+  font-weight: 600;
+font-size: 15px;
+line-height: 18px;
+color: var(--gray100);
+background-color: var(--green);
+border-radius: 4px;
+min-width: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding:0 7px;
 }
 
 &__filter-tag-btn.active {

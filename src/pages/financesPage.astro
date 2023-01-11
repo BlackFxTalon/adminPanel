@@ -13,9 +13,12 @@ import SendOfferPopup from "../components/financesPage/SendOfferPopup.astro";
 import CreateUserAccountPopup from "../components/financesPage/CreateUserAccountPopup.astro";
 import CreateOfferPopup from "../components/financesPage/CreateOfferPopup.astro";
 import NewContactPopup from "../components/financesPage/NewContactPopup.astro";
+import EditContragentPopup from "../components/contragentsPage/EditContragentPopup.astro";
+import CreateOrderPopup from "../components/CreateOrderPopup.astro";
+import CreateContragentPopup from "../components/contragentsPage/CreateContragentPopup.astro";
 ---
 <Layout title="страница Финансы">
-  <section class="site-section finances-page__site-section" x-data="{table: 2, financesPageOfferPopup: false, settingsFinanceModulePopup: false, addNewFilterPopup: false, sendOfferPopup: false, createOfferPopup:false, createUserAccountPopup: false, newContactPopup: false, searchBtnDropdown: false}">
+  <section class="site-section finances-page__site-section" x-data="{table: 2, financesPageOfferPopup: false, settingsFinanceModulePopup: false, addNewFilterPopup: false, sendOfferPopup: false, createOfferPopup:false, createUserAccountPopup: false, newContactPopup: false, editContragentPopup:false, createOrderPopup: false, createContragentPopup:false, searchBtnDropdown: false}">
     <TableTabs></TableTabs>
     <div class="site-section__tab-wrapper" x-show="table === 2">
     <div class="site-section__top-row finances-page__top-row mobile">
@@ -79,5 +82,8 @@ import NewContactPopup from "../components/financesPage/NewContactPopup.astro";
     <CreateUserAccountPopup></CreateUserAccountPopup>
     <CreateOfferPopup></CreateOfferPopup>
     <NewContactPopup></NewContactPopup>
+    <EditContragentPopup></EditContragentPopup>
+    <CreateOrderPopup></CreateOrderPopup>
+    <CreateContragentPopup></CreateContragentPopup>
   </section>
 </Layout>

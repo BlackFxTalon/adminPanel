@@ -66,6 +66,8 @@
 
 @import "pages/financesPage";
 
+@import "components/financePage/financesOfferTable";
+
 @import "components/financePage/financesPageOfferPopup";
 
 @import "components/financePage/settingsFinanceModulePopup";
@@ -77,6 +79,8 @@
 @import "components/financePage/createUserAccountPopup";
 
 @import "components/financePage/createOfferPopup";
+
+@import "components/financePage/createOfferFormPopup";
 
 @import "components/financePage/newContactPopup";
 

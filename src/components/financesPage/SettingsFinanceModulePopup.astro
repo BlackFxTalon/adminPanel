@@ -1,9 +1,10 @@
 ---
 import Pagination from "../Pagination.astro";
 import AddOrganizationPopup from "./AddOrganizationPopup.astro";
+import CreateOfferFormPopup from "./CreateOfferFormPopup.astro";
 ---
 
-<div class="popup settings-finance-module-popup" x-bind:class="{'active': settingsFinanceModulePopup === true}" x-data="{table: 1, addOrganizationPopup: false}">
+<div class="popup settings-finance-module-popup" x-bind:class="{'active': settingsFinanceModulePopup === true}" x-data="{table: 1, addOrganizationPopup: false, createOfferFormPopup: false }">
 <form action="#" method="post" class="popup__form">
     <div class="popup__content settings-finance-module-popup__content">
   <div class="popup__top-row settings-finance-module-popup__top-row">
@@ -40,7 +41,7 @@ import AddOrganizationPopup from "./AddOrganizationPopup.astro";
         <h2 class="popup__title settings-finance-module-popup__title">
             Доступные формы
         </h2>
-        <button type="button" class="btn btn--primary settings-finance-module-popup__create-offer-btn">
+        <button type="button" class="btn btn--primary settings-finance-module-popup__create-offer-btn" x-on:click="createOfferFormPopup = true">
             Создать
         </button>
     </div>
@@ -49,7 +50,7 @@ import AddOrganizationPopup from "./AddOrganizationPopup.astro";
         <h2 class="popup__title settings-finance-module-popup__title">
             Доступные формы коммерческих предложений
         </h2>
-        <button type="button" class="btn btn--primary settings-finance-module-popup__create-offer-btn">
+        <button type="button" class="btn btn--primary settings-finance-module-popup__create-offer-btn" x-on:click="createOfferFormPopup = true">
             Создать
         </button>
     </div>
@@ -222,4 +223,5 @@ import AddOrganizationPopup from "./AddOrganizationPopup.astro";
 </div>
 </form>
 <AddOrganizationPopup></AddOrganizationPopup>
+<CreateOfferFormPopup></CreateOfferFormPopup>
 </div>

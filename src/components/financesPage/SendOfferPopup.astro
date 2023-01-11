@@ -157,19 +157,30 @@
           </div>
         </div>
      </div>
-     <div class="attach-offer-btn__attach-btn-group">
+     <div class="attach-offer-btn__attach-btn-group" x-data="{PDFfiles: []}">
+    <div class="send-offer-popup__attach-offer-btn-wrapper">
+      <input type="file" class="send-offer-popup__attach-offer-btn-file-input" x-on:change="PDFfiles = $el.files">
      <button type="button" class="send-offer-popup__attach-offer-btn">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 8L9 11L12 8M3 1H15C16.1046 1 17 1.89543 17 3V15C17 16.1046 16.1046 17 15 17H3C1.89543 17 1 16.1046 1 15V3C1 1.89543 1.89543 1 3 1Z" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         Прикрепить предложение в Pdf        
      </button>
-     <div class="send-offer-popup__attached-offer">
-      <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>      
-        Предложение_000001.pdf          
      </div>
+     <ul role="list" class="send-offer-popup__attach-offer-list" x-bind:class="{'active': files.length > 0}">
+      <template x-for="PDFfile in PDFfiles">
+        <li class="send-offer-popup__attach-offer-list-item">
+          <div class="send-offer-popup__attached-offer">
+            <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="send-offer-popup__attached-offer-title">
+                Предложение_<span x-text="PDFfile.name"></span>.<span x-text="PDFfile.type"></span>  
+              </p>            
+           </div>
+        </li>
+      </template>
+    </ul>
     </div>
     <ul role="list" class="add-organization-popup__btn-control-group">
       <li class="add-organization-popup__btn-control-group-item">

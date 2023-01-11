@@ -372,9 +372,39 @@
                   <p class="add-organization-popup__form-control-group-title">
                      Печать и подпись
                   </p>
-                  <button type="button" class="add-organization-popup__choose-image-btn">
-                    Выберите изображение
-                   </button>
+                  <div class="add-organization-popup__choose-image-wrapper" x-data="{images: []}" x-bind:class="{'active': images.length > 0 }">
+                    <ul role="list" class="add-organization-popup__attach-files-list" x-bind:class="{'active': images.length > 0 }">
+                      <template x-for="image in images">
+                        <li class="add-organization-popup__attach-files-list-item">
+                          <img src="/images/attach-files-placeholder.png" alt="attach files image" class="add-organization-popup__attach-files-list-item-img" loading="lazy" decoding="async">
+                          <div class="add-organization-popup__attach-files-list-item-info">
+                              <p class="add-organization-popup__attach-files-list-item-title" x-text="image.name">1</p>
+                              <p class="add-organization-popup__attach-files-list-item-size-format">
+                                  <span x-text="image.size">240.25 </span>КБ <span x-text="image.type"></span> 
+                              </p>
+                          </div>
+                          <div class="add-organization-popup__attach-files-list-item-controls">
+                              <button type="button" class="add-organization-popup__attach-files-list-item-add-btn">
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M6.00016 1.33203V10.6654M1.3335 5.9987H10.6668" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>      
+                              </button>
+                              <button type="button" class="add-organization-popup__attach-files-list-item-download-btn">
+                                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M1.6665 10.3346V11.668C1.6665 12.0216 1.80698 12.3607 2.05703 12.6108C2.30708 12.8608 2.64622 13.0013 2.99984 13.0013H10.9998C11.3535 13.0013 11.6926 12.8608 11.9426 12.6108C12.1927 12.3607 12.3332 12.0216 12.3332 11.668V10.3346M3.6665 6.33464L6.99984 9.66797M6.99984 9.66797L10.3332 6.33464M6.99984 9.66797V1.66797" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>      
+                              </button>
+                          </div>
+                        </li>
+                      </template>
+                    </ul>
+                    <div class="add-organization-popup__choose-image-btn-wrapper">
+                      <input type="file" class="add-organization-popup__choose-image-btn-file-input" multiple x-on:change="images = $el.files" accept="image/png, image/jpeg">
+                    <button type="button" class="add-organization-popup__choose-image-btn">
+                      Выберите изображение
+                     </button>
+                    </div>
+                  </div>
                </div>
                <div class="add-organization-popup__form-control-group">
                   <p class="add-organization-popup__form-control-group-title">

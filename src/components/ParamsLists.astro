@@ -121,7 +121,7 @@ totalCountVal: 0,
                  <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#161C2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                  </svg>                    
              </button>
-             <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="$el.closest('.').remove()">
+             <button type="button" class="create-order-popup__delete-btn" x-bind:class="{'active': toggleDropdown === true}" x-on:click="paramsLists.slice(paramsList.id, 1)">
                      Удалить           
              </button>
         </div>

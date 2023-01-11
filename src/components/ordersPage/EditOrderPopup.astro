@@ -520,9 +520,17 @@ let orderDocsList = [
         </nav>
         </div>
        </div>
-       <div class="edit-order-popup__tabs-body" x-show="desktopTab === 'comments'" x-data="comments">
-        <ul role="list" class="edit-order-popup__comments-list main-list">
-          <li class="edit-order-popup__comments-list-item">
+       <div class="edit-order-popup__tabs-body" x-show="desktopTab === 'comments'" x-data="{
+      textAreaValue: '', 
+      commentsItems: []
+      }">
+        <ul role="list" class="edit-order-popup__comments-list main-list" x-bind:class="{'active': commentsItems.length > 0}">
+          <template x-for="commentsItem in commentsItems">
+            <li class="edit-order-popup__comments-list-item" x-data="{
+      textAreaValue: '', 
+      commentsItems: [],
+      toggleCommentsWrapper: false
+      }">
             <div class="edit-order-popup__comments-list-item-block">
             <img class="edit-order-popup__comments-img" src="/images/comment-avatar-placeholder.png" alt="order docs avatar" width="36" height="36">
             <div class="edit-order-popup__comments-list-item-right">
@@ -535,15 +543,21 @@ let orderDocsList = [
                   </div>
                 </div>
                 <div class="edit-order-popup__comments-window">
-                  <p class="edit-order-popup__comments-window-text">Вот это заказ, вот это красавец.</p>
+                  <p class="edit-order-popup__comments-window-text" x-text="commentsItem"></p>
                 </div>
-                <button type="button" class="edit-order-popup__reply-btn">
+                <button type="button" class="edit-order-popup__reply-btn" x-on:click="toggleCommentsWrapper = !toggleCommentsWrapper">
                   Ответить
                   </button>
+                  <div class="edit-order-popup__comments-wrapper comments-list-item" x-show="toggleCommentsWrapper === true">
+        <textarea class="edit-order-popup__comments-textarea desktop-textarea" placeholder="Напишите комментарий" x-model="textAreaValue">Напишите комментарий
+        </textarea>
+        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn desktop-publish-btn" x-on:click="commentsItems.push(textAreaValue);textAreaValue = '';toggleCommentsWrapper = false">Опубликовать</button>
+        </div>
             </div>
             </div>
             <ul role="list" class="edit-order-popup__comments-list sub-list">
-              <li class="edit-order-popup__comments-list-item">
+              <template x-for="commentsItem in commentsItems">
+                <li class="edit-order-popup__comments-list-item">
               <div class="edit-order-popup__comments-list-item-block">
             <img class="edit-order-popup__comments-img" src="/images/comment-avatar-placeholder.png" alt="order docs avatar" width="36" height="36">
             <div class="edit-order-popup__comments-list-item-right">
@@ -563,36 +577,17 @@ let orderDocsList = [
                   </button>
             </div>
           </div>
-              </li>
-              </ul>
-          </li>
-          <li class="edit-order-popup__comments-list-item">
-            <div class="edit-order-popup__comments-list-item-block">
-            <img class="edit-order-popup__comments-img" src="/images/comment-avatar-placeholder.png" alt="order docs avatar" width="36" height="36">
-            <div class="edit-order-popup__comments-list-item-right">
-              <div class="edit-order-popup__comments-list-item-top-row">
-                <p class="edit-order-popup__comments-list-item-name">vtr@uralreduktor.ru</p>
-                <div class="edit-order-popup__comments-list-item-date-time">
-                  <time datetime="18.08.2022" class="edit-order-popup__comments-list-item-date">18.08.2022</time>
-                  в
-                  <time datetime="15:45" class="edit-order-popup__comments-list-item-time">15:45</time>
-                  </div>
-                </div>
-                <div class="edit-order-popup__comments-window">
-                  <p class="edit-order-popup__comments-window-text">Вот это заказ, вот это красавец.</p>
-                </div>
-                <button type="button" class="edit-order-popup__reply-btn">
-                  Ответить
-                  </button>
-            </div>
-            </div>
-          </li>
+                </li>
+                </template>
+            </ul>
+            </li>
+          </template>
         </ul>
-        <div class="edit-order-popup__comments-wrapper" x-data="{textAreaVal: ''}">
+        <div class="edit-order-popup__comments-wrapper">
         <p class="edit-order-popup__comments-mail">vtr@uralreduktor.ru</p>
-        <textarea class="edit-order-popup__comments-textarea desktop-textarea" placeholder="Напишите комментарий" x-model="textAreaVal">Напишите комментарий
+        <textarea class="edit-order-popup__comments-textarea desktop-textarea" placeholder="Напишите комментарий" x-model="textAreaValue">Напишите комментарий
         </textarea>
-        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn desktop-publish-btn" x-on:click="publishComment;textAreaVal = ''" x-bind:class="{'disabled': textAreaVal.length < 1}">Опубликовать</button>
+        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn desktop-publish-btn" x-on:click="commentsItems.push(textAreaValue);textAreaValue = ''">Опубликовать</button>
         </div>
         </div>
         <div class="edit-order-popup__tabs-body" x-show="desktopTab === 'order complete'">
@@ -656,20 +651,99 @@ let orderDocsList = [
           }
         </nav>
         </div>
+        <ul role="list" class="edit-order-popup__btn-control-group">
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--flat edit-order-popup__undo-btn" x-on:click="editOrderPopup = false">
+              Отменить
+          </button>
+      </li>
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--primary edit-order-popup__save-btn">
+              Сохранить
+          </button>
+      </li>
+  </ul>
     </div>
-    <div class="popup__body edit-order-popup__body" x-show="mobileTab === 'comments'">
+    <div class="popup__body edit-order-popup__body" x-show="mobileTab === 'comments'" 
+    x-data="{
+      textAreaValue: '', 
+      commentsItems: []
+  }">
+        <ul role="list" class="edit-order-popup__comments-mobile-list" x-bind:class="{'active': commentsItems.length > 0}">
+          <template x-for="commentsItem in commentsItems">
+            <li class="edit-order-popup__comments-mobile-list-item" x-data="{toggleCommentsWrapper: false, textAreaValue: '', commentsItems: []}">
+              <div class="edit-order-popup__comments-wrapper comments-mobile-list-item">
+                <div class="edit-order-popup__comments-wrapper-top">
+                  <p class="edit-order-popup__comments-mail comments-list-item">vtr@uralreduktor.ru</p>
+                  <div class="edit-order-popup__comments-datetime">
+                    <time class="edit-order-popup__comments-date" datetime="18.08.2022">18.08.2022</time>
+                    в
+                    <time class="edit-order-popup__comments-time" datetime="15:45">15:45</time>
+                    </div>
+                  </div>
+        <textarea class="edit-order-popup__comments-textarea comments-list-item" x-text="commentsItem" disabled></textarea>
+        <button type="button" class="edit-order-popup__comments-reply-btn" x-on:click="toggleCommentsWrapper = !toggleCommentsWrapper">Ответить</button>
+              </div>
+              <ul role="list" class="edit-order-popup__comments-mobile-list sublist" x-bind:class="{'active': commentsItems.length > 0}">
+                <template x-for="commentsItem in commentsItems">
+                  <div class="edit-order-popup__comments-wrapper comments-mobile-list-item">
+                <div class="edit-order-popup__comments-wrapper-top">
+                  <p class="edit-order-popup__comments-mail comments-list-item">vtr@uralreduktor.ru</p>
+                  <div class="edit-order-popup__comments-datetime">
+                    <time class="edit-order-popup__comments-date" datetime="18.08.2022">18.08.2022</time>
+                    в
+                    <time class="edit-order-popup__comments-time" datetime="15:45">15:45</time>
+                    </div>
+                  </div>
+        <textarea class="edit-order-popup__comments-textarea comments-list-item" x-text="commentsItem" disabled></textarea>
+        <button type="button" class="edit-order-popup__comments-reply-btn" x-on:click="toggleCommentsWrapper = !toggleCommentsWrapper">Ответить</button>
+                  </div>
+                </template>
+              </ul>
+              <div class="edit-order-popup__comments-wrapper sublist" x-show="toggleCommentsWrapper === true">
+        <textarea class="edit-order-popup__comments-textarea" placeholder="Напишите комментарий" x-model="textAreaValue">Напишите комментарий
+        </textarea>
+        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn" x-on:click="commentsItems.push(textAreaValue);textAreaValue='';toggleCommentsWrapper = false">Опубликовать</button>
+              </div>
+              </li>
+            </template>
+        </ul>
        <div class="edit-order-popup__comments-wrapper">
         <p class="edit-order-popup__comments-mail">vtr@uralreduktor.ru</p>
-        <textarea class="edit-order-popup__comments-textarea" placeholder="Напишите комментарий">Напишите комментарий
+        <textarea class="edit-order-popup__comments-textarea" placeholder="Напишите комментарий" x-model="textAreaValue">Напишите комментарий
         </textarea>
-        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn">Опубликовать</button>
+        <button type="button" class="btn btn--secondary edit-order-popup__comments-publish-btn" x-on:click="commentsItems.push(textAreaValue);textAreaValue=''">Опубликовать</button>
         </div>
+        <ul role="list" class="edit-order-popup__btn-control-group">
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--flat edit-order-popup__undo-btn" x-on:click="editOrderPopup = false">
+              Отменить
+          </button>
+      </li>
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--primary edit-order-popup__save-btn">
+              Сохранить
+          </button>
+      </li>
+  </ul>
     </div>
     <div class="popup__body edit-order-popup__body" x-show="mobileTab === 'order complete'">
          <div class="edit-order-popup__order-complete-wrapper">
             <p class="edit-order-popup__order-complete-text">В случае отмены заказа, опишите причину.</p>
             <textarea class="edit-order-popup__order-complete-textarea">Введите текст</textarea>
           </div>
+          <ul role="list" class="edit-order-popup__btn-control-group">
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--flat edit-order-popup__undo-btn" x-on:click="editOrderPopup = false">
+              Отменить
+          </button>
+      </li>
+      <li class="edit-order-popup__btn-control-group-item">
+          <button type="button" class="btn btn--primary edit-order-popup__save-btn">
+              Сохранить
+          </button>
+      </li>
+  </ul>
       </div>
 </div>
 </form>

@@ -2,8 +2,32 @@
 import SearchBtn from "../SearchBtn.astro";
 import SearchBtnDropdown from "../SearchBtnDropdown.astro";
 import Pagination from "../Pagination.astro";
+import EditContragentPopupTableOffers from "./EditContragentPopupTableOffers.astro";
+import FinancesPageOfferPopup from "../financesPage/FinancesPageOfferPopup.astro";
+import NewMessagePopup from "../emailPage/NewMessagePopup.astro";
 ---
-<div class="popup edit-contragent-popup" x-bind:class="{'active': editContragentPopup === true}" x-data="{table: 1}">
+<div class="popup edit-contragent-popup" x-bind:class="{'active': editContragentPopup === true}" 
+x-data="{
+    financesPageOfferPopup: false,
+    newMessagePopup: false,
+    table: 1,
+    toggleOverallGroupFieldElems: false,
+    editOverallGroupFields () {
+        const overallGroupFields = $el.querySelectorAll('.edit-contragent-popup__form-control-select-wrapper.overall-group');
+        for (overallGroupField of overallGroupFields) {
+            overallGroupField.classList.add('editable');
+            overallGroupField.classList.remove('disabled');
+        }
+    },
+    saveOverallGroupFields () {
+        const overallGroupFields = $el.querySelectorAll('.edit-contragent-popup__form-control-select-wrapper.overall-group');
+        for (overallGroupField of overallGroupFields) {
+            overallGroupField.classList.remove('editable');
+            overallGroupField.classList.add('disabled');
+        }
+    }
+}"
+>
     <form action="#" method="post" class="popup__form edit-contragent-popup__form">
     <div class="popup__content edit-contragent-popup__content">
   <div class="popup__top-row edit-contragent-popup__top-row">
@@ -27,7 +51,7 @@ import Pagination from "../Pagination.astro";
                     <path d="M8 4H3C2.46957 4 1.96086 4.21071 1.58579 4.58579C1.21071 4.96086 1 5.46957 1 6V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17H12C12.5304 17 13.0391 16.7893 13.4142 16.4142C13.7893 16.0391 14 15.5304 14 15V10M7 11L17 1M17 1H12M17 1V6" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
             </a>
-            <button type="button" class="edit-contragent-popup__top-row-mail-btn">
+            <button type="button" class="edit-contragent-popup__top-row-mail-btn" x-on:click="newMessagePopup = true">
                 <svg class="edit-contragent-popup__top-row-mail-btn-icon" width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21 3.22222C21 1.99492 20.0051 1 18.7778 1H3.22222C1.99492 1 1 1.99492 1 3.22222M21 3.22222V14.3333C21 15.5606 20.0051 16.5556 18.7778 16.5556H3.22222C1.99492 16.5556 1 15.5606 1 14.3333V3.22222M21 3.22222L11 9.88889L1 3.22222" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
@@ -43,7 +67,7 @@ import Pagination from "../Pagination.astro";
                     <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>     
                 </button>
-                <ul class="site-section__choose-status-dropdown-list edit-contragent-popup__choose-status-dropdown-list" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
+                <ul class="site-section__choose-status-dropdown-list edit-contragent-popup__choose-status-dropdown-list top-row-btn-group" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
                    <li class="site-section__choose-status-dropdown-list-item">
                       <button class="site-section__choose-status-dropdown-list-item-btn" type="button">Счёт</button>
                    </li>
@@ -75,13 +99,13 @@ import Pagination from "../Pagination.astro";
        <div class="edit-contragent-popup__create-btn-dropdown" x-bind:class="{'active': toggleDropdown === true}">
       <ul role="list" class="edit-contragent-popup__create-btn-dropdown-list">
         <li class="edit-contragent-popup__create-btn-dropdown-list-item">
-            <input type="text" value="Редактировать" readonly class="edit-contragent-popup__create-btn-dropdown-list-item-input">
+            <input type="text" value="Редактировать" readonly class="edit-contragent-popup__create-btn-dropdown-list-item-input" x-on:click="editOverallGroupFields;toggleOverallGroupFieldElems = true;toggleDropdown = false">
         </li>
         <li class="edit-contragent-popup__create-btn-dropdown-list-item">
-            <input type="text" value="Актуализировать данные" readonly class="edit-contragent-popup__create-btn-dropdown-list-item-input" x-on:click="normalizeDataPopup = true">
+            <input type="text" value="Актуализировать данные" readonly class="edit-contragent-popup__create-btn-dropdown-list-item-input" x-on:click="normalizeDataPopup = true;toggleDropdown = false">
         </li>
         <li class="edit-contragent-popup__create-btn-dropdown-list-item">
-            <input type="text" value="Удалить" readonly class="edit-contragent-popup__add-link-list-item-input delete">
+            <input type="text" value="Удалить" readonly class="edit-contragent-popup__add-link-list-item-input delete" x-on:click="toggleDropdown = false">
         </li>
        </ul>  
        </div>
@@ -136,25 +160,73 @@ import Pagination from "../Pagination.astro";
                 <p class="edit-contragent-popup__overall-group-title">
                     Тип контрагента
                 </p>
-                <p class="edit-contragent-popup__overall-group-info">
-                    Юр.лицо
-                </p>
+                <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Юр.лицо'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                    <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="Юр.лицо" readonly x-model="resultInputVal">
+                    <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                    <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Юр.лицо" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Юр.лицо'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Юр.лицо 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Юр.лицо 2'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Юр.лицо 3" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Юр.лицо 3'">
+                      </li>
+                    </ul>
+                    </div>
+                    <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                      <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>                  
+                  </div>
             </div>
             <div class="edit-contragent-popup__overall-group">
                 <p class="edit-contragent-popup__overall-group-title">
                     Сайт
                 </p>
-                <p class="edit-contragent-popup__overall-group-info">
-                    Не указан
-                </p>
+                <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Не указан'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                    <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="Не указан" readonly x-model="resultInputVal">
+                    <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                    <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Не указан" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Не указан'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Сайт 1" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Сайт 1'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Сайт 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Сайт 2'">
+                      </li>
+                    </ul>
+                    </div>
+                    <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                      <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>                  
+                  </div>
             </div>
             <div class="edit-contragent-popup__overall-group">
                 <p class="edit-contragent-popup__overall-group-title">
                     День рождения
                 </p>
-                <p class="edit-contragent-popup__overall-group-info">
-                    Не указан
-                </p>
+                <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Не указан'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                    <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="Не указан" readonly x-model="resultInputVal">
+                    <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                    <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="Не указан" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Не указан'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="14.03.1992" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '14.03.1992'">
+                      </li>
+                      <li class="edit-contragent-popup__form-control-select-list-item">
+                        <input type="text" value="14.03.1993" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '14.03.1993'">
+                      </li>
+                    </ul>
+                    </div>
+                    <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                      <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>                  
+                </div>
             </div>
             <div class="edit-contragent-popup__overall-group cols-2">
                 <img class="edit-contragent-popup__overall-group-avatar-img" src="/images/footer-avatar-placeholder.svg" alt="overall group avatar" width="32" height="32" loading="lazy" decoding="async">
@@ -162,9 +234,52 @@ import Pagination from "../Pagination.astro";
                     <p class="edit-contragent-popup__overall-group-title">
                         Ответственный
                     </p>
-                    <p class="edit-contragent-popup__overall-group-info">
-                        Не указан
+                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Не указан'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                        <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="Не указан" readonly x-model="resultInputVal">
+                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="Не указан" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Не указан'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="Иван Александрович" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Иван Александрович'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="Иван Александрович 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Иван Александрович 2'">
+                          </li>
+                        </ul>
+                        </div>
+                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>                  
+                    </div>
+                </div>
+            </div>
+            <div class="edit-contragent-popup__overall-group cols-2 linked-user-mobile">
+                <img class="edit-contragent-popup__overall-group-avatar-img" src="/images/footer-avatar-placeholder.svg" alt="overall group avatar" width="32" height="32" loading="lazy" decoding="async">
+                <div class="edit-contragent-popup__overall-group-right">
+                    <p class="edit-contragent-popup__overall-group-title">
+                        Имя пользователя
                     </p>
+                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'почта'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                        <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="почта" readonly x-model="resultInputVal">
+                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="почта" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Не указан'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="zausova@gmail.com" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'zausova@gmail.com'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="zausova@gmail.com 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'zausova@gmail.com 2'">
+                          </li>
+                        </ul>
+                        </div>
+                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>                  
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -178,9 +293,25 @@ import Pagination from "../Pagination.astro";
                     <p class="edit-contragent-popup__overall-group-title">
                         Имя пользователя
                     </p>
-                    <p class="edit-contragent-popup__overall-group-info">
-                        почта
-                    </p>
+                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'почта'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                        <input type="text" class="edit-contragent-popup__form-control-select-result-input" value="почта" readonly x-model="resultInputVal">
+                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="почта" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Не указан'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="zausova@gmail.com" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'zausova@gmail.com'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="zausova@gmail.com 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'zausova@gmail.com 2'">
+                          </li>
+                        </ul>
+                        </div>
+                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>                  
+                    </div>
                 </div>
             </div>
          </fieldset>
@@ -199,53 +330,71 @@ import Pagination from "../Pagination.astro";
                     <p class="edit-contragent-popup__overall-group-info">
                         Телефон
                     </p>
-                    <p class="edit-contragent-popup__overall-group-title">
-                        Добавить телефон
-                    </p>
+                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Добавить телефон'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                        <input type="text" class="edit-contragent-popup__form-control-select-result-input overall-group-title" value="Добавить телефон" readonly x-model="resultInputVal">
+                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
+                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="Добавить телефон" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Добавить телефон'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="+7 (999)999-99" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+7 (999)999-99'">
+                          </li>
+                          <li class="edit-contragent-popup__form-control-select-list-item">
+                            <input type="text" value="+7 (999)999-98" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+7 (999)999-98'">
+                          </li>
+                        </ul>
+                        </div>
+                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
+                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>                  
+                    </div>
                 </div>
             </fieldset>
-        <fieldset class="edit-contragent-popup__fieldset b-b m-b b-r company-cards">
+        <fieldset class="edit-contragent-popup__fieldset b-b m-b b-r company-cards" x-data="{companyCards: []}">
             <p class="edit-contragent-popup__form-control-group-title">
                 Компании
               </p>
-            <div class="edit-contragent-popup__company-card" x-ref="editContragentPopupCompanyCard">
-                <div class="edit-contragent-popup__company-card-left">
-                <svg class="edit-contragent-popup__company-card-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 19H19M7 6H8M7 10H8M7 14H8M12 6H13M12 10H13M12 14H13M3 19V3C3 2.46957 3.21071 1.96086 3.58579 1.58579C3.96086 1.21071 4.46957 1 5 1H15C15.5304 1 16.0391 1.21071 16.4142 1.58579C16.7893 1.96086 17 2.46957 17 3V19" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>  
-                    <div class="edit-contragent-popup__company-card-info">
-                      <p class="edit-contragent-popup__company-card-title">ООО “УРАЛРЕДУКТОР”</p> 
-                      <p class="edit-contragent-popup__company-card-tel">+7 905 806-48-50</p> 
-                      <p class="edit-contragent-popup__company-card-mail">vtrpro@yandex.ru</p> 
-                    </div>  
-                </div>
-                    <div class="edit-contragent-popup__company-card-controls">
-                        <button type="button" class="edit-contragent-popup__company-card-mail-btn">
-                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 3C19 1.89543 18.1046 1 17 1H3C1.89543 1 1 1.89543 1 3M19 3V13C19 14.1046 18.1046 15 17 15H3C1.89543 15 1 14.1046 1 13V3M19 3L10 9L1 3" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>  
-                        </button>
-                        <div class="site-section__choose-status-dropdown-wrapper" x-data="{toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
-                            <button type="button" class="site-section__choose-status-btn" x-on:click="toggleStatusDropdown = !toggleStatusDropdown">
-                              <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#869AB8"></path>
-                                <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#869AB8"></path>
-                                <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#869AB8"></path>
-                                <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>     
+              <template x-for="companyCard in companyCards">
+                <div class="edit-contragent-popup__company-card">
+                    <div class="edit-contragent-popup__company-card-left">
+                    <svg class="edit-contragent-popup__company-card-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 19H19M7 6H8M7 10H8M7 14H8M12 6H13M12 10H13M12 14H13M3 19V3C3 2.46957 3.21071 1.96086 3.58579 1.58579C3.96086 1.21071 4.46957 1 5 1H15C15.5304 1 16.0391 1.21071 16.4142 1.58579C16.7893 1.96086 17 2.46957 17 3V19" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>  
+                        <div class="edit-contragent-popup__company-card-info">
+                          <p class="edit-contragent-popup__company-card-title" x-text="companyCard">ООО “УРАЛРЕДУКТОР”</p> 
+                          <p class="edit-contragent-popup__company-card-tel">+7 905 806-48-50</p> 
+                          <p class="edit-contragent-popup__company-card-mail">vtrpro@yandex.ru</p> 
+                        </div>  
+                    </div>
+                        <div class="edit-contragent-popup__company-card-controls">
+                            <button type="button" class="edit-contragent-popup__company-card-mail-btn" x-on:click="newMessagePopup = true">
+                                <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3C19 1.89543 18.1046 1 17 1H3C1.89543 1 1 1.89543 1 3M19 3V13C19 14.1046 18.1046 15 17 15H3C1.89543 15 1 14.1046 1 13V3M19 3L10 9L1 3" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>  
                             </button>
-                            <ul class="site-section__choose-status-dropdown-list edit-contragent-popup__choose-status-dropdown-list" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
-                               <li class="site-section__choose-status-dropdown-list-item">
-                                  <button class="site-section__choose-status-dropdown-list-item-btn edit-contragent-popup__choose-status-dropdown-list-item-btn delete" type="button" x-on:click="$refs.editContragentPopupCompanyCard.remove()">Удалить</button>
-                               </li>
-                            </ul>
-                        </div>
-                    </div>              
-            </div>
-            <div class="edit-contragent-popup__add-link-btn-wrapper" x-data="{toggleSelectList: false}" x-on:click="toggleSelectList = !toggleSelectList" x-on:click.outside="toggleSelectList = false">
-            <button type="button" class="edit-contragent-popup__add-link-btn">
+                            <div class="site-section__choose-status-dropdown-wrapper" x-data="{toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
+                                <button type="button" class="site-section__choose-status-btn" x-on:click="toggleStatusDropdown = !toggleStatusDropdown">
+                                  <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#869AB8"></path>
+                                    <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#869AB8"></path>
+                                    <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#869AB8"></path>
+                                    <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>     
+                                </button>
+                                <ul class="site-section__choose-status-dropdown-list edit-contragent-popup__choose-status-dropdown-list" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
+                                   <li class="site-section__choose-status-dropdown-list-item">
+                                      <button class="site-section__choose-status-dropdown-list-item-btn edit-contragent-popup__choose-status-dropdown-list-item-btn delete" type="button" x-on:click="$el.closest('.edit-contragent-popup__company-card').remove()">Удалить</button>
+                                   </li>
+                                </ul>
+                            </div>
+                        </div>              
+                </div>
+              </template>
+            <div class="edit-contragent-popup__add-link-btn-wrapper" x-data="{toggleSelectList: false}" x-on:click.outside="toggleSelectList = false">
+            <button type="button" class="edit-contragent-popup__add-link-btn" x-on:click="toggleSelectList = !toggleSelectList">
                 Добавить связь
             </button>
             <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
@@ -256,13 +405,13 @@ import Pagination from "../Pagination.astro";
                 </ul>
                 <ul role="list" class="edit-contragent-popup__form-control-select-list b-t">
                   <li class="edit-contragent-popup__form-control-select-list-item">
-                    <input type="text" name="УЗТМ" id="УЗТМ" value="УЗТМ" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'УЗТМ'">
+                    <input type="text" value="УЗТМ" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="companyCards.push('УЗТМ');toggleSelectList = false">
                   </li>
                   <li class="edit-contragent-popup__form-control-select-list-item">
-                    <input type="text" name="УЗТМ 1" id="УЗТМ 1" value="УЗТМ 1" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'УЗТМ 1'">
+                    <input type="text" value="УЗТМ 1" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="companyCards.push('УЗТМ 1');toggleSelectList = false">
                   </li>
                   <li class="edit-contragent-popup__form-control-select-list-item">
-                    <input type="text" name="УЗТМ 2" id="УЗТМ 2" value="УЗТМ 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'УЗТМ 2'">
+                    <input type="text" value="УЗТМ 2" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="companyCards.push('УЗТМ 2');toggleSelectList = false">
                   </li>
                 </ul>
                 <ul role="list" class="edit-contragent-popup__form-control-select-list b-t">
@@ -278,54 +427,37 @@ import Pagination from "../Pagination.astro";
               </div> 
            </div>
         </fieldset>
-        <fieldset class="edit-contragent-popup__fieldset b-b m-b b-r descr-attach">
+        <fieldset class="edit-contragent-popup__fieldset b-b m-b b-r descr-attach" x-data="{files: []}">
             <p class="edit-contragent-popup__form-control-group-title">
                 Описание
               </p>
             <ul role="list" class="edit-contragent-popup__attach-files-list">
-                <li class="edit-contragent-popup__attach-files-list-item">
-                    <img src="/images/attach-files-placeholder.png" alt="attach files image" class="edit-contragent-popup__attach-files-list-item-img" loading="lazy" decoding="async">
-                    <div class="edit-contragent-popup__attach-files-list-item-info">
-                        <p class="edit-contragent-popup__attach-files-list-item-title">1</p>
-                        <p class="edit-contragent-popup__attach-files-list-item-size-format">
-                            240.25 КБ <span>PNG</span> 
-                        </p>
-                    </div>
-                    <div class="edit-contragent-popup__attach-files-list-item-controls">
-                        <button type="button" class="edit-contragent-popup__attach-files-list-item-add-btn">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6.00016 1.33203V10.6654M1.3335 5.9987H10.6668" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>      
-                        </button>
-                        <button type="button" class="edit-contragent-popup__attach-files-list-item-download-btn">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.6665 10.3346V11.668C1.6665 12.0216 1.80698 12.3607 2.05703 12.6108C2.30708 12.8608 2.64622 13.0013 2.99984 13.0013H10.9998C11.3535 13.0013 11.6926 12.8608 11.9426 12.6108C12.1927 12.3607 12.3332 12.0216 12.3332 11.668V10.3346M3.6665 6.33464L6.99984 9.66797M6.99984 9.66797L10.3332 6.33464M6.99984 9.66797V1.66797" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>      
-                        </button>
-                    </div>
-                </li>
-                <li class="edit-contragent-popup__attach-files-list-item">
-                    <img src="/images/attach-files-placeholder.png" alt="attach files image" class="edit-contragent-popup__attach-files-list-item-img" loading="lazy" decoding="async">
-                    <div class="edit-contragent-popup__attach-files-list-item-info">
-                        <p class="edit-contragent-popup__attach-files-list-item-title">2</p>
-                        <p class="edit-contragent-popup__attach-files-list-item-size-format">
-                            240.25 КБ <span>PNG</span> 
-                        </p>
-                    </div>
-                    <div class="edit-contragent-popup__attach-files-list-item-controls">
-                        <button type="button" class="edit-contragent-popup__attach-files-list-item-add-btn">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6.00016 1.33203V10.6654M1.3335 5.9987H10.6668" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>      
-                        </button>
-                        <button type="button" class="edit-contragent-popup__attach-files-list-item-download-btn">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.6665 10.3346V11.668C1.6665 12.0216 1.80698 12.3607 2.05703 12.6108C2.30708 12.8608 2.64622 13.0013 2.99984 13.0013H10.9998C11.3535 13.0013 11.6926 12.8608 11.9426 12.6108C12.1927 12.3607 12.3332 12.0216 12.3332 11.668V10.3346M3.6665 6.33464L6.99984 9.66797M6.99984 9.66797L10.3332 6.33464M6.99984 9.66797V1.66797" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>      
-                        </button>
-                    </div>
-                </li>
+                <template x-for="file in files">
+                    <li class="edit-contragent-popup__attach-files-list-item">
+                        <img src="/images/attach-files-placeholder.png" alt="attach files image" class="edit-contragent-popup__attach-files-list-item-img" loading="lazy" decoding="async">
+                        <div class="edit-contragent-popup__attach-files-list-item-info">
+                            <p class="edit-contragent-popup__attach-files-list-item-title" x-text="file.name">1</p>
+                            <p class="edit-contragent-popup__attach-files-list-item-size-format">
+                                <span x-text="file.size"></span> КБ <span x-text="file.type"></span> 
+                            </p>
+                        </div>
+                        <div class="edit-contragent-popup__attach-files-list-item-controls">
+                            <button type="button" class="edit-contragent-popup__attach-files-list-item-add-btn">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.00016 1.33203V10.6654M1.3335 5.9987H10.6668" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>      
+                            </button>
+                            <button type="button" class="edit-contragent-popup__attach-files-list-item-download-btn">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.6665 10.3346V11.668C1.6665 12.0216 1.80698 12.3607 2.05703 12.6108C2.30708 12.8608 2.64622 13.0013 2.99984 13.0013H10.9998C11.3535 13.0013 11.6926 12.8608 11.9426 12.6108C12.1927 12.3607 12.3332 12.0216 12.3332 11.668V10.3346M3.6665 6.33464L6.99984 9.66797M6.99984 9.66797L10.3332 6.33464M6.99984 9.66797V1.66797" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>      
+                            </button>
+                        </div>
+                    </li>
+                </template>
             </ul>
+            <div class="edit-contragent-popup__attach-files-btn-wrapper">
+                <input type="file" class="edit-contragent-popup__attach-files-btn-input" x-on:change="files = $el.files" multiple>
             <button type="button" class="btn btn--secondary edit-contragent-popup__attach-files-btn">
                 <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.4998 4.66827L5.16647 9.0016C4.90125 9.26682 4.75226 9.62653 4.75226 10.0016C4.75226 10.3767 4.90125 10.7364 5.16647 11.0016C5.43169 11.2668 5.7914 11.4158 6.16647 11.4158C6.54154 11.4158 6.90125 11.2668 7.16647 11.0016L11.4998 6.66827C12.0302 6.13784 12.3282 5.41842 12.3282 4.66827C12.3282 3.91813 12.0302 3.1987 11.4998 2.66827C10.9694 2.13784 10.2499 1.83984 9.4998 1.83984C8.74966 1.83984 8.03024 2.13784 7.4998 2.66827L3.16647 7.0016C2.37082 7.79725 1.92383 8.87639 1.92383 10.0016C1.92383 11.1268 2.37082 12.206 3.16647 13.0016C3.96212 13.7973 5.04125 14.2442 6.16647 14.2442C7.29169 14.2442 8.37082 13.7973 9.16647 13.0016L13.4998 8.66827" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -339,6 +471,7 @@ import Pagination from "../Pagination.astro";
                         <path d="M10.1 9.33203L10.5 9.9987H14.5L14.1 9.33203M10.1 9.33203L8.5 6.66536C8.5 6.66536 7.28105 4.63378 6.5 3.33203C8.0621 3.33203 10.5 3.33203 10.5 3.33203L14.1 9.33203M10.1 9.33203H14.1" stroke="#FFC107" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>          
             </button>
+            </div>
             <button type="button" class="btn btn--secondary edit-contragent-popup__add-server-files-btn">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.00016 1.33203V10.6654M1.3335 5.9987H10.6668" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -422,7 +555,7 @@ import Pagination from "../Pagination.astro";
                 Комментарии
               </p>
             <textarea class="edit-contragent-popup__textarea" placeholder="Напишите комментарий"></textarea>
-            <button type="button" class="btn btn--secondary edit-contragent-popup__save-settings-btn">
+            <button type="button" class="btn btn--secondary edit-contragent-popup__save-settings-btn" x-on:click="saveOverallGroupFields;toggleOverallGroupFieldElems = false">
                 Сохранить
             </button>
         </fieldset>
@@ -715,7 +848,7 @@ import Pagination from "../Pagination.astro";
             </div>
         </div>
         <div class="edit-contragent-popup__body-wrapper history" x-show="table === 3">
-            <ul class="popup__filter-tag-group edit-contragent-popup__filter-tag-group" role="list" x-data="{tabs: ''}">
+            <ul class="popup__filter-tag-group edit-contragent-popup__filter-tag-group history" role="list" x-data="{tabs: ''}">
                 <li class="popup__filter-tag-group-item">
                     <button type="button" class="btn popup__filter-tag-btn edit-contragent-popup__filter-tag-btn" x-bind:class="{'active': tabs === 'mail'}" x-on:click.self="tabs = 'mail'">
                         Почта
@@ -839,119 +972,17 @@ import Pagination from "../Pagination.astro";
                 </div>
                 </div> 
             </div>
-            <div class="site-section__table-wrapper edit-contragent-popup__table-wrapper">
-                <nav class="site-section__table edit-contragent-popup__table" x-data="{tables: [1,2,3,4,5,6,7,8,9,10]}">
-                  <ul role="list" class="site-section__table-list site-section__table-caption-list edit-contragent-popup__table-list edit-contragent-popup__table-caption-list">
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
-                        <button class="site-section__table-sort-btn site-section__table-number-sort-btn" type="button">
-                          Номер
-                          <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 13L4 16M4 16L7 13M4 16V4M16 14C16 15.1046 15.1046 16 14 16C12.8954 16 12 15.1046 12 14C12 12.8954 12.8954 12 14 12C15.1046 12 16 12.8954 16 14ZM16 14V17C16 17.5304 15.7893 18.0391 15.4142 18.4142C15.0391 18.7893 14.5304 19 14 19H12.5M14 1C14.5304 1 15.0391 1.21071 15.4142 1.58579C15.7893 1.96086 16 2.46957 16 3V6C16 6.53043 15.7893 7.03914 15.4142 7.41421C15.0391 7.78929 14.5304 8 14 8C13.4696 8 12.9609 7.78929 12.5858 7.41421C12.2107 7.03914 12 6.53043 12 6V3C12 2.46957 12.2107 1.96086 12.5858 1.58579C12.9609 1.21071 13.4696 1 14 1Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>                
-                        </button>
-                      </li>
-                    <li class="site-section__table-list-item site-section__table-caption-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
-                      <button class="site-section__table-sort-btn site-section__table-data-sort-btn" type="button">
-                        Дата
-                        <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1 13L4 16M4 16L7 13M4 16V4M16 14C16 15.1046 15.1046 16 14 16C12.8954 16 12 15.1046 12 14C12 12.8954 12.8954 12 14 12C15.1046 12 16 12.8954 16 14ZM16 14V17C16 17.5304 15.7893 18.0391 15.4142 18.4142C15.0391 18.7893 14.5304 19 14 19H12.5M14 1C14.5304 1 15.0391 1.21071 15.4142 1.58579C15.7893 1.96086 16 2.46957 16 3V6C16 6.53043 15.7893 7.03914 15.4142 7.41421C15.0391 7.78929 14.5304 8 14 8C13.4696 8 12.9609 7.78929 12.5858 7.41421C12.2107 7.03914 12 6.53043 12 6V3C12 2.46957 12.2107 1.96086 12.5858 1.58579C12.9609 1.21071 13.4696 1 14 1Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>                
-                      </button>
-                    </li>
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
-                        Сумма
-                    </li>
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
-                        Статус
-                    </li>
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
-                      Ответственный
-                    </li>
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--desktop edit-contragent-popup__table-list-caption-item">
-                        Счёт
-                    </li>
-                    <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--desktop edit-contragent-popup__table-list-caption-item">
-                        Срок действия
-                    </li>
-                  </ul>
-                  <template x-for="table in tables">
-                  <ul role="list" class="site-section__table-list edit-contragent-popup__table-list">
-                    <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
-                        1001010
-                    </li>
-                    <li class="site-section__table-list-item edit-contragent-popup__table-list-item number">
-                      22.12.2028
-                    </li>
-                    <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
-                        500 000
-                    </li>
-                    <li class="site-section__table-list-item edit-contragent-popup__table-list-item site-section__table-list-item--status-btn" x-data="{status: 'in process', toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
-                        <button class="btn site-section__status-btn site-section__status-btn--in-process" type="button" x-bind:class="{'site-section__status-btn--in-process': status === 'in process', 'site-section__status-btn--shipped': status === 'shipped','site-section__status-btn--cancelled': status === 'cancelled', 'site-section__status-btn--in-work': status === 'in work', 'site-section__status-btn--completed': status === 'completed', 'site-section__status-btn--cargo-in-way': status === 'cargo in way', 'site-section__status-btn--on-payment': status === 'on payment' }" x-text="status === 'in process' ? 'Ожидает ответ' : status === 'shipped' ? 'Отгружен' : status === 'cancelled' ? 'Отменён' : status === 'in work' ? 'В работе' : status === 'completed' ? 'Завершён' : status === 'cargo in way' ? 'Груз в пути': status === 'on payment' ? 'На оплате': ''">
-                          Ожидает ответ
-                        </button>
-                        <div class="site-section__choose-status-dropdown-wrapper">
-                          <button type="button" class="site-section__choose-status-btn" x-on:click="toggleStatusDropdown = !toggleStatusDropdown">
-                            <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" fill="#869AB8"/>
-                              <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" fill="#869AB8"/>
-                              <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" fill="#869AB8"/>
-                              <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M2 17C2.55228 17 3 16.5523 3 16C3 15.4477 2.55228 15 2 15C1.44772 15 1 15.4477 1 16C1 16.5523 1.44772 17 2 17Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>     
-                          </button>
-                          <ul class="site-section__choose-status-dropdown-list" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
-                             <li class="site-section__choose-status-dropdown-list-item">
-                                <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'in process'; toggleStatusDropdown = false">Ожидает ответ</button>
-                             </li>
-                             <li class="site-section__choose-status-dropdown-list-item">
-                              <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'in work'; toggleStatusDropdown = false">В работе</button>
-                           </li>
-                           <li class="site-section__choose-status-dropdown-list-item">
-                            <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'completed'; toggleStatusDropdown = false">Завершён</button>
-                         </li>
-                         <li class="site-section__choose-status-dropdown-list-item">
-                          <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'cargo in way'; toggleStatusDropdown = false">Груз в пути</button>
-                       </li>
-                       <li class="site-section__choose-status-dropdown-list-item">
-                        <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'on payment'; toggleStatusDropdown = false">На оплате</button>
-                     </li>
-                     <li class="site-section__choose-status-dropdown-list-item">
-                      <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'cancelled'; toggleStatusDropdown = false">Отменен</button>
-                   </li>
-                   <li class="site-section__choose-status-dropdown-list-item">
-                    <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="status = 'shipped'; toggleStatusDropdown = false">Отгружен</button>
-                 </li>
-                          </ul>
-                        </div>
-                     </li>
-                   <li class="site-section__table-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--resp">
-                    <div class="site-section__resp-wrapper">
-                      <img src="/images/header-avatar-placeholder.svg" alt="responsible face avatar" loading="lazy" decoding="async" width="24" height="24">
-                      <span class="edit-contragent-popup__resp-title">
-                        vtr@uralreduktor.ru
-                      </span>
-                    </div>
-                 </li>
-                 <li class="site-section__table-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--org-link">
-                    1001010
-                </li>
-                <li class="site-section__table-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--org-link">
-                    25.11.2022
-                </li>
-                  </ul>
-                </template>
-                </nav>
-            </div>
+            <EditContragentPopupTableOffers></EditContragentPopupTableOffers>
             <ul role="list" class="pagination edit-contragent-popup__pagination">
                 <Pagination></Pagination>
              </ul>
             </div>
         </div>
-        <div class="edit-contragent-popup__body-wrapper mail" x-show="table === 7">
+        <div class="edit-contragent-popup__body-wrapper mail" x-show="table === 7" x-data="{toggleMailBtn: false}">
+           <div class="edit-contragent-popup__ingoing-body-wrapper" x-show="toggleMailBtn === false">
            <div class="edit-contragent-popup__mail-title-row">
             <h2 class="edit-contragent-popup__mail-title"> Входящие</h2>
-            <button type="button" class="edit-contragent-popup__outgoing-switch-btn">
+            <button type="button" class="edit-contragent-popup__switch-mail-btn" x-on:click="toggleMailBtn = !toggleMailBtn">
                 Переключить на исходящие
             </button>
            </div>
@@ -1094,6 +1125,154 @@ import Pagination from "../Pagination.astro";
                 <Pagination></Pagination>
              </ul>
            </div>
+           </div>
+           <div class="edit-contragent-popup__ingoing-body-wrapper" x-show="toggleMailBtn === true">
+            <div class="edit-contragent-popup__mail-title-row">
+             <h2 class="edit-contragent-popup__mail-title">Исходящие</h2>
+             <button type="button" class="edit-contragent-popup__switch-mail-btn" x-on:click="toggleMailBtn = !toggleMailBtn">
+                 Переключить на входящие
+             </button>
+            </div>
+            <div class="edit-contragent-popup__mail-body">
+             <div class="site-section__body-bottom edit-contragent-popup__body-bottom">
+                 <div class="site-section__body-bottom-left-group edit-contragent-popup__body-bottom-left-group">
+                 <SearchBtn></SearchBtn>
+                 <SearchBtnDropdown></SearchBtnDropdown>
+                 <div x-data="{toggleDropdown: false }" x-on:click.outside="toggleDropdown = false" class="site-section__filter-btn-wrapper">
+                     <button class="btn site-section__filter-btn" type="button" x-on:click="toggleDropdown = !toggleDropdown">
+                       <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M2.50011 1H15.5001C15.6441 1.05051 15.7747 1.13331 15.8817 1.24206C15.9888 1.35082 16.0696 1.48264 16.1178 1.62742C16.1661 1.77221 16.1806 1.92612 16.1602 2.07737C16.1398 2.22861 16.085 2.37318 16.0001 2.5L11.0001 8V15L7.00011 12V8L2.00011 2.5C1.9152 2.37318 1.86044 2.22861 1.84004 2.07737C1.81963 1.92612 1.83411 1.77221 1.88237 1.62742C1.93063 1.48264 2.01139 1.35082 2.11847 1.24206C2.22554 1.13331 2.35609 1.05051 2.50011 1Z" stroke="#F9FBFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                         </svg>            
+                     </button>
+                      <div class="site-section__filter-dropdown" action="#" method="post" x-bind:class="{'active': toggleDropdown === true }" x-data="{inputVal: 'По умолчанию'}">
+                      <ul role="list" class="site-section__filter-dropdown-list">
+                        <li class="site-section__filter-dropdown-list-item">
+                           <button type="button" class="site-section__filter-dropdown-add-new-filter-btn" x-on:click="addNewFilterPopup = true">
+                             <svg class="site-section__filter-dropdown-add-new-filter-btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M8 1V15M1 8H15" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                               </svg>                  
+                             Новый фильтр
+                           </button>
+                        </li>
+                        <li class="site-section__filter-dropdown-list-item">
+                         <input type="text" class="site-section__filter-dropdown-list-item-input" value="Статус" readonly="" x-on:click="inputVal = 'Статус'">
+                      </li>
+                      <li class="site-section__filter-dropdown-list-item">
+                         <input type="text" class="site-section__filter-dropdown-list-item-input" value="Ответственный" readonly="" x-on:click="inputVal = 'Ответственный'">
+                      </li>
+                      </ul>
+                      <fieldset class="site-section__filter-dropdown-fieldset">
+                          <input type="text" value="По умолчанию" class="site-section__filter-dropdown-input-def" x-model="inputVal" readonly="" x-ref="defInput">
+                          <div class="site-section__filter-dropdown-fieldset-btn-group">
+                            <button class="site-section__filter-dropdown-edit-btn" type="button" x-on:click="$refs.defInput.removeAttribute('readonly');$refs.defInput.focus()">
+                             <svg class="site-section__filter-dropdown-edit-btn-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M10.5 3.5L14.5 7.5M1 17.0001H5L15.5 6.50006C16.0304 5.96963 16.3284 5.2502 16.3284 4.50006C16.3284 3.74991 16.0304 3.03049 15.5 2.50006C14.9696 1.96963 14.2501 1.67163 13.5 1.67163C12.7499 1.67163 12.0304 1.96963 11.5 2.50006L1 13.0001V17.0001Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                               </svg>                                 
+                            </button>
+                            <button class="site-section__filter-dropdown-favorite-btn" type="button">
+                               <svg class="site-section__filter-dropdown-favorite-btn-icon" width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M10.9998 16.75L4.82784 19.995L6.00684 13.122L1.00684 8.25495L7.90684 7.25495L10.9928 1.00195L14.0788 7.25495L20.9788 8.25495L15.9788 13.122L17.1578 19.995L10.9998 16.75Z" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                 </svg>                                                   
+                            </button>
+                            <button class="site-section__filter-dropdown-trash-btn" type="button">
+                             <svg class="site-section__filter-dropdown-trash-btn-icon" width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M1 5H17M7 9V15M11 9V15M2 5L3 17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19H13C13.5304 19 14.0391 18.7893 14.4142 18.4142C14.7893 18.0391 15 17.5304 15 17L16 5M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H11C11.2652 1 11.5196 1.10536 11.7071 1.29289C11.8946 1.48043 12 1.73478 12 2V5" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                               </svg>                  
+                            </button>
+                          </div>
+                      </fieldset>
+                     </div>
+                 </div>
+                 </div> 
+             </div>
+             <div class="site-section__table-wrapper edit-contragent-popup__table-wrapper">
+                 <nav class="site-section__table edit-contragent-popup__table" x-data="{tables: [1,2,3,4,5,6,7,8,9,10]}">
+                   <ul role="list" class="site-section__table-list site-section__table-caption-list edit-contragent-popup__mail-table-list edit-contragent-popup__table-caption-list">
+                     <li class="site-section__table-list-item site-section__table-caption-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
+                         <div class="edit-contragent-popup__table-list-item-checkbox-wrapper" x-data="{checkedState: false}" x-on:click="checkedState = !checkedState">
+                             <input type="checkbox" class="edit-contragent-popup__table-list-item-checkbox">
+                             <label class="edit-contragent-popup__table-list-item-label" x-bind:class="{'active': checkedState === true}">
+                             </label>
+                             </div>
+                     </li>
+                     <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
+                       Контакт
+                     </li>
+                     <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
+                         <button class="site-section__table-sort-btn site-section__table-name-sort-btn" type="button">
+                             Название
+                             <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M1 13L4 16M4 16L7 13M4 16V4M16 14C16 15.1046 15.1046 16 14 16C12.8954 16 12 15.1046 12 14C12 12.8954 12.8954 12 14 12C15.1046 12 16 12.8954 16 14ZM16 14V17C16 17.5304 15.7893 18.0391 15.4142 18.4142C15.0391 18.7893 14.5304 19 14 19H12.5M14 1C14.5304 1 15.0391 1.21071 15.4142 1.58579C15.7893 1.96086 16 2.46957 16 3V6C16 6.53043 15.7893 7.03914 15.4142 7.41421C15.0391 7.78929 14.5304 8 14 8C13.4696 8 12.9609 7.78929 12.5858 7.41421C12.2107 7.03914 12 6.53043 12 6V3C12 2.46957 12.2107 1.96086 12.5858 1.58579C12.9609 1.21071 13.4696 1 14 1Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                               </svg>                
+                           </button>
+                       </li>
+                     <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
+                         Дата
+                     </li>
+                     <li class="site-section__table-list-item site-section__table-list-caption-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-caption-item">
+                         Теги
+                     </li>
+                   </ul>
+                   <template x-for="table in tables">
+                   <ul role="list" class="site-section__table-list edit-contragent-popup__mail-table-list">
+                     <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
+                         <div class="edit-contragent-popup__table-list-item-checkbox-wrapper" x-data="{checkedState: false}" x-on:click="checkedState = !checkedState">
+                         <input type="checkbox" class="edit-contragent-popup__table-list-item-checkbox">
+                         <label class="edit-contragent-popup__table-list-item-label" x-bind:class="{'active': checkedState === true}">
+                         </label>
+                         </div>
+                     </li>
+                     <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
+                         <div class="site-section__resp-wrapper">
+                             <img src="/images/header-avatar-placeholder.svg" alt="responsible face avatar" loading="lazy" decoding="async" width="24" height="24">
+                             <span class="contragents-page__resp-title">
+                               vtr@uralreduktor.ru
+                             </span>
+                         </div>             
+                     </li>
+                     <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
+                         <div class="edit-contragent-popup__mail-name">
+                             <p class="edit-contragent-popup__mail-name-indicator"></p>
+                             <p class="edit-contragent-popup__mail-name-title">Fwd: Доступ на боевую среду</p>
+                             <p class="edit-contragent-popup__mail-name-sender">Отправлено из мобильной Почты Mail.ru -------- Пересылаемое сообщение -------- От: Платежные решения Сбербанка Кому: , Дата: понедельник, 3 октября 2022 г., 13:09 +0500 Тема: Доступ на боевую среду >Читайте нашу…
+                             </p>
+                         </div>
+                      </li>
+                     <li class="site-section__table-list-item edit-contragent-popup__table-list-item">
+                         12 окт 2022
+                     </li>
+                     <li class="site-section__table-list-item edit-contragent-popup__table-list-item edit-contragent-popup__table-list-item--tag-btn" x-data="{tag: 'design', toggleTagDropdown: false}" x-on:click.outside="toggleTagDropdown = false">
+                       <button class="btn edit-contragent-popup__tag-btn edit-contragent-popup__tag-btn--design" type="button" x-bind:class="{'edit-contragent-popup__tag-btn--design': tag === 'design', 'edit-contragent-popup__tag-btn--СЕО': tag === 'СЕО','edit-contragent-popup__tag-btn--project': tag === 'Проджект' }" x-text="tag === 'design' ? 'Дизайн' : tag === 'СЕО' ? 'СЕО' : tag === 'Проджект' ? 'Проджект' : ''">
+                         Ожидает ответ
+                       </button>
+                       <div class="edit-contragent-popup__choose-tag-dropdown-wrapper">
+                         <button type="button" class="edit-contragent-popup__choose-tag-btn" x-on:click="toggleTagDropdown = !toggleTagDropdown">
+                             <svg class="edit-contragent-popup__choose-tag-btn-icon" x-bind:class="{'active': toggleTagDropdown === true }" width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M1.5 1L7.5 7L13.5 1" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 </svg>          
+                         </button>
+                         <ul class="edit-contragent-popup__choose-tag-dropdown-list" role="list" x-bind:class="{'active': toggleTagDropdown === true}">
+                            <li class="edit-contragent-popup__choose-tag-dropdown-list-item">
+                               <button class="edit-contragent-popup__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'design'; toggleStatusDropdown = false">Дизайн</button>
+                            </li>
+                            <li class="edit-contragent-popup__choose-tag-dropdown-list-item">
+                             <button class="edit-contragent-popup__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'СЕО'; toggleStatusDropdown = false">СЕО</button>
+                          </li>
+                          <li class="edit-contragent-popup__choose-tag-dropdown-list-item">
+                           <button class="site-section__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'Проджект'; toggleStatusDropdown = false">Проджект</button>
+                        </li>
+                         </ul>
+                       </div>
+                    </li>
+                   </ul>
+                 </template>
+                 </nav>
+             </div>
+             <ul role="list" class="pagination edit-contragent-popup__pagination">
+                 <Pagination></Pagination>
+              </ul>
+            </div>
+            </div>
         </div>
         <div class="edit-contragent-popup__body-wrapper tasks" x-show="table === 8">
            <div class="edit-contragent-popup__tasks-wrapper">
@@ -1112,7 +1291,7 @@ import Pagination from "../Pagination.astro";
           </button>
       </li>
       <li class="popup__btn-control-group-item edit-contragent-popup__btn-control-group-item">
-          <button type="button" class="btn btn--primary popup__save-btn edit-contragent-popup__save-btn">
+          <button type="button" class="btn btn--primary popup__save-btn edit-contragent-popup__save-btn" x-on:click="saveOverallGroupFields; toggleOverallGroupFieldElems = false">
               Сохранить
           </button>
       </li>
@@ -1120,4 +1299,6 @@ import Pagination from "../Pagination.astro";
     </div>
 </div>
 </form>
+<FinancesPageOfferPopup></FinancesPageOfferPopup>
+<NewMessagePopup></NewMessagePopup>
 </div>

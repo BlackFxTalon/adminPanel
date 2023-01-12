@@ -9,7 +9,7 @@ import TaskPageTable from "../components/taskPage/TaskPageTable.astro";
 import EditTaskPopup from "../components/taskPage/EditTaskPopup.astro";
 ---
 <Layout title="страница Задачи">
-  <section class="site-section task-page__site-section" x-data="{createTaskPopup: false, editTaskPopup: false}">
+  <section class="site-section task-page__site-section" x-data="{createTaskPopup: false, editTaskPopup: false, searchBtnDropdown: false }">
     <div class="site-section__top-row task-page__top-row mobile">
         <h2 class="site-section__title task-page__title">Задачи</h2>
         <button class="btn btn--primary site-section__create-order-btn task-page__create-task-btn" type="button" x-on:click="createTaskPopup = true">
@@ -69,10 +69,14 @@ import EditTaskPopup from "../components/taskPage/EditTaskPopup.astro";
                 </div>
                 <SearchForm></SearchForm>
                 <Filter></Filter>
-                <button type="button" class="btn btn--secondary task-page__group-btn">
+                <button type="button" class="btn btn--secondary task-page__group-btn" x-data="{toggleBtn: false}" x-on:click="toggleBtn = !toggleBtn" x-bind:class="{'active': toggleBtn === true }">
                     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1H17M1 7H17M1 13H13" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>                        
+                        </svg> 
+                 <p class="task-page__group-btn-title" x-show="toggleBtn === true">По контрагентам</p>
+                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-icon-close" x-show="toggleBtn === true">
+                    <path d="M9 1L1 9M1 1L9 9" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg> 
                 </button>
               </div>    
           </div>

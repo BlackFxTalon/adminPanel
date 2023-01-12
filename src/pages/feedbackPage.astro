@@ -407,34 +407,8 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
            <div class="feedback-page__direct-chat-window" 
            x-data="{
             replyPanel: false,
-            submitReply(event) {
-               let parentEl = event.target.closest('.feedback-page__direct-chat-window');
-               let feedbackPageDirectChatMessageWrapper = parentEl.querySelector('.feedback-page__direct-chat-message-wrapper');
-               feedbackPageDirectChatMessageWrapper.insertAdjacentHTML('beforeend', 
-               `
-               <div class='feedback-page__direct-chat-message'>
-                <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
-                <div class='feedback-page__direct-chat-message-info'>
-                   <div class='feedback-page__direct-chat-message-box left'>
-                    <p class='feedback-page__direct-chat-message-box-text' x-text='$refs.feedbackPageDirectChatMessageReplyPanelAnswerInput.value'></p>
-                   </div>
-                   <div class='feedback-page__direct-chat-message-bottom-info'>
-                     <div class='feedback-page__direct-chat-message-datetime'>
-                     <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
-                     в
-                     <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
-                    </div>
-                     <div class='feedback-page__direct-chat-message-replied-check'>
-                      <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                        <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                        </svg>                      
-                     </div>
-                   </div>
-                </div>
-            </div>
-               `
-               );
-            }
+            chats:[],
+            answerInput: ''
           }">
             <div class="feedback-page__direct-chat-message-wrapper">
              <div class="feedback-page__direct-chat-message">
@@ -500,8 +474,30 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                  </div>
               </div>
              </div>
+             <template x-for="chat in chats">
+              <div class='feedback-page__direct-chat-message'>
+                <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
+                <div class='feedback-page__direct-chat-message-info'>
+                   <div class='feedback-page__direct-chat-message-box left'>
+                    <p class='feedback-page__direct-chat-message-box-text' x-text='chat.answer'></p>
+                   </div>
+                   <div class='feedback-page__direct-chat-message-bottom-info'>
+                     <div class='feedback-page__direct-chat-message-datetime'>
+                     <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
+                     в
+                     <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
+                    </div>
+                     <div class='feedback-page__direct-chat-message-replied-check'>
+                      <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>                      
+                     </div>
+                   </div>
+                </div>
               </div>
-             <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; $refs.feedbackPageDirectChatMessageReplyPanelAnswerInput.value = ''">
+             </template>
+              </div>
+             <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; answerInput = ''">
               Ответить
              </button>
              <div class="feedback-page__direct-chat-message-reply-panel-overlay desktop-hide" x-show="replyPanel === true" x-on:click.self="replyPanel = false">
@@ -512,8 +508,8 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                     <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
                 </div>
-                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
-                <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="submitReply;replyPanel = false;">
+                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
+                <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false;answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
                   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.99183 13.0082L21 1M8.99183 13.0082L12.8126 20.6497C12.8605 20.7542 12.9374 20.8428 13.0342 20.9049C13.1309 20.967 13.2435 21 13.3584 21C13.4734 21 13.586 20.967 13.6827 20.9049C13.7795 20.8428 13.8564 20.7542 13.9043 20.6497L21 1M8.99183 13.0082L1.35028 9.18738C1.24576 9.13949 1.1572 9.06259 1.0951 8.96583C1.03301 8.86908 1 8.75653 1 8.64156C1 8.52659 1.03301 8.41404 1.0951 8.31728C1.1572 8.22052 1.24576 8.14363 1.35028 8.09573L21 1" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
@@ -528,9 +524,9 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                     <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
                 </div>
-                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
+                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
               </form>
-              <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="submitReply">
+              <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false; answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
                 Ответить
                </button>
             </div>
@@ -586,34 +582,8 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
           <div class="feedback-page__direct-chat-window" 
           x-data="{
            replyPanel: false,
-           submitReply() {
-            let parentEl = event.target.closest('.feedback-page__direct-chat-window');
-               let feedbackPageDirectChatMessageWrapper = parentEl.querySelector('.feedback-page__direct-chat-message-wrapper');
-               feedbackPageDirectChatMessageWrapper.insertAdjacentHTML('beforeend', 
-              `
-              <div class='feedback-page__direct-chat-message'>
-               <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
-               <div class='feedback-page__direct-chat-message-info'>
-                  <div class='feedback-page__direct-chat-message-box left'>
-                   <p class='feedback-page__direct-chat-message-box-text' x-text='$refs.feedbackPageDirectChatMessageReplyPanelAnswerInput2.value'></p>
-                  </div>
-                  <div class='feedback-page__direct-chat-message-bottom-info'>
-                    <div class='feedback-page__direct-chat-message-datetime'>
-                    <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
-                    в
-                    <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
-                   </div>
-                    <div class='feedback-page__direct-chat-message-replied-check'>
-                     <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                       <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                       </svg>                      
-                    </div>
-                  </div>
-               </div>
-           </div>
-              `
-              );
-           }
+           chats:[],
+           answerInput: ''
          }">
            <div class="feedback-page__direct-chat-message-wrapper">
             <div class="feedback-page__direct-chat-message">
@@ -679,8 +649,30 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                 </div>
              </div>
             </div>
+            <template x-for="chat in chats">
+              <div class='feedback-page__direct-chat-message'>
+                <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
+                <div class='feedback-page__direct-chat-message-info'>
+                   <div class='feedback-page__direct-chat-message-box left'>
+                    <p class='feedback-page__direct-chat-message-box-text' x-text='chat.answer'></p>
+                   </div>
+                   <div class='feedback-page__direct-chat-message-bottom-info'>
+                     <div class='feedback-page__direct-chat-message-datetime'>
+                     <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
+                     в
+                     <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
+                    </div>
+                     <div class='feedback-page__direct-chat-message-replied-check'>
+                      <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                        <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                        </svg>                      
+                     </div>
+                   </div>
+                </div>
+              </div>
+             </template>
              </div>
-             <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; $refs.feedbackPageDirectChatMessageReplyPanelAnswerInput.value = ''">
+             <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; answerInput = ''">
               Ответить
              </button>
              <div class="feedback-page__direct-chat-message-reply-panel-overlay desktop-hide" x-show="replyPanel === true" x-on:click.self="replyPanel = false">
@@ -691,8 +683,8 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                     <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
                 </div>
-                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
-                <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="submitReply;replyPanel = false;">
+                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
+                <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false;answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
                   <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.99183 13.0082L21 1M8.99183 13.0082L12.8126 20.6497C12.8605 20.7542 12.9374 20.8428 13.0342 20.9049C13.1309 20.967 13.2435 21 13.3584 21C13.4734 21 13.586 20.967 13.6827 20.9049C13.7795 20.8428 13.8564 20.7542 13.9043 20.6497L21 1M8.99183 13.0082L1.35028 9.18738C1.24576 9.13949 1.1572 9.06259 1.0951 8.96583C1.03301 8.86908 1 8.75653 1 8.64156C1 8.52659 1.03301 8.41404 1.0951 8.31728C1.1572 8.22052 1.24576 8.14363 1.35028 8.09573L21 1" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
@@ -707,9 +699,9 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                     <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                    
                 </div>
-                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
+                <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
               </form>
-              <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="submitReply">
+              <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false; answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
                 Ответить
                </button>
             </div>
@@ -764,36 +756,10 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
          </div>
         <div class="feedback-page__direct-chat-window" 
         x-data="{
-         replyPanel: false,
-         submitReply() {
-          let parentEl = event.target.closest('.feedback-page__direct-chat-window');
-         let feedbackPageDirectChatMessageWrapper = parentEl.querySelector('.feedback-page__direct-chat-message-wrapper');
-         feedbackPageDirectChatMessageWrapper.insertAdjacentHTML('beforeend', 
-            `
-            <div class='feedback-page__direct-chat-message'>
-             <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
-             <div class='feedback-page__direct-chat-message-info'>
-                <div class='feedback-page__direct-chat-message-box left'>
-                 <p class='feedback-page__direct-chat-message-box-text' x-text='$refs.feedbackPageDirectChatMessageReplyPanelAnswerInput3.value'></p>
-                </div>
-                <div class='feedback-page__direct-chat-message-bottom-info'>
-                  <div class='feedback-page__direct-chat-message-datetime'>
-                  <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
-                  в
-                  <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
-                 </div>
-                  <div class='feedback-page__direct-chat-message-replied-check'>
-                   <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                     <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
-                     </svg>                      
-                  </div>
-                </div>
-             </div>
-         </div>
-            `
-            );
-         }
-       }">
+          replyPanel: false,
+          chats:[],
+          answerInput: ''
+        }">
          <div class="feedback-page__direct-chat-message-wrapper">
           <div class="feedback-page__direct-chat-message">
            <img class="feedback-page__direct-chat-message-avatar-img" src="/images/comment-avatar-placeholder.png" alt="direct-chat-message-avatar-img" width="36" height="36" loading="lazy" decoding="async">
@@ -858,8 +824,30 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
               </div>
            </div>
           </div>
+          <template x-for="chat in chats">
+            <div class='feedback-page__direct-chat-message'>
+              <img class='feedback-page__direct-chat-message-avatar-img' src='/images/comment-avatar-placeholder.png' alt='direct-chat-message-avatar-img' width='36' height='36' loading='lazy' decoding='async'>
+              <div class='feedback-page__direct-chat-message-info'>
+                 <div class='feedback-page__direct-chat-message-box left'>
+                  <p class='feedback-page__direct-chat-message-box-text' x-text='chat.answer'></p>
+                 </div>
+                 <div class='feedback-page__direct-chat-message-bottom-info'>
+                   <div class='feedback-page__direct-chat-message-datetime'>
+                   <time datetime='18.08.2022' class='feedback-page__direct-chat-message-date'>18.08.2022</time>
+                   в
+                   <time datetime='15:35' class='feedback-page__direct-chat-message-date'>15:35</time>
+                  </div>
+                   <div class='feedback-page__direct-chat-message-replied-check'>
+                    <svg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                      <path d='M4.66683 7.9974L8.00016 11.3307L14.6668 4.66406M1.3335 7.9974L4.66683 11.3307M8.00016 7.9974L11.3335 4.66406' stroke='#859AB9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                      </svg>                      
+                   </div>
+                 </div>
+              </div>
+            </div>
+           </template>
            </div>
-           <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; $refs.feedbackPageDirectChatMessageReplyPanelAnswerInput.value = ''">
+           <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn desktop-hide" x-on:click="replyPanel = true; answerInput = ''">
             Ответить
            </button>
            <div class="feedback-page__direct-chat-message-reply-panel-overlay desktop-hide" x-show="replyPanel === true" x-on:click.self="replyPanel = false">
@@ -870,8 +858,8 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                   <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>                    
               </div>
-              <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
-              <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="submitReply;replyPanel = false;">
+              <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
+              <button type="button" class="feedback-page__direct-chat-message-reply-panel-submit-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false;answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8.99183 13.0082L21 1M8.99183 13.0082L12.8126 20.6497C12.8605 20.7542 12.9374 20.8428 13.0342 20.9049C13.1309 20.967 13.2435 21 13.3584 21C13.4734 21 13.586 20.967 13.6827 20.9049C13.7795 20.8428 13.8564 20.7542 13.9043 20.6497L21 1M8.99183 13.0082L1.35028 9.18738C1.24576 9.13949 1.1572 9.06259 1.0951 8.96583C1.03301 8.86908 1 8.75653 1 8.64156C1 8.52659 1.03301 8.41404 1.0951 8.31728C1.1572 8.22052 1.24576 8.14363 1.35028 8.09573L21 1" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>                    
@@ -886,9 +874,9 @@ import ArchiveChatAltPopup from "../components/feedbackPage/ArchiveChatAltPopup.
                   <path d="M13.0002 6.00045L6.50019 12.5005C6.10237 12.8983 5.87887 13.4378 5.87887 14.0005C5.87887 14.5631 6.10237 15.1026 6.50019 15.5005C6.89802 15.8983 7.43758 16.1218 8.00019 16.1218C8.5628 16.1218 9.10237 15.8983 9.50019 15.5005L16.0002 9.00045C16.7958 8.2048 17.2428 7.12567 17.2428 6.00045C17.2428 4.87523 16.7958 3.7961 16.0002 3.00045C15.2045 2.2048 14.1254 1.75781 13.0002 1.75781C11.875 1.75781 10.7958 2.2048 10.0002 3.00045L3.50019 9.50045C2.30672 10.6939 1.63623 12.3126 1.63623 14.0005C1.63623 15.6883 2.30672 17.307 3.50019 18.5005C4.69367 19.6939 6.31236 20.3644 8.00019 20.3644C9.68802 20.3644 11.3067 19.6939 12.5002 18.5005L19.0002 12.0005" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>                    
               </div>
-              <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-ref="feedbackPageDirectChatMessageReplyPanelAnswerInput" placeholder="Введите текст ответа">
+              <input type="text" class="feedback-page__direct-chat-message-reply-panel-answer-input" x-model="answerInput" placeholder="Введите текст ответа">
             </form>
-            <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="submitReply">
+            <button type="button" class="btn btn--primary feedback-page__direct-chat-message-reply-btn" x-on:click="chats.push({answer:answerInput});replyPanel = false;answerInput = ''" x-bind:class="{'disabled': answerInput.length === 0}">
               Ответить
              </button>
           </div>

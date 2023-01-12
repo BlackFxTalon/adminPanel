@@ -4,9 +4,10 @@ import LastCallsTable from "../components/eventsBoardPage/LastCallsTable.astro";
 import LastOrdersTable from "../components/eventsBoardPage/LastOrdersTable.astro";
 import LastContragentsTable from "../components/eventsBoardPage/LastContragentsTable.astro";
 import TableTabs from "../components/TableTabs.astro";
+import EditContragentPopup from "../components/contragentsPage/EditContragentPopup.astro";
 ---
 <Layout title="страница лента событий">
-  <section class="site-section events-board-page__site-section" x-data="{table: 1}">
+  <section class="site-section events-board-page__site-section" x-data="{table: 1, editContragentPopup: false }">
     <div class="site-section__top-row events-board-page__top-row">
     <h2 class="section-title events-board-page__title">Лента событий</h2>
     <div class="site-section__top-row-btn-group events-board-page__top-row-btn-group">
@@ -26,5 +27,6 @@ import TableTabs from "../components/TableTabs.astro";
       <LastContragentsTable></LastContragentsTable>
       </div>
     </div>
+    <EditContragentPopup></EditContragentPopup>
   </section>
 </Layout>

@@ -68,15 +68,15 @@
                     <path d="M1.5 1L7.5 7L13.5 1" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>          
             </button>
-            <ul class="contragents-page__choose-tag-dropdown-list" role="list" x-bind:class="{'active': toggleTagDropdown === true}">
+            <ul class="contragents-page__choose-tag-dropdown-list contragents-page-table__choose-tag-dropdown-list" role="list" x-bind:class="{'active': toggleTagDropdown === true}">
                <li class="contragents-page__choose-tag-dropdown-list-item">
-                  <button class="contragents-page__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'design'; toggleStatusDropdown = false">Дизайн</button>
+                  <button class="contragents-page__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'design'; toggleTagDropdown = false">Дизайн</button>
                </li>
                <li class="contragents-page__choose-tag-dropdown-list-item">
-                <button class="contragents-page__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'СЕО'; toggleStatusDropdown = false">СЕО</button>
+                <button class="contragents-page__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'СЕО'; toggleTagDropdown = false">СЕО</button>
              </li>
              <li class="contragents-page__choose-tag-dropdown-list-item">
-              <button class="site-section__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'Проджект'; toggleStatusDropdown = false">Проджект</button>
+              <button class="site-section__choose-tag-dropdown-list-item-btn" type="button" x-on:click="tag = 'Проджект'; toggleTagDropdown = false">Проджект</button>
            </li>
             </ul>
           </div>

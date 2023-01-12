@@ -412,4 +412,8 @@ font-size: 16px;
 line-height: 18px;
 color: var(--primary);
     }
+
+    &__create-btn-wrapper.passport {
+        margin-left: auto;
+    }
 }

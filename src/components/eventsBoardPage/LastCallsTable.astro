@@ -63,21 +63,21 @@ let items = ['Результат поиска', 'Документы', 'Доку�
         </li>
         <li class="site-section__table-list-item site-section__table-list-caption-item  events-board-page__table-list-item events-board-page__table-list-caption-item">
           <button class="site-section__table-sort-btn site-section__table-name-sort-btn" type="button">
-            Имя
+            Номер
             <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 13L4 16M4 16L7 13M4 16V4M16 14C16 15.1046 15.1046 16 14 16C12.8954 16 12 15.1046 12 14C12 12.8954 12.8954 12 14 12C15.1046 12 16 12.8954 16 14ZM16 14V17C16 17.5304 15.7893 18.0391 15.4142 18.4142C15.0391 18.7893 14.5304 19 14 19H12.5M14 1C14.5304 1 15.0391 1.21071 15.4142 1.58579C15.7893 1.96086 16 2.46957 16 3V6C16 6.53043 15.7893 7.03914 15.4142 7.41421C15.0391 7.78929 14.5304 8 14 8C13.4696 8 12.9609 7.78929 12.5858 7.41421C12.2107 7.03914 12 6.53043 12 6V3C12 2.46957 12.2107 1.96086 12.5858 1.58579C12.9609 1.21071 13.4696 1 14 1Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>                
           </button>
         </li>
-        <li class="site-section__table-list-item site-section__table-list-caption-item  events-board-page__table-list-item events-board-page__table-list-caption-item status">
-            Статус
-          </li>
         <li class="site-section__table-list-item site-section__table-list-caption-item  events-board-page__table-list-item events-board-page__table-list-caption-item">
           Контрагент
         </li>
         <li class="site-section__table-list-item site-section__table-list-caption-item  events-board-page__table-list-item events-board-page__table-list-caption-item">
-          Действия
+          Комментарий
         </li>
+        <li class="site-section__table-list-item site-section__table-list-caption-item  events-board-page__table-list-item events-board-page__table-list-caption-item status">
+            Статус
+          </li>
       </ul>
       <template x-for="table in tables">
       <ul role="list" class="site-section__table-list events-board-page__table-list">
@@ -85,9 +85,17 @@ let items = ['Результат поиска', 'Документы', 'Доку�
             22.12.2028
         </li>
         <li class="site-section__table-list-item events-board-page__table-list-item">
+           <a href="/feedbackPage" class="events-board-page__table-list-item-link">
             1001010
+            </a>
         </li>
-        <li class="site-section__table-list-item site-section__table-list-item--status-btn events-board-page__table-list-item--status-btn" x-data="{status: 'in process', toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
+        <li class="site-section__table-list-item events-board-page__table-list-item" x-on:click="editContragentPopup = true">
+              УЗТМ
+          </li>
+          <li class="site-section__table-list-item events-board-page__table-list-item">
+              Текст комментария
+          </li>
+          <li class="site-section__table-list-item site-section__table-list-item--status-btn events-board-page__table-list-item--status-btn" x-data="{status: 'in process', toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
             <button class="btn site-section__status-btn site-section__status-btn--in-process" type="button" x-bind:class="{'site-section__status-btn--in-process': status === 'in process', 'site-section__status-btn--shipped': status === 'shipped','site-section__status-btn--cancelled': status === 'cancelled', 'site-section__status-btn--in-work': status === 'in work', 'site-section__status-btn--completed': status === 'completed', 'site-section__status-btn--cargo-in-way': status === 'cargo in way', 'site-section__status-btn--on-payment': status === 'on payment' }" x-text="status === 'in process' ? 'Ожидает ответ' : status === 'shipped' ? 'Отгружен' : status === 'cancelled' ? 'Отменён' : status === 'in work' ? 'В работе' : status === 'completed' ? 'Завершён' : status === 'cargo in way' ? 'Груз в пути': status === 'on payment' ? 'На оплате': ''">
               Ожидает ответ
             </button>
@@ -127,16 +135,6 @@ let items = ['Результат поиска', 'Документы', 'Доку�
               </ul>
             </div>
         </li>
-        <li class="site-section__table-list-item events-board-page__table-list-item">
-            <a href="#" class="site-section__contragent-link">
-              УЗТМ
-            </a>
-          </li>
-          <li class="site-section__table-list-item events-board-page__table-list-item">
-            <a href="#" class="btn btn--secondary site-section__action-link">
-              Перейти
-            </a>
-          </li>
     <li class="site-section__table-list-item site-section__table-list-item--options-btn events-board-page__table-list-item--options-btn" x-data="{toggleDeleteBtn:false}" x-on:click.outside="toggleDeleteBtn = false">
       <button type="button" class="site-section__table-list-item-options-btn events-board-page__table-list-item-options-btn" x-on:click="toggleDeleteBtn = !toggleDeleteBtn">
         <svg width="5" height="18" viewBox="0 0 4 18" fill="none" xmlns="http://www.w3.org/2000/svg">

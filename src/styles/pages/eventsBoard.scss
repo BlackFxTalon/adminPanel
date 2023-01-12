@@ -140,15 +140,8 @@ margin: 8px 0;
         display: none;
     }
 
-    &__table-list-caption-item.status {
-        @include media-extra-large() {
-            order: 1;
-        }
-    }
-
-    &__table-list-item--status-btn {
-        @include media-extra-large() {
-            order: 1;
-        }
+    &__table-list-item-link {
+        color: currentColor;
+        text-decoration: none;
     }
 }

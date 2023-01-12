@@ -47,7 +47,9 @@
                 </div>
         </li>
         <li class="site-section__table-list-item goods-page-chars-table__table-list-item" x-on:click="editGoodsPagePriceTablePopup = true">
+            <p class="goods-page-chars-table__text">
             Климатическое исполнение 
+            </p>
         </li>
         <li class="site-section__table-list-item goods-page-chars-table__table-list-item" x-on:click="editGoodsPagePriceTablePopup = true">
             УВ, УХЛ, У2
@@ -66,10 +68,10 @@
                 </button>
                 <ul class="site-section__choose-status-dropdown-list goods-page-chars-table__choose-status-dropdown-list" role="list" x-bind:class="{'active': toggleStatusDropdown === true}">
                    <li class="site-section__choose-status-dropdown-list-item">
-                      <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="">Импорт контактов из CSV</button>
+                      <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="toggleStatusDropdown = false">Импорт контактов из CSV</button>
                    </li>
                    <li class="site-section__choose-status-dropdown-list-item">
-                    <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="importCompanyCSVPopup = true">Импорт компании из CSV</button>
+                    <button class="site-section__choose-status-dropdown-list-item-btn" type="button" x-on:click="importCompanyCSVPopup = true;toggleStatusDropdown = false">Импорт компании из CSV</button>
                  </li>
                 </ul>
             </div>

@@ -16,12 +16,27 @@
             Настройка списка
         </h2>
     </div>
-    <div class="popup__body settings-popup__body">
+    <div class="popup__body settings-popup__body"
+    x-data="{
+        checkAllCheckboxes() {
+            const checkboxes = $el.querySelectorAll('.settings-popup__list-item-checkbox');
+            for (const checkbox of checkboxes) {
+                checkbox.checked = true;
+            }
+        },
+        uncheckAllCheckboxes() {
+            const checkboxes = $el.querySelectorAll('.settings-popup__list-item-checkbox');
+            for (const checkbox of checkboxes) {
+                checkbox.checked = false;
+            }
+        },
+    }"
+    >
         <fieldset class="settings-popup__fieldset settings-contragents-module-popup__fieldset btn-control-group">
-          <button type="button" class="settings-contragents-module-popup__select-all-btn" x-on:click="checkedState = true">
+          <button type="button" class="settings-contragents-module-popup__select-all-btn" x-on:click="checkAllCheckboxes">
             Выделить всё
           </button>
-          <button type="button" class="settings-contragents-module-popup__cancel-all-btn" x-on:click="checkedState = false">
+          <button type="button" class="settings-contragents-module-popup__cancel-all-btn" x-on:click="uncheckAllCheckboxes">
             Отменить всё
           </button>
         </fieldset>

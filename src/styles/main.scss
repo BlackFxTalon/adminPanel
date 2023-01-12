@@ -22,6 +22,8 @@
 
 @import "components/footerProfileMenu";
 
+@import "components/footerOptionsDropdown";
+
 @import "components/accountEnterPopup";
 
 @import "components/asideNavMenu";
@@ -109,6 +111,10 @@
 
 @import "components/contragentsPage/createTaskPopup";
 
+@import "components/contragentsPage/contragentsPageTable";
+
+@import "components/contragentsPage/editContragentPopupTableOffers";
+
 
 @import "pages/taskPage";
 
@@ -139,6 +145,8 @@
 
 @import "components/goodsPage/editCharsValueAltPopup";
 
+@import "components/goodsPage/addGoodPopupTableChars";
+
 
 @import "pages/feedbackPage";
 
@@ -166,6 +174,8 @@
 @import "components/usersPage/usersTable";
 
 @import "components/usersPage/inviteUserPopup";
+
+@import "components/usersPage/invitedUserAltPopup";
 
 @import "components/usersPage/inviteUserTable";
 

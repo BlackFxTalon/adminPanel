@@ -81,7 +81,9 @@
   }
 
   &__fieldset.main-top {
-    grid-template-columns: repeat(4,1fr);
+    @include media-extra-large() {
+        grid-template-columns: repeat(4,1fr);
+    } 
   }
 
   &__fieldset.main-top > * {

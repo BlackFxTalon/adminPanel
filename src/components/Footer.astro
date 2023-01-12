@@ -3,9 +3,10 @@ import FooterMobileMenu from "../components/FooterMobileMenu.astro";
 import AccountEnterPopup from "../components/AccountEnterPopup.astro";
 import AuthRegPopup from "./AuthRegPopup.astro";
 import FooterProfileMenu from "./FooterProfileMenu.astro";
+import FooterOptionsDropdown from "./FooterOptionsDropdown.astro";
 ---
 
-<footer class="footer" x-data="{footerMobileMenu:false, accountEnterPopup: false, footerProfileMenuPopup: false }">
+<footer class="footer" x-data="{footerMobileMenu:false, accountEnterPopup: false, footerProfileMenuPopup: false, footerOptionsDropdown: false }" x-on:click.outside="footerOptionsDropdown = false">
     <div class="container footer__container">
     <button type="button" class="footer__hamb-btn" x-on:click="footerMobileMenu = !footerMobileMenu" x-bind:class="{'active': footerMobileMenu === true}">
         <span></span>         
@@ -14,7 +15,7 @@ import FooterProfileMenu from "./FooterProfileMenu.astro";
     </button>
     <ul class="footer__right" role="list">
         <li class="footer__right-item">
-            <button type="button" class="footer__add-options-btn">
+            <button type="button" class="footer__add-options-btn" x-on:click="footerOptionsDropdown = !footerOptionsDropdown">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.9993 1.66663V20.3333M1.66602 11H20.3327" stroke="#869AB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                            
@@ -51,6 +52,7 @@ import FooterProfileMenu from "./FooterProfileMenu.astro";
     <FooterMobileMenu></FooterMobileMenu>
     <FooterProfileMenu></FooterProfileMenu>
     <AccountEnterPopup></AccountEnterPopup>
+    <FooterOptionsDropdown></FooterOptionsDropdown>
 </footer>
 
 <AuthRegPopup></AuthRegPopup>

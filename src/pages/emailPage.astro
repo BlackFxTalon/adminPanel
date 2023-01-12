@@ -12,7 +12,7 @@ import SettingsEmailPageListPopup from "../components/emailPage/SettingsEmailPag
 ---
 
 <Layout title="страница Почта">
-    <section class="site-section email-page__site-section" x-data="{ addNewFilterPopup: false, searchBtnDropdown: false, newMessagePopup: false, editMessagePopup: false, settingsEmailPageListPopup: false, viewSettingsPopup: false }">
+    <section class="site-section email-page__site-section" x-data="{ addNewFilterPopup: false, searchBtnDropdown: false, newMessagePopup: false, editMessagePopup: false, settingsEmailPageListPopup: false, viewSettingsPopup: false, toggleEmailBtn: false }">
         <div class="site-section__top-row email-page__top-row">
             <div class="email-page__top-row-left">
                 <div class="site-section__choose-status-dropdown-wrapper" x-data="{toggleStatusDropdown: false}" x-on:click.outside="toggleStatusDropdown = false">
@@ -73,17 +73,15 @@ import SettingsEmailPageListPopup from "../components/emailPage/SettingsEmailPag
                </div>
         </div>
         <div class="email-page__bottom-row">
-            <h2 class="site-section__title email-page__title"> Входящие</h2>
-            <button type="button" class="email-page__toggle-email-type-btn">
-                Переключить на исходящие
+            <h2 class="site-section__title email-page__title" x-text="toggleEmailBtn === false ? 'Входящие' : 'Исходящие'"></h2>
+            <button type="button" class="email-page__toggle-email-type-btn" x-on:click="toggleEmailBtn = !toggleEmailBtn" x-text="toggleEmailBtn === false ? 'Переключить на исходящие' : 'Переключить на входящие'">
             </button>
         </div>
         <div class="site-section__body email-page__body">
           <div class="email-page__body-top">
             <div class="email-page__body-top-left">
-              <h2 class="site-section__title email-page__title"> E-mail: Входящие</h2>
-            <button type="button" class="email-page__toggle-email-type-btn">
-                Переключить на исходящие
+              <h2 class="site-section__title email-page__title" x-text="toggleEmailBtn === false ? 'E-mail: Входящие' : 'E-mail: Исходящие'"></h2>
+            <button type="button" class="email-page__toggle-email-type-btn" x-on:click="toggleEmailBtn = !toggleEmailBtn" x-text="toggleEmailBtn === false ? 'Переключить на исходящие' : 'Переключить на входящие'">
             </button>
             </div>
             <div class="email-page__body-top-right">

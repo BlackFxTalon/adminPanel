@@ -170,5 +170,7 @@ color: var(--dark-grey);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: currentColor;
+    text-decoration: none;
 }
 }

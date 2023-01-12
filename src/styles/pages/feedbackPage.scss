@@ -711,6 +711,10 @@ color: var(--grey600);
 align-self: flex-start;
     }
 
+    &__direct-chat-message-reply-panel-submit-btn.disabled {
+        pointer-events: none;
+    }
+
     &__direct-chat-window-bottom {
         display: none;
 

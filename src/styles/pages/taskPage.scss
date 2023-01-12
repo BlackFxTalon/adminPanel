@@ -297,6 +297,56 @@ color: var(--gray100);
     line-height: 18px;
     }
 
+    &__group-btn-wrapper {
+        position: relative;
+    }
+
+    &__group-btn-dropdown {
+        background-color: var(--gray100);
+        border: 1px solid var(--grey-color);
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s ease-in-out;
+        position: absolute;
+        left: -4rem;
+        max-width: 200px;
+        top: 40px;
+        box-shadow: 0px 4px 8px rgba(73, 80, 87, 0.15);
+        border-radius: 4px;
+        z-index: 99;
+    }
+
+    &__group-btn-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__group-btn-dropdown-list {
+        padding: 16px;
+        margin: 0;
+        display: grid;
+        gap: 16px;
+    }
+
+    &__group-btn-dropdown-list-item.active {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr max-content;
+        gap: 8px;
+    }
+
+    &__group-btn-dropdown-list-item-input {
+        font-family: 'Inter',sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18px;
+        transition: .3s ease-in-out;
+    }
+
+    &__group-btn-dropdown-list-item-input.active {
+        color: var(--primary);
+    }
+
     &__group-btn {
         height: 32px;
             font-weight: 600;
@@ -306,7 +356,6 @@ color: var(--primary);
 padding:0 12px;
 
 @include media-extra-large() {
-    max-width: 142px;
     display: grid;
     grid-template-columns: repeat(2,max-content);
     gap: 12px;
@@ -321,10 +370,12 @@ padding:0 12px;
     }
 
     &__group-btn-title {
-        max-width: 10ch;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        @include media-custom-max(1199px) {
+            max-width: 10ch;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
 
     &__table-list-remove-btn {

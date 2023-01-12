@@ -7,6 +7,8 @@ import SearchBtn from "../components/SearchBtn.astro";
 import SearchBtnDropdown from "../components/SearchBtnDropdown.astro";
 import Filter from "../components/Filter.astro";
 import ContragentsPageTable from "../components/contragentsPage/ContragentsPageTable.astro";
+import ContragentsPageTableCompanies from "../components/contragentsPage/ContragentsPageTableCompanies.astro";
+import ContragentsPageTableContacts from "../components/contragentsPage/ContragentsPageTableContacts.astro";
 import SettingsContragentsModulePopup from "../components/contragentsPage/SettingsContragentsModulePopup.astro";
 import CreateContragentPopup from "../components/contragentsPage/CreateContragentPopup.astro";
 import ImportCompanyCSVPopup from "../components/contragentsPage/ImportCompanyCSVPopup.astro";
@@ -205,7 +207,7 @@ import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro
                 </button>
               </div>    
             </div>
-            <ContragentsPageTable></ContragentsPageTable>
+            <ContragentsPageTableCompanies></ContragentsPageTableCompanies>
             <ul role="list" class="pagination orders__pagination">
               <Pagination></Pagination>
             </ul>
@@ -301,7 +303,7 @@ import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro
                 </button>
               </div>    
             </div>
-            <ContragentsPageTable></ContragentsPageTable>
+            <ContragentsPageTableContacts></ContragentsPageTableContacts>
             <ul role="list" class="pagination orders__pagination">
               <Pagination></Pagination>
             </ul>

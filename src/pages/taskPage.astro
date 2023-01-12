@@ -69,15 +69,39 @@ import EditTaskPopup from "../components/taskPage/EditTaskPopup.astro";
                 </div>
                 <SearchForm></SearchForm>
                 <Filter></Filter>
-                <button type="button" class="btn btn--secondary task-page__group-btn" x-data="{toggleBtn: false}" x-on:click="toggleBtn = !toggleBtn" x-bind:class="{'active': toggleBtn === true }">
+                <div class="task-page__group-btn-wrapper" x-data="{toggleDropdown: false, inputVal: 'Группировка' }" x-on:click.outside="toggleDropdown = false">
+                <button type="button" class="btn btn--secondary task-page__group-btn" x-on:click="toggleDropdown = !toggleDropdown" x-bind:class="{'active': toggleDropdown === true }">
                     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1H17M1 7H17M1 13H13" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg> 
-                 <p class="task-page__group-btn-title" x-show="toggleBtn === true">По контрагентам</p>
-                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-icon-close" x-show="toggleBtn === true">
+                 <p class="task-page__group-btn-title" x-show="toggleDropdown === true" x-text="inputVal"></p>
+                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-icon-close" x-show="toggleDropdown === true">
                     <path d="M9 1L1 9M1 1L9 9" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                  </svg> 
                 </button>
+                 <div class="task-page__group-btn-dropdown" x-bind:class="{'active': toggleDropdown === true }">
+                    <ul role="list" class="task-page__group-btn-dropdown-list">
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По контрагентам'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По контрагентам';toggleDropdown = false" value="По контрагентам" x-bind:class="{'active': inputVal === 'По контрагентам'}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По контрагентам'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По ответственным'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По ответственным';toggleDropdown = false" value="По ответственным" x-bind:class="{'active': inputVal === 'По ответственным'}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По ответственным'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По статусу'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По статусу';toggleDropdown = false" value="По статусу " x-bind:class="{'active': inputVal === 'По статусу '}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По статусу'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                    </ul>
+                 </div>
+                </div>
               </div>    
           </div>
           <div class="site-section__body-bottom task-page__body-bottom desktop">
@@ -85,12 +109,36 @@ import EditTaskPopup from "../components/taskPage/EditTaskPopup.astro";
                 <SearchForm></SearchForm>
                 <Filter></Filter>
             </div>
-            <button type="button" class="btn btn--secondary task-page__group-btn">
-                <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1H17M1 7H17M1 13H13" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>  
-                    Группировка                       
-            </button>
+            <div class="task-page__group-btn-wrapper" x-data="{toggleDropdown: false, inputVal: 'Группировка' }" x-on:click.outside="toggleDropdown = false">
+                <button type="button" class="btn btn--secondary task-page__group-btn" x-on:click="toggleDropdown = !toggleDropdown">
+                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1H17M1 7H17M1 13H13" stroke="#7C69EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg> 
+                 <p class="task-page__group-btn-title" x-text="inputVal"></p>
+                </button>
+                 <div class="task-page__group-btn-dropdown" x-bind:class="{'active': toggleDropdown === true }">
+                    <ul role="list" class="task-page__group-btn-dropdown-list">
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По контрагентам'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По контрагентам';toggleDropdown = false" value="По контрагентам" x-bind:class="{'active': inputVal === 'По контрагентам'}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По контрагентам'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По ответственным'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По ответственным';toggleDropdown = false" value="По ответственным" x-bind:class="{'active': inputVal === 'По ответственным'}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По ответственным'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                        <li class="task-page__group-btn-dropdown-list-item" x-bind:class="{'active': inputVal === 'По статусу'}">
+                            <input type="text" readonly class="task-page__group-btn-dropdown-list-item-input" x-on:click="inputVal = 'По статусу';toggleDropdown = false" value="По статусу " x-bind:class="{'active': inputVal === 'По статусу '}">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="task-page__group-btn-dropdown-list-item-close-icon" x-show="inputVal === 'По статусу'" x-on:click="inputVal = 'Группировка';toggleDropdown = false">
+                                <path d="M9 1L1 9M1 1L9 9" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> 
+                        </li>
+                    </ul>
+                 </div>
+            </div>
           </div>
             <ul role="list" class="task-page__status-tabs">
                 <li class="task-page__status-tabs-item">

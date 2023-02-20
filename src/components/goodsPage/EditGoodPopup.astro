@@ -105,7 +105,7 @@
                     Добавить файлы с сервера                  
               </button>
             </fieldset>
-            <fieldset class="edit-good-popup__fieldset overall-right">
+            <fieldset class="edit-good-popup__fieldset overall-right" x-data="{tagLists: []}">
                 <ul role="list" class="edit-good-popup__overall-list">
                     <li class="edit-good-popup__overall-list-item cols-2">
                         <span class="edit-good-popup__overall-list-item-title">Тип товара</span>
@@ -124,41 +124,26 @@
                         <span class="edit-good-popup__overall-list-item-info alt">Да</span>
                     </li>
                  </ul>
-                 <ul role="list" class="popup__tags-list edit-good-popup__tags-list" x-ref="popupTagsList">
+                 <ul role="list" class="popup__tags-list edit-good-popup__tags-list">
+                    <template x-for="tagList in tagLists">
+                        <li class="popup__tags-list-item edit-good-popup__tags-list-item">
+                            <button type="button" class="popup__tags-list-item-btn edit-good-popup__tags-list-item-btn" x-text="tagList.name">
+                            </button>
+                        </li>
+                    </template>
                  </ul>
                  <div class="popup__add-tags-btn-wrapper edit-good-popup__add-tags-btn-wrapper" x-data="{toggleDropdown: false }">
                  <button type="button" class="popup__add-tags-btn edit-good-popup__add-tags-btn" x-on:click="toggleDropdown = !toggleDropdown">Добавить тег</button>
                  <div class="popup__add-tags-dropdown edit-good-popup__add-tags-dropdown" x-bind:class="{'active': toggleDropdown === true }">
                     <ul role="list" class="popup__add-tags-dropdown-list edit-good-popup__add-tags-dropdown-list">
                        <li class="popup__add-tags-dropdown-list-item edit-good-popup__add-tags-dropdown-list-item">
-                         <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="CEO" x-on:click='toggleDropdown = false;  
-                         $refs.popupTagsList.insertAdjacentHTML("beforeEnd", 
-                         `<li class="popup__tags-list-item edit-good-popup__tags-list-item">
-                            <button type="button" class="popup__tags-list-item-btn edit-good-popup__tags-list-item-btn">
-                                СЕО
-                            </button>
-                        </li>`)
-                         '>
+                         <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="CEO" x-on:click="toggleDropdown = false;tagLists.push({name:$el.value})">
                        </li>
                        <li class="popup__add-tags-dropdown-list-item edit-good-popup__add-tags-dropdown-list-item">
-                        <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="Дизайн" x-on:click='toggleDropdown = false;  
-                        $refs.popupTagsList.insertAdjacentHTML("beforeEnd", 
-                        `<li class="popup__tags-list-item edit-good-popup__tags-list-item">
-                           <button type="button" class="popup__tags-list-item-btn edit-good-popup__tags-list-item-btn">
-                            Дизайн
-                           </button>
-                       </li>`)
-                        '>
+                        <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="Дизайн" x-on:click="toggleDropdown = false;tagLists.push({name:$el.value})">
                       </li>
                       <li class="popup__add-tags-dropdown-list-item edit-good-popup__add-tags-dropdown-list-item">
-                        <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="Проектировка" x-on:click='toggleDropdown = false;  
-                        $refs.popupTagsList.insertAdjacentHTML("beforeEnd", 
-                        `<li class="popup__tags-list-item edit-good-popup__tags-list-item">
-                           <button type="button" class="popup__tags-list-item-btn edit-good-popup__tags-list-item-btn">
-                            Проектировка
-                           </button>
-                       </li>`)
-                        '>
+                        <input type="text" class="popup__add-tags-dropdown-list-item-input edit-good-popup__add-tags-dropdown-list-item-input" readonly value="Проектировка" x-on:click="toggleDropdown = false;tagLists.push({name:$el.value})">
                       </li>
                     </ul>
                     <input type="text" class="popup__add-tags-dropdown-search-input edit-good-popup__add-tags-dropdown-search-input">

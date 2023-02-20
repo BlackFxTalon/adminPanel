@@ -17,9 +17,10 @@ import NormalizeDataPopup from "../components/contragentsPage/NormalizeDataPopup
 import EditEventPopup from "../components/contragentsPage/EditEventPopup.astro";
 import CreateEventPopup from "../components/contragentsPage/CreateEventPopup.astro";
 import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro";
+import RemindAltPopup from "../components/contragentsPage/RemindAltPopup.astro";
 ---
 <Layout title="страница Контрагенты">
-  <section class="site-section contragents-page__site-section" x-data="{table: 1, settingsContragentsModulePopup: false, importCompanyCSVPopup: false,addNewFilterPopup: false, createContragentPopup: false, editContragentPopup: false, normalizeDataPopup: false, editContragentEventPopup: false, createEventPopup:false, createTaskPopup: false, searchBtnDropdown: false}">
+  <section class="site-section contragents-page__site-section" x-data="{table: 1, settingsContragentsModulePopup: false, importCompanyCSVPopup: false,addNewFilterPopup: false, createContragentPopup: false, editContragentPopup: false, normalizeDataPopup: false, editContragentEventPopup: false, createEventPopup:false, createTaskPopup: false, searchBtnDropdown: false, remindAltPopup: false, remindListItems: [], remindResultInputValDate: 'Дате', remindResultInputValDate2: '', remindResultInputValResp: 'Ответственному'}">
     <TableTabs></TableTabs>
     <div class="site-section__tab-wrapper" x-show="table === 1">
     <div class="site-section__top-row contragents-page__top-row mobile">
@@ -317,5 +318,6 @@ import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro
     <EditEventPopup></EditEventPopup>
     <CreateEventPopup></CreateEventPopup>
     <CreateTaskPopup></CreateTaskPopup>
+    <RemindAltPopup></RemindAltPopup>
   </section>
 </Layout>

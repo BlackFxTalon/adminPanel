@@ -1763,6 +1763,10 @@ color: var(--dark-grey);
   color: var(--danger);
 }
 
+&__choose-status-dropdown-list-item-btn {
+  text-decoration: none;
+}
+
 &__choose-status-dropdown-list-item-btn.delete {
   color: var(--danger);
 }

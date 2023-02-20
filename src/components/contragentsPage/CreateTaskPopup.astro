@@ -30,7 +30,7 @@
     <div class="popup__body create-task-popup__body" x-data="dropInputFiler">
         <div class="create-task-popup__body-wrapper main" x-show="table === 1" x-data="{ createTaskPopupCheckList: false, 
         createTaskPopupSubtaskList: false,
-        createTaskPopupCheckListProgress: false, taskCreatorType1: false, taskCreatorType2: false, taskCreatorType3: false, totalCheckBoxPercentageSum: '',
+        createTaskPopupCheckListProgress: false, taskCreatorType1: false, taskCreatorType2: false, taskCreatorType3: false, totalCheckBoxPercentageSum: 0,
         totalSubtaskPercentageSum: '',
         checkListCheckBoxes: {percentage1: false, percentage2: false, percentage3: false},
         subtaskCheckBoxes: {percentage1: false, percentage2: false, percentage3: false}
@@ -59,8 +59,10 @@
             subtaskCheckBoxes.percentage3 = 33
         } 
         });
+        $watch('totalCheckBoxPercentageSum', 
+        value => console.log(value));
         "
-        x-effect="totalCheckBoxPercentageSum = checkListCheckBoxes.percentage1 + checkListCheckBoxes.percentage2 + checkListCheckBoxes.percentage3; totalSubtaskPercentageSum = subtaskCheckBoxes.percentage1 + subtaskCheckBoxes.percentage2 + subtaskCheckBoxes.percentage3"
+        x-effect="totalCheckBoxPercentageSum = Math.ceil(checkListCheckBoxes.percentage1 + checkListCheckBoxes.percentage2 + checkListCheckBoxes.percentage3); totalSubtaskPercentageSum = subtaskCheckBoxes.percentage1 + subtaskCheckBoxes.percentage2 + subtaskCheckBoxes.percentage3"
         >
             <fieldset class="create-task-popup__fieldset main-top m-b b-b">
             <div class="create-task-popup__form-control-group task-name">
@@ -125,10 +127,9 @@
              <div class="create-task-popup__check-list-progress-wrapper">
                 <button type="button" class="create-task-popup__add-check-list-btn" x-on:click="createTaskPopupCheckList = true;createTaskPopupCheckListProgress = true" x-text="createTaskPopupCheckList === true ? 'Чек-лист' : 'Добавить чек-лист'" x-bind:class="{'active': createTaskPopupCheckList === true }">Добавить чек-лист</button>
                 <div class="create-task-popup__check-list-progress" x-show="createTaskPopupCheckListProgress === true">
-                    <span class="create-task-popup__progress-percentage" x-text="`${totalCheckBoxPercentageSum}%`" x-ref="checkListProgressPercentageCount" x-init="$nextTick(() => { if($el.innerText === '99%') {console.log($el.innerText)} })"></span>
+                    <span class="create-task-popup__progress-percentage" x-text="`${totalCheckBoxPercentageSum}%`" x-ref="checkListProgressPercentageCount"></span>
                     <div class="create-task-popup__progress-bar-wrapper">
-                        <div class="create-task-popup__progress-bar" x-bind:style="`width: ${totalCheckBoxPercentageSum}%`" x-ref="checkListProgressBar" x-init="$watch('$refs.checkListProgressBar', 
-                        value => value.style.width === '99%' ? value.style.width = '100%': '');"></div>
+                        <div class="create-task-popup__progress-bar" x-bind:style="`width: ${totalCheckBoxPercentageSum}%`" x-ref="checkListProgressBar"></div>
                     </div>
                 </div>
             </div>

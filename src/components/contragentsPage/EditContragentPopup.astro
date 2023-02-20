@@ -330,24 +330,60 @@ x-data="{
                     <p class="edit-contragent-popup__overall-group-info">
                         Телефон
                     </p>
-                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper disabled overall-group" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Добавить телефон'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
-                        <input type="text" class="edit-contragent-popup__form-control-select-result-input overall-group-title" value="Добавить телефон" readonly x-model="resultInputVal">
-                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}" x-show="toggleOverallGroupFieldElems === true">
-                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
-                          <li class="edit-contragent-popup__form-control-select-list-item">
-                            <input type="text" value="Добавить телефон" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Добавить телефон'">
-                          </li>
-                          <li class="edit-contragent-popup__form-control-select-list-item">
-                            <input type="text" value="+7 (999)999-99" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+7 (999)999-99'">
-                          </li>
-                          <li class="edit-contragent-popup__form-control-select-list-item">
-                            <input type="text" value="+7 (999)999-98" readonly class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+7 (999)999-98'">
-                          </li>
+                    <div class="edit-contragent-popup__form-control-wrapper edit-contragent-popup__form-control-select-wrapper edit-contragent-popup__tel-wrapper overall-group" x-data="{telLists:[]}">
+                        <ul role="list" class="edit-contragent-popup__tel-list">
+                            <template x-for="telList in telLists">
+                                <li class="edit-contragent-popup__tel-list-item">
+                                <div class="edit-contragent-popup__form-control-tel-wrapper">
+                                    <div class="edit-contragent-popup__form-control-select-wrapper tel-wrapper-1" x-data="{toggleArrow: true, toggleSelectList: false, resultInputVal: '+86'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                                      <input type="text" class="edit-contragent-popup__form-control-select-result-input" name="form-control-select-result-input" value="+86" readonly="" x-model="resultInputVal">
+                                      <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
+                                      <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                                        <li class="edit-contragent-popup__form-control-select-list-item">
+                                          <input type="text" value="+86" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+86'">
+                                        </li>
+                                        <li class="edit-contragent-popup__form-control-select-list-item">
+                                          <input type="text" value="+87" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+87'">
+                                        </li>
+                                        <li class="edit-contragent-popup__form-control-select-list-item">
+                                          <input type="text" value="+7" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = '+7'">
+                                        </li>
+                                      </ul>
+                                      </div>
+                                      <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}">
+                                        <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>                  
+                                    </div>
+                                    <input class="edit-contragent-popup__form-control-tel-input" x-mask="999-99-99-99" placeholder="Номер">
+                                    <div class="edit-contragent-popup__form-control-select-wrapper tel-wrapper-2" x-data="{toggleArrow: true, toggleSelectList: true, resultInputVal: 'Рабочий'}" x-on:click="toggleArrow = !toggleArrow;toggleSelectList = !toggleSelectList" x-on:click.outside="toggleArrow = false;toggleSelectList = false">
+                                        <input type="text" class="edit-contragent-popup__form-control-select-result-input" name="form-control-select-result-input" value="Рабочий" readonly="" x-model="resultInputVal">
+                                        <div class="edit-contragent-popup__form-control-dropdown" x-bind:class="{'active': toggleSelectList === true}">
+                                        <ul role="list" class="edit-contragent-popup__form-control-select-list">
+                                          <li class="edit-contragent-popup__form-control-select-list-item">
+                                            <input type="text" value="Рабочий" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Рабочий'">
+                                          </li>
+                                          <li class="edit-contragent-popup__form-control-select-list-item">
+                                            <input type="text" value="Сотовый" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Сотовый'">
+                                          </li>
+                                          <li class="edit-contragent-popup__form-control-select-list-item">
+                                            <input type="text" value="Другое" readonly="" class="edit-contragent-popup__form-control-select-list-item-input" x-on:click="resultInputVal = 'Другое'">
+                                          </li>
+                                        </ul>
+                                        </div>
+                                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}">
+                                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          </svg>                  
+                                    </div>
+                                </div>
+                                <button type="button" class="edit-contragent-popup__delete-tel-list-btn" x-on:click="telLists = telLists.filter(i => i !== telList)">
+                                    <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 5H17M7 9V15M11 9V15M2 5L3 17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19H13C13.5304 19 14.0391 18.7893 14.4142 18.4142C14.7893 18.0391 15 17.5304 15 17L16 5M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H11C11.2652 1 11.5196 1.10536 11.7071 1.29289C11.8946 1.48043 12 1.73478 12 2V5" stroke="#859AB9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>            
+                                </button>
+                            </li>
+                            </template>
                         </ul>
-                        </div>
-                        <svg class="edit-contragent-popup__form-control-select-arrow" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg" x-bind:class="{'active': toggleArrow === true}" x-show="toggleOverallGroupFieldElems === true">
-                          <path d="M1 1L7 7L13 1" stroke="#495057" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>                  
+                        <button type="button" class="edit-contragent-popup__add-tel-btn" x-on:click="telLists.push({})">Добавить телефон</button>        
                     </div>
                 </div>
             </fieldset>

@@ -1,4 +1,4 @@
-.remind-alt-popup {
+.regular-tasks-alt-popup {
 
     &__title {
         padding-bottom: 0;
@@ -7,12 +7,6 @@
     &__content {
         max-height: 100%;
         height: auto;
-    }
-
-    &__top-row {
-        border-bottom: 1px solid var(--grey-color);
-        padding-bottom: 16px;
-        margin-bottom: 16px;
     }
 
    &__fieldset {
@@ -24,24 +18,6 @@
       border-bottom: 1px solid var(--grey-color);
    }
 
-   &__grid-top {
-    display: grid;
-    align-items: center;
-    gap: 8px;
-   }
-
-   &__grid-top.two-cols-date {
-    grid-template-columns: 92px 1fr;
-   }
-
-   &__grid-top.two-cols-datestart {
-    grid-template-columns: repeat(2,1fr);
-   }
-
-   &__grid-top.three-cols {
-    grid-template-columns: 1fr 40px 58px;
-   }
-
    &__form-control-group {
     display: grid;
     gap: 8px;
@@ -49,6 +25,13 @@
     @include media-extra-large() {
         gap: 16px;
     }
+  }
+
+  &__form-control-group-title {
+    font-weight: 600;
+font-size: 16px;
+line-height: 18px;
+color: var(--dark);
   }
 
  &__form-control-wrapper {

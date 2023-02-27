@@ -294,6 +294,19 @@ select:focus-within {
    cursor: not-allowed;
 }
 
+.btn--success {
+  background-color: var(--green);
+  color: var(--gray100);
+  border: 1px solid var(--green);
+}
+
+.btn--success:disabled,
+.btn--success.disabled {
+   opacity: .2;
+   pointer-events: none;
+   cursor: not-allowed;
+}
+
 .popup {
   position: fixed;
   z-index: 999;

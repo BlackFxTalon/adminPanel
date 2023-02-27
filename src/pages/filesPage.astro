@@ -17,9 +17,13 @@ import DocumentFlowAddFolderAltPopup from "../components/filesPage/DocumentFlowA
 import EditContragentPopup from "../components/contragentsPage/EditContragentPopup.astro";
 import SettingsOrderListPopup from "../components/SettingsOrderListPopup.astro";
 import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro";
+import NormalizeDataPopup from "../components/contragentsPage/NormalizeDataPopup.astro";
+import CreateOfferPopup from "../components/financesPage/CreateOfferPopup.astro";
+import CreateEventPopup from "../components/contragentsPage/CreateEventPopup.astro";
+import NewMessagePopup from "../components/emailPage/NewMessagePopup.astro";
 ---
 <Layout title="страница Файлы">
-  <section class="site-section files-page__site-section" x-data="{table: 1, searchBtnDropdown: false, transferSectionsAltPopup: false, editActionsAltPopup: false, addPassportFolderAltPopup: false, documentFlowAddFolderAltPopup: false, editContragentPopup: false, settingsOrderListPopup: false, createTaskPopup: false }">
+  <section class="site-section files-page__site-section" x-data="{table: 1, searchBtnDropdown: false, transferSectionsAltPopup: false, editActionsAltPopup: false, addPassportFolderAltPopup: false, documentFlowAddFolderAltPopup: false, editContragentPopup: false, settingsOrderListPopup: false, createTaskPopup: false, normalizeDataPopup: false, createOfferPopup: false, createEventPopup: false, newMessagePopup: false }">
     <TableTabs></TableTabs>
     <div class="site-section__tab-wrapper" x-show="table === 1" x-data="{toggleView: 'tableList'}">
     <div class="site-section__top-row files-page__top-row desktop-hide">
@@ -571,6 +575,10 @@ import CreateTaskPopup from "../components/contragentsPage/CreateTaskPopup.astro
     <EditContragentPopup></EditContragentPopup>
     <SettingsOrderListPopup></SettingsOrderListPopup>
     <CreateTaskPopup></CreateTaskPopup>
+    <NormalizeDataPopup></NormalizeDataPopup>
+    <CreateOfferPopup></CreateOfferPopup>
+    <CreateEventPopup></CreateEventPopup>
+    <NewMessagePopup></NewMessagePopup>
   </section>
 </Layout>
 

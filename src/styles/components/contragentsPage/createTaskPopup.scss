@@ -141,7 +141,7 @@
      gap: 19px;
 
      @include media-extra-large() {
-        grid-template-columns: 673px 1fr;
+        grid-template-columns: 4fr 1fr;
      }
   }
 
@@ -481,6 +481,11 @@ color: var(--dark);
     min-width: 213px;
 }
 
+&__attach-files-list-wrapper {
+    display: grid;
+    gap: 8px;
+}
+
 &__attach-files-list {
     display: grid;
     gap: 8px;
@@ -489,8 +494,10 @@ color: var(--dark);
 
     @include media-extra-large() {
         grid-column: span 4;
-        grid-template-columns: repeat(2,max-content);
         gap: 20px;
+        grid-gap: 20px;
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
@@ -1208,6 +1215,25 @@ color: var(--dark-grey);
 &__add-tags-dropdown {
     @include media-extra-large() {
         bottom: -170px;
+    }
+}
+
+&__subtask-groups-wrapper {
+    display: grid;
+    gap: 20px;
+
+    @include media-extra-large() {
+        grid-template-columns: 0.8fr 1fr;
+        
+    }
+}
+
+&__subtask-btns-wrapper {
+    display: grid;
+    gap: 20px;
+
+    @include media-extra-large() {
+        grid-template-columns: repeat(2,max-content);
     }
 }
 

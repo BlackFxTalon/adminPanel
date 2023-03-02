@@ -2,7 +2,7 @@
 
 <code>git clone https://github.com/BlackFxTalon/adminPanel</code>
 
-## 🧞 Commands
+## 🧞 Commands  
 
 All commands are run from the root of the project, from a terminal:
 

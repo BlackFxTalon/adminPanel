@@ -1,0 +1,16 @@
+{
+  "name": "@admin-panel/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project tsconfig.json --outDir dist --declaration",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --config ../../packages/eslint-config/node.mjs src --max-warnings 0"
+  },
+  "devDependencies": {
+    "@admin-panel/eslint-config": "workspace:*",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,15 +1,30 @@
 {
-  "name": "@example/minimal",
+  "name": "@admin-panel/astro-reference",
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "dev": "pnpm --filter @admin-panel/web dev",
+    "dev:astro": "astro dev",
+    "start": "pnpm --filter @admin-panel/web dev",
+    "build": "pnpm run build:shared && pnpm run build:web && pnpm run build:api && pnpm run build:astro",
+    "build:shared": "pnpm --filter @admin-panel/contracts build",
+    "build:web": "pnpm --filter @admin-panel/web build",
+    "build:api": "pnpm --filter @admin-panel/api build",
+    "build:astro": "astro build",
+    "preview": "pnpm --filter @admin-panel/web preview",
     "astro": "astro",
-    "lint:scss": "stylelint 'src/**/*.{astro,scss}'"
+    "typecheck": "pnpm --filter @admin-panel/contracts typecheck && pnpm --filter @admin-panel/web typecheck && pnpm --filter @admin-panel/api typecheck",
+    "lint": "pnpm --filter @admin-panel/contracts lint && pnpm --filter @admin-panel/web lint && pnpm --filter @admin-panel/api lint",
+    "lint:scss": "stylelint 'src/**/*.{astro,scss}'",
+    "test": "pnpm run test:unit && pnpm run test:component",
+    "test:unit": "pnpm --filter @admin-panel/web test:unit",
+    "test:component": "pnpm --filter @admin-panel/web test:component",
+    "test:e2e": "pnpm --filter @admin-panel/web test:e2e"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.10.5",

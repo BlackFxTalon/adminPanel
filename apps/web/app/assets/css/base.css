@@ -1,0 +1,60 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  background: var(--color-surface-subtle);
+}
+
+body {
+  min-width: 20rem;
+  margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.dashboard-page,
+.migration-placeholder {
+  max-width: 48rem;
+  padding: var(--space-7);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.dashboard-page__eyebrow,
+.migration-placeholder__eyebrow {
+  margin-block: 0 var(--space-2);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboard-page h1,
+.migration-placeholder h1 {
+  margin-block: 0 var(--space-4);
+  font-size: var(--font-size-2xl);
+}
+
+.dashboard-page p:last-child,
+.migration-placeholder p:last-child {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: var(--line-height-body);
+}

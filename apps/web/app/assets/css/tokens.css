@@ -1,0 +1,52 @@
+:root {
+  /* Color */
+  --color-primary: #7c69ef;
+  --color-primary-soft: #e9e6fc;
+  --color-brand: #869ab8;
+  --color-text: #161c2d;
+  --color-text-muted: #495057;
+  --color-surface: #f9fbfd;
+  --color-surface-subtle: #f1f4f8;
+  --color-navigation: #d9e2ef;
+  --color-navigation-hover: #eceff3;
+  --color-border: #d5d8ea;
+  --color-border-strong: #869ab8;
+  --color-danger: #df4759;
+
+  /* Typography */
+  --font-family-sans: "Source Sans Pro", "Segoe UI", sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-2xl: clamp(1.75rem, 4vw, 2.5rem);
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-body: 1.6;
+
+  /* Spacing */
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+
+  /* Radius and elevation */
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --shadow-card: 0 0.75rem 2.5rem rgb(23 32 51 / 8%);
+
+  /* Layering */
+  --z-sticky: 20;
+  --z-overlay: 100;
+  --z-toast: 200;
+
+  /* Breakpoints (documentation tokens; mirrored in media queries) */
+  --breakpoint-mobile: 48rem;
+  --breakpoint-desktop: 75rem;
+
+  /* Motion */
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 250ms;
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}

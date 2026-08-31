@@ -1,21 +1,32 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 import { primaryNavigationGroups } from '../navigation/route-intent'
+import OverlayHost from '../overlays/OverlayHost.vue'
+import { provideOverlayLifecycle } from '../overlays/overlay-context'
+import { createOverlayLifecycle } from '../overlays/overlay-lifecycle'
 
-defineProps<{ sessionError?: string | null, userName?: string }>()
+const props = defineProps<{ routeKey?: string, sessionError?: string | null, userName?: string }>()
 defineEmits<{ logout: [] }>()
 
 const hydrated = ref(false)
+const overlayLifecycle = createOverlayLifecycle()
+const overlayIsActive = overlayLifecycle.isActive
+provideOverlayLifecycle(overlayLifecycle)
 
 onMounted(() => {
   hydrated.value = true
+})
+
+watch(() => props.routeKey, (routeKey, previousRouteKey) => {
+  if (previousRouteKey !== undefined && routeKey !== previousRouteKey) overlayLifecycle.clear()
 })
 </script>
 
 <template>
   <div class="app-shell">
-    <header class="app-shell__header">
+    <div class="app-shell__background" :inert="overlayIsActive">
+      <header class="app-shell__header">
       <NuxtLink
         class="app-shell__brand"
         data-testid="product-name"
@@ -26,10 +37,10 @@ onMounted(() => {
       <div class="app-shell__account">
         <span v-if="userName" class="app-shell__environment">{{ userName }}</span>
       </div>
-    </header>
+      </header>
 
-    <div class="app-shell__workspace">
-      <aside class="app-shell__sidebar">
+      <div class="app-shell__workspace">
+        <aside class="app-shell__sidebar">
         <nav aria-label="Основная навигация">
           <ul
             v-for="(group, index) in primaryNavigationGroups"
@@ -59,18 +70,24 @@ onMounted(() => {
             </li>
           </ul>
         </nav>
-      </aside>
+        </aside>
 
-      <main class="app-shell__content">
-        <p v-if="sessionError" class="app-shell__session-error" role="alert">{{ sessionError }}</p>
-        <slot />
-      </main>
+        <main class="app-shell__content">
+          <p v-if="sessionError" class="app-shell__session-error" role="alert">{{ sessionError }}</p>
+          <slot />
+        </main>
+      </div>
     </div>
+    <OverlayHost :lifecycle="overlayLifecycle" />
   </div>
 </template>
 
 <style scoped>
 .app-shell {
+  min-height: 100vh;
+}
+
+.app-shell__background {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-surface-subtle);

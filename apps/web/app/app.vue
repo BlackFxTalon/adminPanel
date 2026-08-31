@@ -9,7 +9,7 @@ const sessionError = computed(() => auth.error.value)
 
 <template>
   <NuxtPage v-if="route.path === '/login'" />
-  <AppShell v-else :session-error="sessionError" :user-name="userName" @logout="auth.logout">
+  <AppShell v-else :route-key="route.fullPath" :session-error="sessionError" :user-name="userName" @logout="auth.logout">
     <NuxtPage />
   </AppShell>
 </template>

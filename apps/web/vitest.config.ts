@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     projects: [
       {
+        plugins: [vue()],
         test: {
           name: 'unit',
           environment: 'node',

@@ -40,6 +40,11 @@ HttpOnly refresh-cookie flow. Auth and E2E tests also load these values from
 `.env` when the invoking environment does not provide them. The E2E gate runs
 against the production Nuxt build.
 
+The application shell owns one typed Overlay lifecycle and host. Feature pages
+open registered Overlay implementations through `useOverlayLifecycle`; the
+host centralizes stacking, focus, dismissal, dirty-form confirmation, inert
+background state, route reset and scroll locking.
+
 | Command | Action |
 | :-- | :-- |
 | `pnpm dev` | Start the Nuxt and NestJS applications |
@@ -57,7 +62,7 @@ Playwright also fail when their suite is unexpectedly empty.
 | `pnpm lint` | Lint the Nuxt and API workspaces |
 | `pnpm test:unit` | Run unit tests for public domain/configuration seams |
 | `pnpm test:component` | Run user-visible Vue component tests |
-| `pnpm test:e2e` | Run Playwright browser tests against the Nuxt dev server |
+| `pnpm test:e2e` | Run Playwright browser tests against the Nuxt production build |
 | `pnpm test` | Run unit and component suites |
 | `pnpm build:web` | Build the Nuxt application |
 | `pnpm build:api` | Build the typed API foundation |

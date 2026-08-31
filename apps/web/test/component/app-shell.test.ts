@@ -1,9 +1,10 @@
 import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 
 import AppShell from '../../app/components/AppShell.vue'
 import { primaryRoutes } from '../../app/navigation/route-intent'
+import { useOverlayLifecycle } from '../../app/overlays/overlay-context'
 
 describe('application shell', () => {
   it('shows the product identity and primary route navigation', () => {
@@ -46,5 +47,33 @@ describe('application shell', () => {
     })
 
     expect(wrapper.get('[role="alert"]').text()).toContain('Не удалось завершить сессию')
+  })
+
+  it('owns one host, makes the background inert and clears Overlays on navigation', async () => {
+    const OverlayInvoker = defineComponent({
+      setup() {
+        const overlays = useOverlayLifecycle()
+        return { open: () => overlays.open('information', { message: 'Описание', title: 'Информация' }) }
+      },
+      template: '<button type="button" @click="open">Открыть Overlay</button>',
+    })
+    const wrapper = mount(AppShell, {
+      attachTo: document.body,
+      props: { routeKey: '/' },
+      slots: { default: OverlayInvoker },
+      global: { stubs: { NuxtLink: { template: '<a><slot /></a>' } } },
+    })
+
+    await wrapper.get('main button').trigger('click')
+    await nextTick()
+    expect(wrapper.findAll('.overlay-host')).toHaveLength(1)
+    expect(wrapper.get('.app-shell__background').attributes()).toHaveProperty('inert')
+    expect(wrapper.get('[role="dialog"]').attributes('aria-modal')).toBe('true')
+
+    await wrapper.setProps({ routeKey: '/orders' })
+    await nextTick()
+    expect(wrapper.find('[role="dialog"]').exists()).toBe(false)
+    expect(wrapper.get('.app-shell__background').attributes()).not.toHaveProperty('inert')
+    wrapper.unmount()
   })
 })

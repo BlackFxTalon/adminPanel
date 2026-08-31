@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './test/e2e',
+  globalSetup: '../api/test/e2e-global-setup.ts',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
@@ -17,8 +18,12 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev --host 127.0.0.1 --port 3000',
-    url: 'http://127.0.0.1:3000',
+    command: 'node .output/server/index.mjs',
+    env: {
+      NITRO_HOST: '127.0.0.1',
+      NITRO_PORT: '3000',
+    },
+    url: 'http://127.0.0.1:3000/login',
     reuseExistingServer: !process.env.CI,
   },
 })

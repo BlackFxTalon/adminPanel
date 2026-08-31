@@ -1,5 +1,16 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
 import { primaryNavigationGroups } from '../navigation/route-intent'
+
+defineProps<{ sessionError?: string | null, userName?: string }>()
+defineEmits<{ logout: [] }>()
+
+const hydrated = ref(false)
+
+onMounted(() => {
+  hydrated.value = true
+})
 </script>
 
 <template>
@@ -12,7 +23,9 @@ import { primaryNavigationGroups } from '../navigation/route-intent'
       >
         AdminPanel
       </NuxtLink>
-      <span class="app-shell__environment">Nuxt workspace</span>
+      <div class="app-shell__account">
+        <span v-if="userName" class="app-shell__environment">{{ userName }}</span>
+      </div>
     </header>
 
     <div class="app-shell__workspace">
@@ -27,7 +40,17 @@ import { primaryNavigationGroups } from '../navigation/route-intent'
               v-for="destination in group"
               :key="destination.to"
             >
+              <button
+                v-if="destination.to === '/login'"
+                class="app-shell__navigation-link app-shell__logout"
+                :disabled="!hydrated"
+                type="button"
+                @click="$emit('logout')"
+              >
+                {{ destination.label }}
+              </button>
               <NuxtLink
+                v-else
                 class="app-shell__navigation-link"
                 :to="destination.to"
               >
@@ -39,6 +62,7 @@ import { primaryNavigationGroups } from '../navigation/route-intent'
       </aside>
 
       <main class="app-shell__content">
+        <p v-if="sessionError" class="app-shell__session-error" role="alert">{{ sessionError }}</p>
         <slot />
       </main>
     </div>
@@ -75,6 +99,22 @@ import { primaryNavigationGroups } from '../navigation/route-intent'
 .app-shell__environment {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
+}
+
+.app-shell__account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-shell__logout {
+  width: 100%;
+  border: 0;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
 }
 
 .app-shell__workspace {
@@ -120,6 +160,14 @@ import { primaryNavigationGroups } from '../navigation/route-intent'
 
 .app-shell__content {
   padding: var(--space-7);
+}
+
+.app-shell__session-error {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  background: var(--color-surface);
 }
 
 @media (max-width: 48rem) {

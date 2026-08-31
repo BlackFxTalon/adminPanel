@@ -45,6 +45,11 @@ open registered Overlay implementations through `useOverlayLifecycle`; the
 host centralizes stacking, focus, dismissal, dirty-form confirmation, inert
 background state, route reset and scroll locking.
 
+The protected `/orders` list and `/orders/:id` detail routes depend on the
+typed `OrdersData` seam. The current provider uses deterministic mock records
+while preserving the pagination, search, sort, status and Contragent filter
+contract that the later NestJS adapter will implement.
+
 | Command | Action |
 | :-- | :-- |
 | `pnpm dev` | Start the Nuxt and NestJS applications |

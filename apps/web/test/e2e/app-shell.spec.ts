@@ -51,3 +51,19 @@ test('redirects an active SPA session after server-side revocation', async ({ pa
   await page.goto('/orders')
   await expect(page).toHaveURL(/\/login$/)
 })
+
+test('browses deterministic Orders and opens returned detail', async ({ page }) => {
+  await signIn(page)
+  await page.goto('/orders')
+
+  await expect(page.getByRole('heading', { name: 'Заказы' })).toBeVisible()
+  const orderLink = page.getByRole('link', { name: 'ORD-2026-006' })
+  await expect(orderLink).toBeVisible()
+  await expect(page.getByRole('cell', { name: 'Ожидает оплаты' })).toBeVisible()
+  await orderLink.click()
+
+  await expect(page).toHaveURL(/\/orders\/order-6$/)
+  await expect(page.getByRole('heading', { name: 'Заказ ORD-2026-006' })).toBeVisible()
+  await expect(page.getByText('Насосный агрегат')).toBeVisible()
+  await expect(page.getByTestId('order-total')).toContainText('780 000,00 ₽')
+})

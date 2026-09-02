@@ -1,8 +1,17 @@
-import type { OrderDetail, OrdersPage, OrdersQuery, StructuredError } from '@admin-panel/contracts'
+import type {
+  CreateOrderInput,
+  OrderCreationOptions,
+  OrderDetail,
+  OrdersPage,
+  OrdersQuery,
+  StructuredError,
+} from '@admin-panel/contracts'
 
 export interface OrdersData {
   list(query: OrdersQuery): Promise<OrdersPage>
   detail(id: string): Promise<OrderDetail>
+  creationOptions(): Promise<OrderCreationOptions>
+  create(input: CreateOrderInput): Promise<OrderDetail>
 }
 
 export class OrdersDataError extends Error implements StructuredError {

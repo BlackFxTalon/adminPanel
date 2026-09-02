@@ -26,10 +26,18 @@ export function useLatestAsyncResource<T>(initiallyLoading = false) {
     }
   }
 
+  function replace(next: T): void {
+    latestRequest += 1
+    data.value = next
+    loading.value = false
+    error.value = null
+  }
+
   return {
     data: readonly(data),
     loading: readonly(loading),
     error: readonly(error),
     load,
+    replace,
   }
 }

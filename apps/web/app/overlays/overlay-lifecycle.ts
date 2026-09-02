@@ -36,6 +36,10 @@ function activeElement(): HTMLElement | null {
   return typeof document === 'undefined' ? null : document.activeElement as HTMLElement | null
 }
 
+function supportsDirtyState(type: OverlayType): boolean {
+  return type === 'form' || type === 'createOrder'
+}
+
 export function createOverlayLifecycle(): OverlayLifecycle {
   const stack = ref<OverlayEntry[]>([])
   const active = computed(() => stack.value.at(-1) ?? null)
@@ -56,7 +60,7 @@ export function createOverlayLifecycle(): OverlayLifecycle {
   function closeTop(reason: OverlayCloseReason = 'programmatic'): void {
     const entry = active.value
     if (!entry || (!entry.dismissible && reason !== 'programmatic')) return
-    if (entry.type === 'form' && entry.dirty && reason !== 'programmatic') {
+    if (supportsDirtyState(entry.type) && entry.dirty && reason !== 'programmatic') {
       open('confirmation', {
         targetId: entry.id,
         title: 'Отменить изменения?',
@@ -70,7 +74,7 @@ export function createOverlayLifecycle(): OverlayLifecycle {
 
   function markDirty(id: string, dirty: boolean): void {
     const entry = stack.value.find(candidate => candidate.id === id)
-    if (entry?.type === 'form') entry.dirty = dirty
+    if (entry && supportsDirtyState(entry.type)) entry.dirty = dirty
   }
 
   function cancelDiscard(): void {

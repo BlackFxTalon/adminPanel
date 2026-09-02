@@ -30,6 +30,9 @@ export interface OrderItem {
   readonly quantity: number
   readonly unitPriceMinor: number
   readonly amountMinor: number
+  readonly characteristics?: string
+  readonly weightGrams?: number
+  readonly volumeCubicCentimeters?: number
 }
 
 export type OrderItems = readonly [OrderItem, ...OrderItem[]]
@@ -39,6 +42,7 @@ export interface OrderSummary {
   readonly createdAt: string
   readonly number: string
   readonly contragent: OrderReference
+  readonly offer?: OrderReference
   readonly totalMinor: number
   readonly currency: 'RUB'
   readonly status: OrderStatus
@@ -48,6 +52,29 @@ export interface OrderSummary {
 
 export interface OrderDetail extends OrderSummary {
   readonly items: OrderItems
+}
+
+export interface CreateOrderItemInput {
+  readonly clientId: string
+  readonly name: string
+  readonly quantity: number
+  readonly unitPriceMinor: number
+  readonly characteristics?: string
+  readonly weightGrams?: number
+  readonly volumeCubicCentimeters?: number
+}
+
+export type CreateOrderItemsInput = readonly [CreateOrderItemInput, ...CreateOrderItemInput[]]
+
+export interface CreateOrderInput {
+  readonly contragentId: string
+  readonly offerId?: string
+  readonly items: CreateOrderItemsInput
+}
+
+export interface OrderCreationOptions {
+  readonly contragents: readonly OrderReference[]
+  readonly offers: readonly OrderReference[]
 }
 
 export interface OrdersQuery {

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type { OrderStatus, OrdersPage, OrdersQuery } from '@admin-panel/contracts'
+import type { AuthenticatedUser, OrderDetail, OrderStatus, OrdersPage, OrdersQuery } from '@admin-panel/contracts'
 import { computed, onMounted, ref } from 'vue'
 
 import { formatOrderDate, formatRub, orderStatusLabels } from './order-presentation'
 import type { OrdersData } from './orders-data'
 import { useLatestAsyncResource } from './use-latest-async-resource'
+import { useOverlayLifecycle } from '../overlays/overlay-context'
 
-const props = defineProps<{ data: OrdersData }>()
+const props = defineProps<{ data: OrdersData, currentUser?: AuthenticatedUser }>()
+const overlayLifecycle = props.currentUser ? useOverlayLifecycle() : undefined
 
 const resource = useLatestAsyncResource<OrdersPage>(true)
 const result = resource.data
@@ -77,6 +79,30 @@ function nextPage(): void {
   void load()
 }
 
+function acceptCreated(created: OrderDetail): void {
+  search.value = ''
+  status.value = ''
+  contragentId.value = ''
+  selectedSort.value = 'newest'
+  page.value = 1
+  knownContragents.value.set(created.contragent.id, created.contragent.label)
+  void load()
+}
+
+function openCreateOrder(): void {
+  if (!overlayLifecycle || !props.currentUser) return
+  overlayLifecycle.open('createOrder', {
+    title: 'Новый заказ',
+    data: props.data,
+    currentUser: props.currentUser,
+    onCreated: acceptCreated,
+    onOfferHelp: () => overlayLifecycle.open('information', {
+      title: 'Предложение',
+      message: 'Предложение можно связать с заказом, но для создания заказа оно не обязательно.',
+    }),
+  })
+}
+
 onMounted(load)
 </script>
 
@@ -87,6 +113,14 @@ onMounted(load)
         <p class="orders-list__eyebrow">Рабочее пространство</p>
         <h1 id="orders-heading">Заказы</h1>
       </div>
+      <button
+        v-if="currentUser"
+        type="button"
+        aria-label="Создать заказ"
+        @click="openCreateOrder"
+      >
+        Создать заказ
+      </button>
     </header>
 
     <div class="orders-list__controls">

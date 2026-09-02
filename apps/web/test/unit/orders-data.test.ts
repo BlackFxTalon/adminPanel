@@ -3,9 +3,17 @@ import { describe, expect, it } from 'vitest'
 import { createMockOrdersData } from '../../app/orders/mock-orders-data'
 import type { OrdersDataError } from '../../app/orders/orders-data'
 
+const currentUser = () => ({
+  id: 'user-1',
+  email: 'user@example.invalid',
+  name: 'Анна Волкова',
+  role: 'user' as const,
+  organization: { id: 'organization-1', name: 'Моя компания' },
+})
+
 describe('Orders data seam', () => {
   it('returns deterministic paginated, searched, sorted and filtered Orders', async () => {
-    const orders = createMockOrdersData()
+    const orders = createMockOrdersData(currentUser)
 
     const firstPage = await orders.list({ page: 1, pageSize: 2, sortBy: 'createdAt', sortDirection: 'desc' })
     expect(firstPage.total).toBe(6)
@@ -37,7 +45,7 @@ describe('Orders data seam', () => {
   })
 
   it('returns detail through the same seam and safely handles unsupported references and queries', async () => {
-    const orders = createMockOrdersData()
+    const orders = createMockOrdersData(currentUser)
 
     const detail = await orders.detail('order-2')
     expect(detail.items.map(item => [item.name, item.amountMinor])).toEqual([

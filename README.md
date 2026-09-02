@@ -48,7 +48,10 @@ background state, route reset and scroll locking.
 The protected `/orders` list and `/orders/:id` detail routes depend on the
 typed `OrdersData` seam. The current provider uses deterministic mock records
 while preserving the pagination, search, sort, status and Contragent filter
-contract that the later NestJS adapter will implement.
+contract that the later NestJS adapter will implement. Create Order uses the
+same seam and shared Overlay lifecycle, derives Organization and responsible
+User from the authenticated session, and updates the list only from the
+authoritative mutation response.
 
 | Command | Action |
 | :-- | :-- |

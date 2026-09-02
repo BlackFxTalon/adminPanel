@@ -1,4 +1,6 @@
 import type {
+  AuthenticatedUser,
+  CreateOrderInput,
   OrderDetail,
   OrderSortField,
   OrderStatus,
@@ -7,6 +9,7 @@ import type {
   SortDirection,
 } from '@admin-panel/contracts'
 
+import { validateCreateOrderInput } from './create-order-validation'
 import { isOrderStatus } from './order-status'
 import type { OrdersData } from './orders-data'
 import { OrdersDataError } from './orders-data'
@@ -19,8 +22,12 @@ const contragents = {
   reducer: { id: 'contragent-2', label: 'Уралредуктор' },
   logistics: { id: 'contragent-3', label: 'ТрансЛогистика' },
 } as const
+const offers = [
+  { id: 'offer-1', label: 'Предложение на редукторы' },
+  { id: 'offer-2', label: 'Предложение на логистику' },
+] as const
 
-const records: readonly OrderDetail[] = [
+const seedRecords: readonly OrderDetail[] = [
   order('order-1', '2026-08-01T09:00:00.000Z', 'ORD-2026-001', contragents.factory, 'pending_approval', ivan, [
     item('item-1', 'Комплект крепежа', 10, 125000),
   ]),
@@ -83,13 +90,30 @@ function validateQuery(query: OrdersQuery): void {
   if (query.status && !isOrderStatus(query.status)) invalidQuery('Неподдерживаемый статус Order.')
 }
 
+function validateCreateInput(input: CreateOrderInput): void {
+  const fieldErrors = validateCreateOrderInput(input, {
+    contragents: Object.values(contragents),
+    offers,
+  })
+  if (Object.keys(fieldErrors).length > 0) {
+    throw new OrdersDataError({
+      code: 'ORDER_VALIDATION_FAILED',
+      message: 'Исправьте ошибки в форме.',
+      requestId: 'mock-order-create',
+      fieldErrors,
+    })
+  }
+}
+
 function compare(left: OrderDetail, right: OrderDetail, field: OrderSortField): number {
   const leftValue = left[field]
   const rightValue = right[field]
   return leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0
 }
 
-export function createMockOrdersData(): OrdersData {
+export function createMockOrdersData(currentUser: () => AuthenticatedUser): OrdersData {
+  const records = [...seedRecords]
+
   return {
     async list(query: OrdersQuery): Promise<OrdersPage> {
       validateQuery(query)
@@ -124,6 +148,52 @@ export function createMockOrdersData(): OrdersData {
         })
       }
       return record
+    },
+
+    async creationOptions() {
+      return {
+        contragents: Object.values(contragents),
+        offers,
+      }
+    },
+
+    async create(input: CreateOrderInput): Promise<OrderDetail> {
+      validateCreateInput(input)
+      const user = currentUser()
+      const contragent = Object.values(contragents).find(candidate => candidate.id === input.contragentId)!
+      const offer = offers.find(candidate => candidate.id === input.offerId)
+      const sequence = records.length + 1
+      const id = `order-${sequence}`
+      const createdItem = (candidate: CreateOrderInput['items'][number], index: number) => ({
+        id: `${id}-item-${index + 1}`,
+        name: candidate.name.trim(),
+        quantity: candidate.quantity,
+        unitPriceMinor: candidate.unitPriceMinor,
+        amountMinor: candidate.quantity * candidate.unitPriceMinor,
+        ...(candidate.characteristics?.trim() ? { characteristics: candidate.characteristics.trim() } : {}),
+        ...(candidate.weightGrams !== undefined ? { weightGrams: candidate.weightGrams } : {}),
+        ...(candidate.volumeCubicCentimeters !== undefined ? { volumeCubicCentimeters: candidate.volumeCubicCentimeters } : {}),
+      })
+      const [firstInput, ...remainingInputs] = input.items
+      const items: OrderDetail['items'] = [
+        createdItem(firstInput, 0),
+        ...remainingInputs.map((candidate, index) => createdItem(candidate, index + 1)),
+      ]
+      const created: OrderDetail = {
+        id,
+        number: `ORD-2026-${String(sequence).padStart(3, '0')}`,
+        createdAt: new Date(Date.parse('2026-08-24T09:00:00.000Z') + (sequence - 7) * 86_400_000).toISOString(),
+        contragent,
+        ...(offer ? { offer } : {}),
+        status: 'pending_approval',
+        currency: 'RUB',
+        responsibleUser: { id: user.id, name: user.name },
+        organization: user.organization,
+        items,
+        totalMinor: items.reduce((total, candidate) => total + candidate.amountMinor, 0),
+      }
+      records.unshift(created)
+      return created
     },
   }
 }

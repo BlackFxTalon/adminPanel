@@ -3,8 +3,8 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { AppModule } from '../src/app.module'
 import { createLocalAuthSeed } from '../src/auth/auth.seed'
+import { AuthModule } from '../src/auth/auth.module'
 import { readAuthTestEnvironment } from './auth-test-environment'
 
 const authTestEnvironment = readAuthTestEnvironment()
@@ -19,7 +19,7 @@ describe('authentication HTTP boundary', () => {
   beforeEach(async () => {
     Object.assign(process.env, authTestEnvironment)
 
-    const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile()
+    const moduleRef = await Test.createTestingModule({ imports: [AuthModule] }).compile()
     app = moduleRef.createNestApplication()
     await app.init()
   })
@@ -92,6 +92,15 @@ describe('authentication HTTP boundary', () => {
       .post('/api/v1/auth/login')
       .send({})
       .expect(401)
+
+    const expiredAccess = await request(app.getHttpServer())
+      .get('/api/v1/auth/me')
+      .set('Authorization', 'Bearer invalid-token')
+      .expect(401)
+    expect(expiredAccess.body).toMatchObject({
+      code: 'ACCESS_TOKEN_EXPIRED',
+      requestId: expect.any(String),
+    })
   })
 
   it('fails fast when either required seeded User is not configured', () => {

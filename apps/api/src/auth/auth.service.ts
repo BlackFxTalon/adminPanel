@@ -1,7 +1,7 @@
 import type { AuthSessionResponse, AuthenticatedUser, LoginRequest } from '@admin-panel/contracts'
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { scrypt, scryptSync, timingSafeEqual } from 'node:crypto'
+import { randomUUID, scrypt, scryptSync, timingSafeEqual } from 'node:crypto'
 import { promisify } from 'node:util'
 
 import { ACCESS_TOKEN_TTL_SECONDS } from './auth.constants.js'
@@ -75,7 +75,11 @@ export class AuthService {
       if (!user || !this.refreshSessions.isFamilyActive(payload.sid)) throw new Error('Unknown or revoked session')
       return toPublicUser(user)
     } catch {
-      throw new UnauthorizedException({ code: 'ACCESS_TOKEN_EXPIRED', message: 'Требуется вход' })
+      throw new UnauthorizedException({
+        code: 'ACCESS_TOKEN_EXPIRED',
+        message: 'Требуется вход',
+        requestId: randomUUID(),
+      })
     }
   }
 

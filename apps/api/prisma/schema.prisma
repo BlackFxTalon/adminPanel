@@ -1,0 +1,190 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  admin
+  user
+
+  @@map("user_role")
+}
+
+enum ContragentKind {
+  company
+  contact
+
+  @@map("contragent_kind")
+}
+
+enum OrderStatus {
+  pending_approval
+  in_work
+  cargo_in_transit
+  awaiting_payment
+  completed
+  cancelled
+
+  @@map("order_status")
+}
+
+model Organization {
+  id          String       @id @db.Text
+  name        String       @db.Text
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  users       User[]
+  contragents Contragent[]
+  companies   Company[]
+  contacts    Contact[]
+  offers      Offer[]
+  orders      Order[]
+  orderItems  OrderItem[]
+
+  @@map("organizations")
+}
+
+model User {
+  id             String        @id @db.Text
+  organizationId String        @map("organization_id") @db.Text
+  email          String        @db.Text
+  name           String        @db.Text
+  role           UserRole
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  sessions       AuthSession[]
+  orders         Order[]
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, email])
+  @@map("users")
+}
+
+model AuthSession {
+  id          String    @id @db.Text
+  userId      String    @map("user_id") @db.Text
+  familyId    String    @map("family_id") @db.Text
+  tokenDigest String    @unique @map("token_digest") @db.Text
+  expiresAt   DateTime  @map("expires_at") @db.Timestamptz(3)
+  revokedAt   DateTime? @map("revoked_at") @db.Timestamptz(3)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, familyId])
+  @@map("auth_sessions")
+}
+
+model Contragent {
+  id             String         @id @db.Text
+  organizationId String         @map("organization_id") @db.Text
+  kind           ContragentKind
+  displayName    String         @map("display_name") @db.Text
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  company        Company?
+  contact        Contact?
+  offers         Offer[]
+  orders         Order[]
+
+  @@unique([id, organizationId])
+  @@index([organizationId, displayName])
+  @@map("contragents")
+}
+
+model Company {
+  id             String       @id @db.Text
+  organizationId String       @map("organization_id") @db.Text
+  contragentId   String       @unique @map("contragent_id") @db.Text
+  legalName      String       @map("legal_name") @db.Text
+  taxId          String?      @map("tax_id") @db.Text
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contragent     Contragent   @relation(fields: [contragentId, organizationId], references: [id, organizationId], onDelete: Cascade)
+  contacts       Contact[]
+
+  @@unique([id, organizationId])
+  @@unique([contragentId, organizationId])
+  @@map("companies")
+}
+
+model Contact {
+  id             String       @id @db.Text
+  organizationId String       @map("organization_id") @db.Text
+  contragentId   String       @unique @map("contragent_id") @db.Text
+  companyId      String?      @map("company_id") @db.Text
+  fullName       String       @map("full_name") @db.Text
+  email          String?      @db.Text
+  phone          String?      @db.Text
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contragent     Contragent   @relation(fields: [contragentId, organizationId], references: [id, organizationId], onDelete: Cascade)
+  company        Company?     @relation(fields: [companyId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId])
+  @@unique([contragentId, organizationId])
+  @@map("contacts")
+}
+
+model Offer {
+  id             String       @id @db.Text
+  organizationId String       @map("organization_id") @db.Text
+  contragentId   String?      @map("contragent_id") @db.Text
+  number         String       @db.Text
+  title          String       @db.Text
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contragent     Contragent?  @relation(fields: [contragentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  orders         Order[]
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, number])
+  @@map("offers")
+}
+
+model Order {
+  id                String       @id @db.Text
+  organizationId    String       @map("organization_id") @db.Text
+  number            String       @db.Text
+  contragentId      String       @map("contragent_id") @db.Text
+  offerId           String?      @map("offer_id") @db.Text
+  responsibleUserId String       @map("responsible_user_id") @db.Text
+  status            OrderStatus  @default(pending_approval)
+  currency          String       @default("RUB") @db.Char(3)
+  totalMinor        BigInt       @map("total_minor")
+  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  contragent        Contragent   @relation(fields: [contragentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  offer             Offer?       @relation(fields: [offerId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  responsibleUser   User         @relation(fields: [responsibleUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  items             OrderItem[]
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, number])
+  @@index([organizationId, createdAt])
+  @@index([organizationId, status])
+  @@index([organizationId, contragentId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                     String       @id @db.Text
+  orderId                String       @map("order_id") @db.Text
+  organizationId         String       @map("organization_id") @db.Text
+  position               Int
+  name                   String       @db.Text
+  quantity               Int
+  unitPriceMinor         BigInt       @map("unit_price_minor")
+  amountMinor            BigInt       @map("amount_minor")
+  characteristics        String?      @db.Text
+  weightGrams            Int?         @map("weight_grams")
+  volumeCubicCentimeters Int?         @map("volume_cubic_centimeters")
+  organization           Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  order                  Order        @relation(fields: [orderId, organizationId], references: [id, organizationId], onDelete: Cascade)
+
+  @@unique([orderId, position])
+  @@index([organizationId, orderId])
+  @@map("order_items")
+}

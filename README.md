@@ -9,6 +9,8 @@ reference until migration parity is complete.
 - Node.js 22.12 or newer
 - pnpm 11.24.0 (`corepack enable && corepack prepare pnpm@11.24.0 --activate`)
 - Google Chrome (used by the Playwright E2E suite)
+- PostgreSQL 17 reachable through `DATABASE_URL` (Docker Desktop is also
+  required by the disposable integration and E2E database tests)
 
 ## Clean installation
 
@@ -25,11 +27,16 @@ the root package contains the Astro reference.
 ## Development
 
 Copy `.env.example` to `.env` and provide a JWT secret of at least 32
-characters plus local admin and User credentials. The local auth seed reads
-credentials only from these environment variables; `.env` is not committed.
+characters, local admin and User credentials, and a PostgreSQL connection URL.
+The local auth seed reads credentials only from these environment variables;
+`.env` is not committed. Apply the committed migrations and deterministic seed
+before starting the applications. Set `NUXT_PUBLIC_ORDERS_DATA_MODE=http` to
+exercise the real Orders path; leave it empty to use the mock adapter.
 
 ```sh
 cp .env.example .env
+pnpm --filter @admin-panel/api db:migrate
+pnpm --filter @admin-panel/api db:seed
 pnpm dev
 ```
 
@@ -46,18 +53,22 @@ host centralizes stacking, focus, dismissal, dirty-form confirmation, inert
 background state, route reset and scroll locking.
 
 The protected `/orders` list and `/orders/:id` detail routes depend on the
-typed `OrdersData` seam. The current provider uses deterministic mock records
-while preserving the pagination, search, sort, status and Contragent filter
-contract that the later NestJS adapter will implement. Create Order uses the
-same seam and shared Overlay lifecycle, derives Organization and responsible
-User from the authenticated session, and updates the list only from the
-authoritative mutation response.
+typed `OrdersData` seam. The provider defaults to deterministic mock records;
+set `NUXT_PUBLIC_ORDERS_DATA_MODE=http` to use the authenticated NestJS
+implementation without changing the UI. Both adapters preserve pagination,
+search, sort, status and Contragent filtering. Create Order uses the same seam
+and shared Overlay lifecycle. The NestJS path derives Organization and
+responsible User from the access token, validates referenced records inside
+that Organization, calculates RUB totals on the server and persists the Order
+and its items transactionally through Prisma/PostgreSQL.
 
 | Command | Action |
 | :-- | :-- |
 | `pnpm dev` | Start the Nuxt and NestJS applications |
 | `pnpm dev:astro` | Start the read-only Astro reference |
 | `pnpm preview` | Preview the Nuxt production build |
+| `pnpm --filter @admin-panel/api db:migrate` | Apply committed Prisma migrations to `DATABASE_URL` |
+| `pnpm --filter @admin-panel/api db:seed` | Load the deterministic local Orders seed |
 
 ## Quality gates
 

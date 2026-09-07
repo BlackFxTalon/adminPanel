@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     apiInternalBase: 'http://127.0.0.1:3001/api/v1',
     public: {
       apiBase: '/api/v1',
+      ordersDataMode: 'mock',
     },
   },
   typescript: {

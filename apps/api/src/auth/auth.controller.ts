@@ -2,6 +2,7 @@ import type { AuthenticatedUser, LoginRequest } from '@admin-panel/contracts'
 import { Body, Controller, Get, Headers, HttpCode, Inject, Post, Req, Res } from '@nestjs/common'
 import type { CookieOptions, Request, Response } from 'express'
 
+import { readBearerToken } from './access-token.js'
 import { REFRESH_COOKIE_NAME, REFRESH_COOKIE_PATH, REFRESH_TTL_MS } from './auth.constants.js'
 import { AuthService } from './auth.service.js'
 
@@ -20,10 +21,6 @@ function readCookie(request: Request, name: string): string | undefined {
   return entry?.[1] ? decodeURIComponent(entry[1]) : undefined
 }
 
-function readBearerToken(authorization: string | undefined): string {
-  if (!authorization?.startsWith('Bearer ')) return ''
-  return authorization.slice('Bearer '.length)
-}
 
 function setRefreshCookie(response: Response, token: string): void {
   response.cookie(REFRESH_COOKIE_NAME, token, {

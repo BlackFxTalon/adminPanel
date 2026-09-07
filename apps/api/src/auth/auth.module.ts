@@ -19,6 +19,7 @@ import { RefreshSessionStore } from './refresh-session.store.js'
   ],
   controllers: [AuthController],
   providers: [AuthService, RefreshSessionStore],
+  exports: [AuthService],
 })
 // NestJS discovers module metadata on the decorated class.
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class

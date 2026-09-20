@@ -1,0 +1,23 @@
+# syntax=docker/dockerfile:1
+
+FROM node:22.22-bookworm-slim AS migrate
+WORKDIR /repo/apps/api
+RUN corepack enable
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json /repo/
+COPY packages/contracts/package.json /repo/packages/contracts/
+COPY packages/contracts/tsconfig.json /repo/packages/contracts/
+COPY packages/contracts/src /repo/packages/contracts/src
+COPY packages/eslint-config/package.json /repo/packages/eslint-config/
+COPY packages/typescript-config/ /repo/packages/typescript-config/
+COPY apps/api/package.json /repo/apps/api/
+COPY apps/api/prisma /repo/apps/api/prisma
+COPY apps/api/prisma.config.ts /repo/apps/api/prisma.config.ts
+COPY apps/api/tsconfig.json /repo/apps/api/tsconfig.json
+COPY apps/api/src /repo/apps/api/src
+RUN cd /repo && pnpm install --frozen-lockfile --ignore-scripts \
+    && pnpm --filter @admin-panel/api run db:generate \
+    && pnpm run build:shared
+
+# Runs `prisma migrate deploy` against DATABASE_URL. No secrets are baked in:
+# DATABASE_URL is supplied at run time by docker compose / the release script.
+ENTRYPOINT ["node_modules/prisma/build/index.js", "migrate", "deploy"]

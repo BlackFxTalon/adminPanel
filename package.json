@@ -22,6 +22,9 @@
     "lint": "pnpm --filter @admin-panel/contracts lint && pnpm --filter @admin-panel/web lint && pnpm --filter @admin-panel/api lint",
     "lint:scss": "stylelint 'src/**/*.{astro,scss}'",
     "test": "pnpm run test:unit && pnpm run test:component",
+    "test:api": "pnpm run build:shared && pnpm --filter @admin-panel/api test",
+    "test:web-unit": "pnpm run build:shared && pnpm --filter @admin-panel/web test:unit",
+    "test:web-component": "pnpm --filter @admin-panel/web test:component",
     "test:unit": "pnpm run build:shared && pnpm --filter @admin-panel/api test && pnpm --filter @admin-panel/web test:unit",
     "test:component": "pnpm --filter @admin-panel/web test:component",
     "test:e2e": "pnpm run build:shared && pnpm run build:api && pnpm run build:web && pnpm --filter @admin-panel/web test:e2e"

@@ -11,6 +11,19 @@ export const orderStatuses = [
 
 export type OrderStatus = typeof orderStatuses[number]
 
+export const orderStatusTransitions: Readonly<Record<OrderStatus, readonly OrderStatus[]>> = {
+  pending_approval: ['in_work', 'cancelled'],
+  in_work: ['cargo_in_transit', 'awaiting_payment', 'cancelled'],
+  cargo_in_transit: ['awaiting_payment'],
+  awaiting_payment: ['completed'],
+  completed: [],
+  cancelled: [],
+}
+
+export function canTransitionOrderStatus(current: OrderStatus, next: OrderStatus): boolean {
+  return orderStatusTransitions[current].includes(next)
+}
+
 export type OrderSortField = 'createdAt' | 'number' | 'totalMinor'
 export type SortDirection = 'asc' | 'desc'
 

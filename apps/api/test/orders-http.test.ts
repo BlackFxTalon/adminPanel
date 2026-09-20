@@ -1,3 +1,4 @@
+import type { OrderStatus } from '@admin-panel/contracts'
 import type { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql'
@@ -258,5 +259,96 @@ describe('Orders HTTP boundary', () => {
     }
     const after = await sql.query("SELECT count(*)::int AS count FROM orders WHERE organization_id = 'org_local'")
     expect(after.rows).toEqual(before.rows)
+  })
+
+  it('enforces every status edge and rejects invalid, missing, cross-Organization and unauthorized transitions', async () => {
+    const accessToken = await login(app)
+    const validEdges: readonly [OrderStatus, OrderStatus][] = [
+      ['pending_approval', 'in_work'],
+      ['pending_approval', 'cancelled'],
+      ['in_work', 'cargo_in_transit'],
+      ['in_work', 'awaiting_payment'],
+      ['in_work', 'cancelled'],
+      ['cargo_in_transit', 'awaiting_payment'],
+      ['awaiting_payment', 'completed'],
+    ]
+
+    for (const [index, [currentStatus, nextStatus]] of validEdges.entries()) {
+      const id = `order-transition-${index}`
+      await sql.query(`
+        INSERT INTO orders (
+          id, organization_id, number, contragent_id, responsible_user_id,
+          status, currency, total_minor, created_at
+        ) VALUES ($1, 'org_local', $2, 'contragent-local-factory', 'user_admin_local', $3, 'RUB', 100, now())
+      `, [id, `ORD-TRANSITION-${index}`, currentStatus])
+      await sql.query(`
+        INSERT INTO order_items (
+          id, order_id, organization_id, position, name, quantity, unit_price_minor, amount_minor
+        ) VALUES ($1, $2, 'org_local', 1, 'Тестовая позиция', 1, 100, 100)
+      `, [`${id}-item`, id])
+
+      const response = await request(app.getHttpServer())
+        .patch(`/api/v1/orders/${id}/status`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ status: nextStatus })
+        .expect(200)
+      expect(response.body).toMatchObject({ id, status: nextStatus })
+      expect(await sql.query('SELECT status FROM orders WHERE id = $1', [id]))
+        .toMatchObject({ rows: [{ status: nextStatus }] })
+    }
+
+    const invalid = await request(app.getHttpServer())
+      .patch('/api/v1/orders/order-local-1/status')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({ status: 'completed' })
+      .expect(409)
+    expect(invalid.body).toMatchObject({
+      code: 'INVALID_ORDER_STATUS_TRANSITION',
+      requestId: expect.any(String),
+    })
+
+    const missing = await request(app.getHttpServer())
+      .patch('/api/v1/orders/order-local-1/status')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({})
+      .expect(400)
+    expect(missing.body).toMatchObject({
+      code: 'ORDER_STATUS_VALIDATION_FAILED',
+      requestId: expect.any(String),
+      fieldErrors: { status: expect.any(Array) },
+    })
+
+    const unknown = await request(app.getHttpServer())
+      .patch('/api/v1/orders/order-local-1/status')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({ status: 'unknown' })
+      .expect(400)
+    expect(unknown.body).toMatchObject({
+      code: 'ORDER_STATUS_VALIDATION_FAILED',
+      requestId: expect.any(String),
+      fieldErrors: { status: expect.any(Array) },
+    })
+
+    const foreign = await request(app.getHttpServer())
+      .patch('/api/v1/orders/order-foreign-1/status')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({ status: 'in_work' })
+      .expect(404)
+    expect(foreign.body).toMatchObject({ code: 'ORDER_NOT_FOUND', requestId: expect.any(String) })
+
+    const unauthorized = await request(app.getHttpServer())
+      .patch('/api/v1/orders/order-local-1/status')
+      .send({ status: 'in_work' })
+      .expect(401)
+    expect(unauthorized.body).toMatchObject({ code: 'ACCESS_TOKEN_EXPIRED', requestId: expect.any(String) })
+
+    for (const id of ['order-transition-1', 'order-transition-4', 'order-transition-6']) {
+      const finalAttempt = await request(app.getHttpServer())
+        .patch(`/api/v1/orders/${id}/status`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ status: 'in_work' })
+        .expect(409)
+      expect(finalAttempt.body).toMatchObject({ code: 'INVALID_ORDER_STATUS_TRANSITION' })
+    }
   })
 })

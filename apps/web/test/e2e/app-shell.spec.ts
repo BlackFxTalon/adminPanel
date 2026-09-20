@@ -52,14 +52,17 @@ test('redirects an active SPA session after server-side revocation', async ({ pa
   await expect(page).toHaveURL(/\/login$/)
 })
 
+const mockAdapterOnly = process.env.NUXT_PUBLIC_ORDERS_DATA_MODE === 'http'
+
 test('browses deterministic Orders and opens returned detail', async ({ page }) => {
+  test.skip(mockAdapterOnly, 'Runs only against the mock Orders adapter')
   await signIn(page)
   await page.goto('/orders')
 
   await expect(page.getByRole('heading', { name: 'Заказы' })).toBeVisible()
   const orderLink = page.getByRole('link', { name: 'ORD-2026-006' })
   await expect(orderLink).toBeVisible()
-  await expect(page.getByRole('cell', { name: 'Ожидает оплаты' })).toBeVisible()
+  await expect(page.getByRole('row', { name: /ORD-2026-006/ }).getByText('Ожидает оплаты', { exact: true })).toBeVisible()
   await orderLink.click()
 
   await expect(page).toHaveURL(/\/orders\/order-6$/)
@@ -69,6 +72,7 @@ test('browses deterministic Orders and opens returned detail', async ({ page }) 
 })
 
 test('creates an Order through the shared Overlay and shows the authoritative response in the list', async ({ page }) => {
+  test.skip(mockAdapterOnly, 'Runs only against the mock Orders adapter')
   await signIn(page)
   await page.goto('/orders')
 
@@ -107,7 +111,53 @@ test('creates an Order through the shared Overlay and shows the authoritative re
   await expect(page.getByTestId('order-total')).toContainText('290 000,00 ₽')
 })
 
+test('rejects an invalid Order and keeps the entered values editable in the Overlay', async ({ page }) => {
+  await signIn(page)
+  await page.goto('/orders')
+
+  await page.getByRole('button', { name: 'Создать заказ' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Новый заказ' })
+  await expect(dialog).toBeVisible()
+
+  await dialog.getByRole('button', { name: 'Создать заказ' }).click()
+  await expect(dialog.getByText('Выберите контрагента.')).toBeVisible()
+  await expect(dialog.getByText('Введите название позиции.')).toBeVisible()
+
+  await dialog.getByLabel('Контрагент').selectOption({ index: 1 })
+  await dialog.getByLabel('Название позиции 1').fill('Заказ с ошибкой количества')
+  await dialog.getByLabel('Количество позиции 1').fill('0')
+  await dialog.getByRole('button', { name: 'Создать заказ' }).click()
+  await expect(dialog).toBeVisible()
+  await expect(dialog.getByText('Количество должно быть положительным целым числом.')).toBeVisible()
+  await expect(dialog.getByLabel('Название позиции 1')).toHaveValue('Заказ с ошибкой количества')
+  await expect(page.getByRole('link', { name: 'ORD-2026-007' })).toHaveCount(0)
+})
+
+test('asks for confirmation when closing a dirty Overlay and keeps the draft on cancel', async ({ page }) => {
+  await signIn(page)
+  await page.goto('/orders')
+
+  await page.getByRole('button', { name: 'Создать заказ' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Новый заказ' })
+  await expect(dialog).toBeVisible()
+  await dialog.getByLabel('Название позиции 1').fill('Черновик для dirty-close')
+
+  await page.keyboard.press('Escape')
+  const confirmation = page.getByRole('dialog', { name: 'Отменить изменения?' })
+  await expect(confirmation).toBeVisible()
+  await confirmation.getByRole('button', { name: 'Продолжить редактирование' }).click()
+  await expect(confirmation).toBeHidden()
+  await expect(dialog).toBeVisible()
+  await expect(dialog.getByLabel('Название позиции 1')).toHaveValue('Черновик для dirty-close')
+
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog', { name: 'Отменить изменения?' })).toBeVisible()
+  await page.getByRole('dialog', { name: 'Отменить изменения?' }).getByRole('button', { name: 'Отменить изменения' }).click()
+  await expect(page.getByRole('dialog', { name: 'Новый заказ' })).toBeHidden()
+})
+
 test('creates an Order from the mobile item editor', async ({ page }) => {
+  test.skip(mockAdapterOnly, 'Runs only against the mock Orders adapter')
   await page.setViewportSize({ width: 390, height: 844 })
   await signIn(page)
   await page.goto('/orders')

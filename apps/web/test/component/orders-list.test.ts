@@ -87,6 +87,122 @@ describe('Orders list', () => {
     expect(list).toHaveBeenLastCalledWith(expect.objectContaining({ page: 2 }))
   })
 
+  it('replaces a row from the authoritative status response', async () => {
+    const transitionStatus = vi.fn().mockResolvedValue({ ...page.items[0], status: 'completed', items: [{
+      id: 'item-1',
+      name: 'Насосный агрегат',
+      quantity: 1,
+      unitPriceMinor: 78000000,
+      amountMinor: 78000000,
+    }] })
+    const data = {
+      list: vi.fn().mockResolvedValue(page),
+      detail: vi.fn(),
+      transitionStatus,
+    } as unknown as OrdersData
+    const wrapper = mount(OrdersListView, {
+      props: { data },
+      global: { stubs: { NuxtLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } },
+    })
+    await flushPromises()
+
+    const row = wrapper.get('tbody tr')
+    expect(row.get('[data-testid="order-status-actions"]').text()).toBe('Завершён')
+    await row.get('button[data-status="completed"]').trigger('click')
+    await flushPromises()
+
+    expect(transitionStatus).toHaveBeenCalledWith('order-6', 'completed')
+    expect(row.text()).toContain('Завершён')
+    expect(row.find('[data-testid="order-status-actions"]').exists()).toBe(false)
+  })
+
+  it('reloads a filtered list when a transition moves the Order outside the active filter', async () => {
+    const emptyPage = { ...page, items: [], total: 0 }
+    const list = vi.fn()
+      .mockResolvedValueOnce(page)
+      .mockResolvedValueOnce(page)
+      .mockResolvedValueOnce(emptyPage)
+    const data = {
+      list,
+      detail: vi.fn(),
+      transitionStatus: vi.fn().mockResolvedValue({ ...page.items[0], status: 'completed', items: [{
+        id: 'item-1',
+        name: 'Насосный агрегат',
+        quantity: 1,
+        unitPriceMinor: 78000000,
+        amountMinor: 78000000,
+      }] }),
+    } as unknown as OrdersData
+    const wrapper = mount(OrdersListView, {
+      props: { data },
+      global: { stubs: { NuxtLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } },
+    })
+    await flushPromises()
+
+    await wrapper.get('select[aria-label="Фильтр по статусу"]').setValue('awaiting_payment')
+    await flushPromises()
+    await wrapper.get('button[data-status="completed"]').trigger('click')
+    await flushPromises()
+
+    expect(list).toHaveBeenCalledTimes(3)
+    expect(list).toHaveBeenLastCalledWith(expect.objectContaining({ status: 'awaiting_payment' }))
+    expect(wrapper.get('h2').text()).toBe('Заказы не найдены')
+  })
+
+  it('keeps the row consistent when a status transition fails', async () => {
+    const data = {
+      list: vi.fn().mockResolvedValue(page),
+      detail: vi.fn(),
+      transitionStatus: vi.fn().mockRejectedValue(new Error('Статус не изменён.')),
+    } as unknown as OrdersData
+    const wrapper = mount(OrdersListView, {
+      props: { data },
+      global: { stubs: { NuxtLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } },
+    })
+    await flushPromises()
+
+    await wrapper.get('button[data-status="completed"]').trigger('click')
+    await flushPromises()
+
+    expect(wrapper.get('tbody tr').text()).toContain('Ожидает оплаты')
+    expect(wrapper.get('[role="alert"]').text()).toContain('Статус не изменён')
+  })
+
+  it('does not let a pending transition restore a stale query page', async () => {
+    let resolveTransition!: (value: OrderDetail) => void
+    const transition = new Promise<OrderDetail>(resolve => { resolveTransition = resolve })
+    const filteredPage = pageWithNumber('ORD-FILTERED')
+    const data = {
+      list: vi.fn()
+        .mockResolvedValueOnce(page)
+        .mockResolvedValueOnce(filteredPage),
+      detail: vi.fn(),
+      transitionStatus: vi.fn().mockReturnValue(transition),
+    } as unknown as OrdersData
+    const wrapper = mount(OrdersListView, {
+      props: { data },
+      global: { stubs: { NuxtLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } },
+    })
+    await flushPromises()
+
+    await wrapper.get('button[data-status="completed"]').trigger('click')
+    await wrapper.get('input[aria-label="Поиск заказов"]').setValue('новый запрос')
+    await wrapper.get('form[role="search"]').trigger('submit')
+    await flushPromises()
+    expect(wrapper.get('tbody').text()).toContain('ORD-FILTERED')
+
+    resolveTransition({ ...page.items[0]!, status: 'completed', items: [{
+      id: 'item-1',
+      name: 'Насосный агрегат',
+      quantity: 1,
+      unitPriceMinor: 78000000,
+      amountMinor: 78000000,
+    }] })
+    await flushPromises()
+    expect(wrapper.get('tbody').text()).toContain('ORD-FILTERED')
+    expect(wrapper.get('tbody').text()).not.toContain('ORD-2026-006')
+  })
+
   it('replaces stale data with a useful failure state and retries through the seam', async () => {
     const list = vi.fn<(query: OrdersQuery) => Promise<OrdersPage>>()
       .mockRejectedValueOnce(new Error('Сервис заказов временно недоступен.'))

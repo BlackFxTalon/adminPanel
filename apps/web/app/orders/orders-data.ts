@@ -2,6 +2,7 @@ import type {
   CreateOrderInput,
   OrderCreationOptions,
   OrderDetail,
+  OrderStatus,
   OrdersPage,
   OrdersQuery,
   StructuredError,
@@ -12,6 +13,7 @@ export interface OrdersData {
   detail(id: string): Promise<OrderDetail>
   creationOptions(): Promise<OrderCreationOptions>
   create(input: CreateOrderInput): Promise<OrderDetail>
+  transitionStatus(id: string, status: OrderStatus): Promise<OrderDetail>
 }
 
 export class OrdersDataError extends Error implements StructuredError {

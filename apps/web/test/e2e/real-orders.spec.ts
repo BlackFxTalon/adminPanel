@@ -39,3 +39,32 @@ test('runs the authenticated create, list and detail journey through NestJS and 
   await expect(page.getByText('Реальный HTTP Order')).toBeVisible()
   await expect(page.getByTestId('order-total')).toContainText('3 000,00 ₽')
 })
+
+test('smokes the staging public origin: login, Orders list and Order creation through the real adapter', async ({ page }) => {
+  test.skip(!process.env.E2E_STAGING_BASE_URL, 'Runs only when E2E_STAGING_BASE_URL points at the staged public origin')
+
+  const stagingSignIn = async (): Promise<void> => {
+    await page.goto('/login')
+    await page.getByLabel('Email').fill(authTestEnvironment.AUTH_TEST_ADMIN_EMAIL)
+    await page.getByLabel('Пароль').fill(authTestEnvironment.AUTH_TEST_ADMIN_PASSWORD)
+    await page.getByRole('button', { name: 'Войти' }).click()
+    await expect(page).toHaveURL(/\/$/)
+  }
+
+  await stagingSignIn()
+  await page.goto('/orders')
+  await expect(page.getByRole('heading', { name: 'Заказы' })).toBeVisible()
+  await expect(page.getByText('Foreign Company')).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'Создать заказ' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Новый заказ' })
+  await dialog.getByLabel('Контрагент').selectOption({ index: 1 })
+  await dialog.getByLabel('Название позиции 1').fill('Staging smoke Order')
+  await dialog.getByLabel('Количество позиции 1').fill('1')
+  await dialog.getByLabel('Цена позиции 1, ₽').fill('2500')
+  await dialog.getByRole('button', { name: 'Создать заказ' }).click()
+
+  await expect(dialog).toBeHidden()
+  await expect(page.getByRole('link', { name: /^ORD-\d{4}-[0-9A-F]{8}$/ }).first()).toBeVisible()
+  await expect(page.getByText('Staging smoke Order').first()).toBeVisible()
+})

@@ -1,0 +1,11 @@
+{$STAGING_DOMAIN} {
+	# API: one public origin, same-site cookies stay secure.
+	handle /api/v1/* {
+		reverse_proxy api:3001
+	}
+
+	# Nuxt at /.
+	handle {
+		reverse_proxy web:3000
+	}
+}

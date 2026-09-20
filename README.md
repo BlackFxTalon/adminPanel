@@ -70,6 +70,39 @@ and its items transactionally through Prisma/PostgreSQL.
 | `pnpm --filter @admin-panel/api db:migrate` | Apply committed Prisma migrations to `DATABASE_URL` |
 | `pnpm --filter @admin-panel/api db:seed` | Load the deterministic local Orders seed |
 
+## Staging deployment (Timeweb VDS)
+
+Staging runs web and API as separate containers under Docker Compose behind a
+Caddy reverse proxy: Nuxt serves `/` and NestJS serves `/api/v1` on one public
+origin, so the HttpOnly refresh cookie stays same-site. `GET /api/v1/health`
+returns `{"status":"ok"}` when the application is up.
+
+Configuration lives in `.env.staging` (copy `.env.staging.example`; never
+committed): `DATABASE_URL` (staging Supabase PostgreSQL), `AUTH_JWT_SECRET`,
+the four `AUTH_TEST_*` seed credentials the API loads at boot, and
+`STAGING_DOMAIN`. Secrets are supplied to containers at run time only — they
+never enter the repository or image layers.
+
+```sh
+cp .env.staging.example .env.staging   # fill in values
+sh deploy/release.sh                   # build images, migrate, start, health check
+sh deploy/seed.sh                      # optional deterministic Orders seed
+```
+
+`deploy/release.sh` builds the images, runs `prisma migrate deploy` through a
+dedicated migration image before any application starts, then starts the
+containers and polls the health endpoint for up to 60 seconds. A migration or
+health-check failure stops the released containers and exits non-zero, leaving
+the previously running version untouched until the next `docker compose up`.
+Rollback boundary: re-deploy the previous image tags (`admin-panel-api:staging`,
+`admin-panel-web:staging`) — migrations are forward-only and never run inside
+the rollback path. Container logs are the operational log surface
+(`docker compose logs -f api web`).
+
+An E2E smoke against a staged origin runs with
+`E2E_STAGING_BASE_URL=https://<staging-domain> pnpm --filter @admin-panel/web exec playwright test test/e2e/real-orders.spec.ts`
+(using the same `AUTH_TEST_*` credentials).
+
 ## Quality gates
 
 Every command fails when its configured check or test suite fails. Vitest and

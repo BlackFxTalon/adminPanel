@@ -1,0 +1,69 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: admin-panel-api:staging
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      HOST: 0.0.0.0
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      AUTH_JWT_SECRET: ${AUTH_JWT_SECRET:?AUTH_JWT_SECRET is required}
+      AUTH_TEST_ADMIN_EMAIL: ${AUTH_TEST_ADMIN_EMAIL:?AUTH_TEST_ADMIN_EMAIL is required}
+      AUTH_TEST_ADMIN_PASSWORD: ${AUTH_TEST_ADMIN_PASSWORD:?AUTH_TEST_ADMIN_PASSWORD is required}
+      AUTH_TEST_USER_EMAIL: ${AUTH_TEST_USER_EMAIL:?AUTH_TEST_USER_EMAIL is required}
+      AUTH_TEST_USER_PASSWORD: ${AUTH_TEST_USER_PASSWORD:?AUTH_TEST_USER_PASSWORD is required}
+    env_file:
+      - path: .env.staging
+        required: false
+    networks:
+      - staging
+    ports:
+      - "127.0.0.1:3001:3001"
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    image: admin-panel-web:staging
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      NUXT_PUBLIC_API_BASE: /api/v1
+      NUXT_PUBLIC_ORDERS_DATA_MODE: http
+      API_INTERNAL_BASE: http://api:3001/api/v1
+    networks:
+      - staging
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - api
+    environment:
+      STAGING_DOMAIN: ${STAGING_DOMAIN:-:80}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - staging
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  staging:

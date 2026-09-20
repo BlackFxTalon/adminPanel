@@ -1,3 +1,4 @@
+import type { OrderStatus } from '@admin-panel/contracts'
 import { describe, expect, it } from 'vitest'
 
 import { createMockOrdersData } from '../../app/orders/mock-orders-data'
@@ -75,6 +76,37 @@ describe('Orders data seam', () => {
     await expect(orders.detail('missing')).rejects.toMatchObject<Partial<OrdersDataError>>({
       code: 'ORDER_NOT_FOUND',
       requestId: 'mock-order-detail',
+    })
+  })
+
+  it('enforces every canonical status edge and protects final Orders', async () => {
+    const validEdges: readonly [string, OrderStatus, OrderStatus][] = [
+      ['order-1', 'pending_approval', 'in_work'],
+      ['order-1', 'pending_approval', 'cancelled'],
+      ['order-2', 'in_work', 'cargo_in_transit'],
+      ['order-2', 'in_work', 'awaiting_payment'],
+      ['order-2', 'in_work', 'cancelled'],
+      ['order-3', 'cargo_in_transit', 'awaiting_payment'],
+      ['order-6', 'awaiting_payment', 'completed'],
+    ]
+
+    for (const [id, currentStatus, nextStatus] of validEdges) {
+      const orders = createMockOrdersData(currentUser)
+      expect((await orders.detail(id)).status).toBe(currentStatus)
+      await expect(orders.transitionStatus(id, nextStatus)).resolves.toMatchObject({ id, status: nextStatus })
+      expect((await orders.detail(id)).status).toBe(nextStatus)
+    }
+
+    const orders = createMockOrdersData(currentUser)
+    await expect(orders.transitionStatus('order-1', 'completed')).rejects.toMatchObject<Partial<OrdersDataError>>({
+      code: 'INVALID_ORDER_STATUS_TRANSITION',
+      requestId: 'mock-order-transition',
+    })
+    await expect(orders.transitionStatus('order-4', 'cancelled')).rejects.toMatchObject<Partial<OrdersDataError>>({
+      code: 'INVALID_ORDER_STATUS_TRANSITION',
+    })
+    await expect(orders.transitionStatus('order-5', 'in_work')).rejects.toMatchObject<Partial<OrdersDataError>>({
+      code: 'INVALID_ORDER_STATUS_TRANSITION',
     })
   })
 })

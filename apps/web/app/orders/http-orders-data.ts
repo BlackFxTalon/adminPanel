@@ -2,6 +2,7 @@ import type {
   CreateOrderInput,
   OrderCreationOptions,
   OrderDetail,
+  OrderStatus,
   OrdersPage,
   OrdersQuery,
   StructuredError,
@@ -11,7 +12,7 @@ import type { OrdersData } from './orders-data'
 import { OrdersDataError } from './orders-data'
 
 interface HttpRequestOptions {
-  readonly method?: 'POST'
+  readonly method?: 'POST' | 'PATCH'
   readonly body?: unknown
   readonly headers: Readonly<Record<string, string>>
 }
@@ -90,6 +91,13 @@ export function createHttpOrdersData(options: HttpOrdersDataOptions): OrdersData
 
     create(input: CreateOrderInput): Promise<OrderDetail> {
       return authenticatedRequest('/orders', { method: 'POST', body: input })
+    },
+
+    transitionStatus(id: string, status: OrderStatus): Promise<OrderDetail> {
+      return authenticatedRequest(`/orders/${encodeURIComponent(id)}/status`, {
+        method: 'PATCH',
+        body: { status },
+      })
     },
   }
 }

@@ -1,5 +1,5 @@
 import type { AuthenticatedUser, OrderCreationOptions, OrderDetail, OrdersPage } from '@admin-panel/contracts'
-import { Body, Controller, Get, Inject, Param, Post, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Inject, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 
 import { AccessTokenGuard } from '../auth/access-token.guard.js'
 import { CurrentUser } from '../auth/current-user.decorator.js'
@@ -26,6 +26,15 @@ export class OrdersController {
   @Post()
   create(@CurrentUser() user: AuthenticatedUser, @Body() input: unknown): Promise<OrderDetail> {
     return this.orders.create(user, input)
+  }
+
+  @Patch(':id/status')
+  transitionStatus(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('id') id: string,
+    @Body() input: unknown,
+  ): Promise<OrderDetail> {
+    return this.orders.transitionStatus(user, id, input)
   }
 
   @Get(':id')

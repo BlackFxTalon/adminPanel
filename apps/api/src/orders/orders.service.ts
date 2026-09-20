@@ -7,9 +7,10 @@ import type {
   OrdersPage,
   OrdersQuery,
 } from '@admin-panel/contracts'
-import { orderStatuses } from '@admin-panel/contracts'
+import { canTransitionOrderStatus, orderStatuses } from '@admin-panel/contracts'
 import {
   BadRequestException,
+  ConflictException,
   HttpException,
   Inject,
   Injectable,
@@ -44,6 +45,21 @@ function queryError(message: string): never {
 
 function queryString(value: unknown): string | undefined {
   return typeof value === 'string' ? value : undefined
+}
+
+function parseStatusTransition(raw: unknown): OrderStatus {
+  const status = typeof raw === 'object' && raw !== null && !Array.isArray(raw)
+    ? (raw as Record<string, unknown>).status
+    : undefined
+  if (typeof status !== 'string' || !orderStatuses.includes(status as OrderStatus)) {
+    throw new BadRequestException({
+      code: 'ORDER_STATUS_VALIDATION_FAILED',
+      message: 'Укажите допустимый статус Order.',
+      requestId: randomUUID(),
+      fieldErrors: { status: ['Выберите допустимый следующий статус.'] },
+    })
+  }
+  return status as OrderStatus
 }
 
 function positiveInteger(value: unknown, fallback: number, name: string): number {
@@ -239,6 +255,60 @@ export class OrdersService {
       throw new InternalServerErrorException({
         code: 'ORDER_PERSISTENCE_FAILED',
         message: 'Не удалось сохранить Order.',
+        requestId: randomUUID(),
+      })
+    }
+  }
+
+  async transitionStatus(user: AuthenticatedUser, id: string, rawInput: unknown): Promise<OrderDetail> {
+    const status = parseStatusTransition(rawInput)
+    try {
+      return await this.prisma.client.$transaction(async (transaction) => {
+        const current = await transaction.order.findFirst({
+          where: { id, organizationId: user.organization.id },
+          select: { status: true },
+        })
+        if (!current) {
+          throw new NotFoundException({
+            code: 'ORDER_NOT_FOUND',
+            message: 'Order не найден.',
+            requestId: randomUUID(),
+          })
+        }
+        if (!canTransitionOrderStatus(current.status, status)) {
+          throw new ConflictException({
+            code: 'INVALID_ORDER_STATUS_TRANSITION',
+            message: 'Недопустимый переход статуса Order.',
+            requestId: randomUUID(),
+          })
+        }
+
+        const updated = await transaction.order.updateMany({
+          where: {
+            id,
+            organizationId: user.organization.id,
+            status: current.status,
+          },
+          data: { status },
+        })
+        if (updated.count !== 1) {
+          throw new ConflictException({
+            code: 'ORDER_STATUS_CONFLICT',
+            message: 'Статус Order уже изменился. Обновите данные и повторите действие.',
+            requestId: randomUUID(),
+          })
+        }
+        const record = await transaction.order.findUniqueOrThrow({
+          where: { id },
+          include: detailInclude,
+        })
+        return toDetail(record)
+      })
+    } catch (error: unknown) {
+      if (error instanceof HttpException) throw error
+      throw new InternalServerErrorException({
+        code: 'ORDER_STATUS_UPDATE_FAILED',
+        message: 'Не удалось изменить статус Order.',
         requestId: randomUUID(),
       })
     }

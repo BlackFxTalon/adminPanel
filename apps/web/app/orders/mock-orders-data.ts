@@ -1,3 +1,4 @@
+import { canTransitionOrderStatus } from '@admin-panel/contracts'
 import type {
   AuthenticatedUser,
   CreateOrderInput,
@@ -194,6 +195,28 @@ export function createMockOrdersData(currentUser: () => AuthenticatedUser): Orde
       }
       records.unshift(created)
       return created
+    },
+
+    async transitionStatus(id: string, status: OrderStatus): Promise<OrderDetail> {
+      const index = records.findIndex(candidate => candidate.id === id)
+      const record = records[index]
+      if (!record) {
+        throw new OrdersDataError({
+          code: 'ORDER_NOT_FOUND',
+          message: 'Order не найден.',
+          requestId: 'mock-order-transition',
+        })
+      }
+      if (!canTransitionOrderStatus(record.status, status)) {
+        throw new OrdersDataError({
+          code: 'INVALID_ORDER_STATUS_TRANSITION',
+          message: 'Недопустимый переход статуса Order.',
+          requestId: 'mock-order-transition',
+        })
+      }
+      const updated = { ...record, status }
+      records[index] = updated
+      return updated
     },
   }
 }

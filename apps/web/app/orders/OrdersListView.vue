@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { orderStatusTransitions } from '@admin-panel/contracts'
 import type { AuthenticatedUser, OrderDetail, OrderStatus, OrdersPage, OrdersQuery } from '@admin-panel/contracts'
 import { computed, onMounted, ref } from 'vue'
 
@@ -33,6 +34,8 @@ const selectedSort = ref<SortSelection>('newest')
 const page = ref(1)
 const pageSize = 10
 const knownContragents = ref(new Map<string, string>())
+const transitioningOrderId = ref<string | null>(null)
+const transitionError = ref<string | null>(null)
 
 const totalPages = computed(() => Math.max(1, Math.ceil((result.value?.total ?? 0) / pageSize)))
 const statusOptions = Object.entries(orderStatusLabels) as [OrderStatus, string][]
@@ -77,6 +80,31 @@ function nextPage(): void {
   if (page.value >= totalPages.value) return
   page.value += 1
   void load()
+}
+
+async function transitionStatus(order: OrdersPage['items'][number], nextStatus: OrderStatus): Promise<void> {
+  const current = result.value
+  if (!current || transitioningOrderId.value) return
+  transitioningOrderId.value = order.id
+  transitionError.value = null
+  try {
+    const updated = await props.data.transitionStatus(order.id, nextStatus)
+    if (result.value === current) {
+      resource.replace({
+        ...current,
+        items: current.items.map(candidate => candidate.id === updated.id ? updated : candidate),
+      })
+      if (status.value && status.value !== updated.status) {
+        await load()
+      }
+    }
+  } catch (caught) {
+    if (result.value === current) {
+      transitionError.value = caught instanceof Error ? caught.message : 'Не удалось изменить статус Order.'
+    }
+  } finally {
+    transitioningOrderId.value = null
+  }
 }
 
 function acceptCreated(created: OrderDetail): void {
@@ -190,13 +218,35 @@ onMounted(load)
               <td><NuxtLink :to="`/orders/${order.id}`">{{ order.number }}</NuxtLink></td>
               <td>{{ order.contragent.label }}</td>
               <td>{{ formatRub(order.totalMinor) }}</td>
-              <td><span class="orders-list__status">{{ orderStatusLabels[order.status] }}</span></td>
+              <td>
+                <span class="orders-list__status">{{ orderStatusLabels[order.status] }}</span>
+                <div
+                  v-if="orderStatusTransitions[order.status].length"
+                  class="orders-list__status-actions"
+                  data-testid="order-status-actions"
+                >
+                  <button
+                    v-for="nextStatus in orderStatusTransitions[order.status]"
+                    :key="nextStatus"
+                    type="button"
+                    :data-status="nextStatus"
+                    :disabled="transitioningOrderId !== null"
+                    @click="transitionStatus(order, nextStatus)"
+                  >
+                    {{ orderStatusLabels[nextStatus] }}
+                  </button>
+                </div>
+              </td>
               <td>{{ order.responsibleUser.name }}</td>
               <td>{{ order.organization.name }}</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <p v-if="transitionError" class="orders-list__transition-error" role="alert">
+        {{ transitionError }}
+      </p>
 
       <nav class="orders-list__pagination" aria-label="Пагинация заказов">
         <button type="button" :disabled="page <= 1" @click="previousPage">Назад</button>
@@ -310,6 +360,24 @@ onMounted(load)
   background: var(--color-primary-soft);
   color: var(--color-primary);
   white-space: nowrap;
+}
+
+.orders-list__status-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.orders-list__status-actions button {
+  min-height: 2rem;
+  padding: .25rem var(--space-2);
+  white-space: nowrap;
+}
+
+.orders-list__transition-error {
+  margin: 0;
+  color: var(--color-danger, #b42318);
 }
 
 @media (max-width: 47.99rem) {

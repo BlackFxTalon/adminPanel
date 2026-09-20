@@ -13,6 +13,7 @@ describe('HTTP Orders data adapter', () => {
       .mockResolvedValueOnce(order)
       .mockResolvedValueOnce({ contragents: [], offers: [] })
       .mockResolvedValueOnce(order)
+      .mockResolvedValueOnce({ ...order, status: 'in_work' })
     const data = createHttpOrdersData({
       apiBase: 'http://api.example/api/v1/',
       accessToken: () => 'access-token',
@@ -34,6 +35,7 @@ describe('HTTP Orders data adapter', () => {
       contragentId: 'contragent-1',
       items: [{ clientId: 'item-1', name: 'Муфта', quantity: 2, unitPriceMinor: 100 }],
     })).resolves.toBe(order)
+    await expect(data.transitionStatus('order/1', 'in_work')).resolves.toMatchObject({ status: 'in_work' })
 
     expect(request).toHaveBeenNthCalledWith(1,
       'http://api.example/api/v1/orders?page=2&pageSize=5&search=%D1%80%D0%B5%D0%B4%D1%83%D0%BA%D1%82%D0%BE%D1%80&sortBy=number&sortDirection=asc&status=in_work&contragentId=contragent-1',
@@ -51,6 +53,11 @@ describe('HTTP Orders data adapter', () => {
         contragentId: 'contragent-1',
         items: [{ clientId: 'item-1', name: 'Муфта', quantity: 2, unitPriceMinor: 100 }],
       },
+      headers: { Authorization: 'Bearer access-token' },
+    })
+    expect(request).toHaveBeenNthCalledWith(5, 'http://api.example/api/v1/orders/order%2F1/status', {
+      method: 'PATCH',
+      body: { status: 'in_work' },
       headers: { Authorization: 'Bearer access-token' },
     })
   })

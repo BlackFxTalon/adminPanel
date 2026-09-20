@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { OrderDetail } from '@admin-panel/contracts'
-import { onMounted, watch } from 'vue'
+import { orderStatusTransitions } from '@admin-panel/contracts'
+import type { OrderDetail, OrderStatus } from '@admin-panel/contracts'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import { formatOrderDate, formatRub, orderStatusLabels } from './order-presentation'
 import type { OrdersData } from './orders-data'
@@ -11,12 +12,38 @@ const resource = useLatestAsyncResource<OrderDetail>(true)
 const order = resource.data
 const loading = resource.loading
 const error = resource.error
+const transitioningTo = ref<OrderStatus | null>(null)
+const transitionError = ref<string | null>(null)
+const availableTransitions = computed(() => order.value ? orderStatusTransitions[order.value.status] : [])
+let viewRevision = 0
 
 async function load(): Promise<void> {
+  viewRevision += 1
+  transitionError.value = null
   await resource.load(
     () => props.data.detail(props.orderId),
     'Не удалось загрузить Order.',
   )
+}
+
+async function transitionStatus(status: OrderStatus): Promise<void> {
+  const current = order.value
+  if (!current || transitioningTo.value) return
+  const transitionViewRevision = viewRevision
+  transitioningTo.value = status
+  transitionError.value = null
+  try {
+    const updated = await props.data.transitionStatus(current.id, status)
+    if (viewRevision === transitionViewRevision && props.orderId === current.id) {
+      resource.replace(updated)
+    }
+  } catch (caught) {
+    if (viewRevision === transitionViewRevision && props.orderId === current.id) {
+      transitionError.value = caught instanceof Error ? caught.message : 'Не удалось изменить статус Order.'
+    }
+  } finally {
+    transitioningTo.value = null
+  }
 }
 
 onMounted(load)
@@ -42,6 +69,26 @@ watch(() => props.orderId, load)
         </div>
         <span class="order-detail__status">{{ orderStatusLabels[order.status] }}</span>
       </header>
+
+      <div v-if="availableTransitions.length" class="order-detail__actions" data-testid="order-status-actions">
+        <span>Следующий статус</span>
+        <button
+          v-for="status in availableTransitions"
+          :key="status"
+          type="button"
+          :data-status="status"
+          :disabled="transitioningTo !== null"
+          @click="transitionStatus(status)"
+        >
+          {{ orderStatusLabels[status] }}
+        </button>
+      </div>
+      <p v-else class="order-detail__final-notice" data-testid="order-final-notice">
+        Финальный заказ нельзя редактировать обычным действием.
+      </p>
+      <p v-if="transitionError" class="order-detail__transition-error" data-testid="order-transition-error" role="alert">
+        {{ transitionError }}
+      </p>
 
       <dl class="order-detail__summary">
         <div><dt>Контрагент</dt><dd>{{ order.contragent.label }}</dd></div>
@@ -114,6 +161,31 @@ watch(() => props.orderId, load)
   background: var(--color-primary-soft);
   color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
+}
+
+.order-detail__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.order-detail__actions span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.order-detail__final-notice,
+.order-detail__transition-error {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.order-detail__transition-error {
+  color: var(--color-danger, #b42318);
 }
 
 .order-detail__summary {

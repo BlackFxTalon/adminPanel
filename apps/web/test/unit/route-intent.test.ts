@@ -12,7 +12,7 @@ describe('primary route intent', () => {
       { label: 'Почта', to: '/emailPage' },
       { label: 'Заказы', to: '/orders' },
       { label: 'Финансы', to: '/financesPage' },
-      { label: 'Контрагенты', to: '/contragentsPage' },
+      { label: 'Контрагенты', to: '/contragents' },
       { label: 'Товары', to: '/goodsPage' },
       { label: 'Файлы', to: '/filesPage' },
       { label: 'Пользователи', to: '/usersPage' },

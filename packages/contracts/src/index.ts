@@ -28,3 +28,4 @@ export interface LoginRequest {
 }
 
 export * from './orders.js'
+export * from './offers.js'

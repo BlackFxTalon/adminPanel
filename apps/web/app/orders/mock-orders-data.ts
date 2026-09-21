@@ -35,7 +35,7 @@ const seedRecords: readonly OrderDetail[] = [
   order('order-2', '2026-08-04T12:00:00.000Z', 'ORD-2026-002', contragents.reducer, 'in_work', anna, [
     item('item-2', 'Промышленный редуктор', 2, 14500000),
     item('item-3', 'Муфта', 4, 250000),
-  ]),
+  ], offers[0]),
   order('order-3', '2026-08-08T08:30:00.000Z', 'ORD-2026-003', contragents.logistics, 'cargo_in_transit', ivan, [
     item('item-4', 'Транспортный контейнер', 1, 9600000),
   ]),
@@ -62,12 +62,14 @@ function order(
   status: OrderStatus,
   responsibleUser: OrderDetail['responsibleUser'],
   items: OrderDetail['items'],
+  offer?: OrderDetail['offer'],
 ): OrderDetail {
   return {
     id,
     createdAt,
     number,
     contragent,
+    ...(offer ? { offer } : {}),
     totalMinor: items.reduce((total, current) => total + current.amountMinor, 0),
     currency: 'RUB',
     status,

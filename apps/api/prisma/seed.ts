@@ -77,6 +77,7 @@ export async function seedOrdersDatabase(prisma: DatabaseClient): Promise<void> 
     const offers = [
       { id: 'offer-local-1', organizationId: 'org_local', contragentId: 'contragent-local-reducer', number: 'OFF-2026-001', title: 'Предложение на редукторы' },
       { id: 'offer-local-2', organizationId: 'org_local', contragentId: null, number: 'OFF-2026-002', title: 'Предложение на логистику' },
+      { id: 'offer-foreign-1', organizationId: 'org_foreign', contragentId: 'contragent-foreign-company', number: 'OFF-2026-101', title: 'Foreign Offer' },
     ] as const
     for (const offer of offers) {
       await tx.offer.upsert({ where: { id: offer.id }, create: offer, update: offer })

@@ -1,20 +1,17 @@
 import { PostgreSqlContainer } from '@testcontainers/postgresql'
-import { readFile } from 'node:fs/promises'
 import { Client } from 'pg'
 import { describe, expect, it } from 'vitest'
 
 import { createPrismaClient } from '../src/database/prisma-client'
 import { seedOrdersDatabase } from '../prisma/seed'
-
-const migrationUrl = new URL('../prisma/migrations/202609020001_orders_foundation/migration.sql', import.meta.url)
+import { applyMigrations } from './apply-migrations'
 
 async function withMigratedDatabase(run: (client: Client, databaseUrl: string) => Promise<void>): Promise<void> {
-  const migration = await readFile(migrationUrl, 'utf8')
   const container = await new PostgreSqlContainer('postgres:17-alpine').start()
   const client = new Client({ connectionString: container.getConnectionUri() })
   try {
     await client.connect()
-    await client.query(migration)
+    await applyMigrations(client)
     await run(client, container.getConnectionUri())
   } finally {
     await client.end().catch(() => undefined)
@@ -37,6 +34,7 @@ describe('Orders foundation migration', () => {
         'order_items',
         'orders',
         'organizations',
+        'tasks',
         'users',
       ])
 
@@ -94,6 +92,7 @@ describe('Orders foundation migration', () => {
         await expect(prisma.offer.count()).resolves.toBe(3)
         await expect(prisma.order.count()).resolves.toBe(3)
         await expect(prisma.orderItem.count()).resolves.toBe(4)
+        await expect(prisma.task.count()).resolves.toBe(3)
         await expect(prisma.order.findUnique({ where: { id: 'order-local-1' } })).resolves.toMatchObject({
           organizationId: 'org_local',
           number: 'ORD-2026-001',

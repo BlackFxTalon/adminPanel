@@ -1,17 +1,16 @@
 import type { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql'
-import { readFile } from 'node:fs/promises'
 import { Client } from 'pg'
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import { applyMigrations } from './apply-migrations'
 import { seedOrdersDatabase } from '../prisma/seed'
 import { AppModule } from '../src/app.module'
 import { createPrismaClient } from '../src/database/prisma-client'
 import { readAuthTestEnvironment } from './auth-test-environment'
 
-const migrationUrl = new URL('../prisma/migrations/202609020001_orders_foundation/migration.sql', import.meta.url)
 const authTestEnvironment = readAuthTestEnvironment()
 
 async function login(app: INestApplication): Promise<string> {
@@ -38,7 +37,7 @@ describe('Contragents HTTP boundary', () => {
     process.env.DATABASE_URL = container.getConnectionUri()
     sql = new Client({ connectionString: process.env.DATABASE_URL })
     await sql.connect()
-    await sql.query(await readFile(migrationUrl, 'utf8'))
+    await applyMigrations(sql)
     const prisma = createPrismaClient(process.env.DATABASE_URL)
     try {
       await seedOrdersDatabase(prisma)

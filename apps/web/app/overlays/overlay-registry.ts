@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 
 import CreateOrderOverlay from '../orders/CreateOrderOverlay.vue'
+import CreateTaskOverlay from '../tasks/CreateTaskOverlay.vue'
 import ConfirmationOverlay from './ConfirmationOverlay.vue'
 import FormOverlay from './FormOverlay.vue'
 import InformationOverlay from './InformationOverlay.vue'
@@ -10,6 +11,7 @@ export type OverlayRegistry = Readonly<Record<OverlayType, { readonly component:
 
 export const overlayRegistry = {
   createOrder: { component: CreateOrderOverlay },
+  createTask: { component: CreateTaskOverlay },
   information: { component: InformationOverlay },
   form: { component: FormOverlay },
   confirmation: { component: ConfirmationOverlay },

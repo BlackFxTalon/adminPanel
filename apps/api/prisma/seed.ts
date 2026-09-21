@@ -116,6 +116,30 @@ export async function seedOrdersDatabase(prisma: DatabaseClient): Promise<void> 
     for (const item of items) {
       await tx.orderItem.upsert({ where: { id: item.id }, create: item, update: item })
     }
+
+    const tasks = [
+      {
+        id: 'task-local-1', organizationId: 'org_local', number: 'TASK-2026-001',
+        title: 'Позвонить контрагенту', description: 'Обсудить детали поставки.',
+        status: 'open', priority: 'high', assigneeId: 'user_admin_local',
+        contragentId: 'contragent-local-factory', orderId: 'order-local-1',
+      },
+      {
+        id: 'task-local-2', organizationId: 'org_local', number: 'TASK-2026-002',
+        title: 'Подготовить коммерческое предложение', description: null,
+        status: 'in_progress', priority: 'medium', assigneeId: 'user_local',
+        contragentId: null, orderId: null,
+      },
+      {
+        id: 'task-foreign-1', organizationId: 'org_foreign', number: 'TASK-2026-001',
+        title: 'Foreign task', description: null,
+        status: 'open', priority: 'low', assigneeId: 'user_foreign',
+        contragentId: null, orderId: null,
+      },
+    ] as const
+    for (const task of tasks) {
+      await tx.task.upsert({ where: { id: task.id }, create: task, update: task })
+    }
   })
 }
 

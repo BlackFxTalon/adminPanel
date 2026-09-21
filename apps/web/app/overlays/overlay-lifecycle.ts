@@ -37,7 +37,7 @@ function activeElement(): HTMLElement | null {
 }
 
 function supportsDirtyState(type: OverlayType): boolean {
-  return type === 'form' || type === 'createOrder'
+  return type === 'form' || type === 'createOrder' || type === 'createTask'
 }
 
 export function createOverlayLifecycle(): OverlayLifecycle {

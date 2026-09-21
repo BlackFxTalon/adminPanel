@@ -34,6 +34,23 @@ enum OrderStatus {
   @@map("order_status")
 }
 
+enum TaskStatus {
+  open
+  in_progress
+  done
+  cancelled
+
+  @@map("task_status")
+}
+
+enum TaskPriority {
+  low
+  medium
+  high
+
+  @@map("task_priority")
+}
+
 model Organization {
   id          String       @id @db.Text
   name        String       @db.Text
@@ -45,6 +62,7 @@ model Organization {
   offers      Offer[]
   orders      Order[]
   orderItems  OrderItem[]
+  tasks       Task[]
 
   @@map("organizations")
 }
@@ -59,6 +77,7 @@ model User {
   organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   sessions       AuthSession[]
   orders         Order[]
+  assignedTasks  Task[]
 
   @@unique([id, organizationId])
   @@unique([organizationId, email])
@@ -90,6 +109,7 @@ model Contragent {
   contact        Contact?
   offers         Offer[]
   orders         Order[]
+  tasks          Task[]
 
   @@unique([id, organizationId])
   @@index([organizationId, displayName])
@@ -160,6 +180,7 @@ model Order {
   offer             Offer?       @relation(fields: [offerId, organizationId], references: [id, organizationId], onDelete: Restrict)
   responsibleUser   User         @relation(fields: [responsibleUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
   items             OrderItem[]
+  tasks             Task[]
 
   @@unique([id, organizationId])
   @@unique([organizationId, number])
@@ -187,4 +208,29 @@ model OrderItem {
   @@unique([orderId, position])
   @@index([organizationId, orderId])
   @@map("order_items")
+}
+
+model Task {
+  id             String       @id @db.Text
+  organizationId String       @map("organization_id") @db.Text
+  number         String       @db.Text
+  title          String       @db.Text
+  description    String?      @db.Text
+  status         TaskStatus   @default(open)
+  priority       TaskPriority @default(medium)
+  assigneeId     String       @map("assignee_id") @db.Text
+  contragentId   String?      @map("contragent_id") @db.Text
+  orderId        String?      @map("order_id") @db.Text
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  assignee       User         @relation(fields: [assigneeId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  contragent     Contragent?  @relation(fields: [contragentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  order          Order?       @relation(fields: [orderId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId])
+  @@unique([organizationId, number])
+  @@index([organizationId, createdAt])
+  @@index([organizationId, status])
+  @@index([organizationId, assigneeId])
+  @@map("tasks")
 }

@@ -2,15 +2,13 @@ import 'reflect-metadata'
 
 import { NestFactory } from '@nestjs/core'
 import { PostgreSqlContainer } from '@testcontainers/postgresql'
-import { readFile } from 'node:fs/promises'
 import { Client } from 'pg'
 
+import { applyMigrations } from './apply-migrations'
 import { seedOrdersDatabase } from '../prisma/seed'
 import { AppModule } from '../dist/app.module.js'
 import { createPrismaClient } from '../src/database/prisma-client'
 import { readAuthTestEnvironment } from './auth-test-environment'
-
-const migrationUrl = new URL('../prisma/migrations/202609020001_orders_foundation/migration.sql', import.meta.url)
 
 export default async function startApi(): Promise<() => Promise<void>> {
   readAuthTestEnvironment()
@@ -19,7 +17,7 @@ export default async function startApi(): Promise<() => Promise<void>> {
   process.env.DATABASE_URL = container.getConnectionUri()
   const sql = new Client({ connectionString: process.env.DATABASE_URL })
   await sql.connect()
-  await sql.query(await readFile(migrationUrl, 'utf8'))
+  await applyMigrations(sql)
   await sql.end()
   const prisma = createPrismaClient(process.env.DATABASE_URL)
   try {

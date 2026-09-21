@@ -71,6 +71,23 @@ test('browses deterministic Orders and opens returned detail', async ({ page }) 
   await expect(page.getByTestId('order-total')).toContainText('780 000,00 ₽')
 })
 
+test('browses deterministic Offers with associated Order totals', async ({ page }) => {
+  test.skip(mockAdapterOnly, 'Runs only against the mock Orders adapter')
+  await signIn(page)
+  await page.goto('/financesPage')
+
+  await expect(page.getByRole('heading', { name: 'Предложения' })).toBeVisible()
+  const offerRow = page.getByRole('row', { name: /OFF-2026-001/ })
+  await expect(offerRow).toBeVisible()
+  await expect(offerRow.getByText('Уралредуктор')).toBeVisible()
+  await expect(offerRow.getByTestId('offer-orders-count')).toHaveText('1')
+  await expect(offerRow.getByTestId('offer-orders-total')).toContainText('300 000,00 ₽')
+
+  const unattachedRow = page.getByRole('row', { name: /OFF-2026-002/ })
+  await expect(unattachedRow.getByTestId('offer-orders-count')).toHaveText('0')
+  await expect(unattachedRow.getByText('—')).toBeVisible()
+})
+
 test('creates an Order through the shared Overlay and shows the authoritative response in the list', async ({ page }) => {
   test.skip(mockAdapterOnly, 'Runs only against the mock Orders adapter')
   await signIn(page)

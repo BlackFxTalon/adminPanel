@@ -91,7 +91,7 @@ describe('Orders foundation migration', () => {
         await expect(prisma.organization.count()).resolves.toBe(2)
         await expect(prisma.user.count()).resolves.toBe(3)
         await expect(prisma.contragent.count()).resolves.toBe(4)
-        await expect(prisma.offer.count()).resolves.toBe(2)
+        await expect(prisma.offer.count()).resolves.toBe(3)
         await expect(prisma.order.count()).resolves.toBe(3)
         await expect(prisma.orderItem.count()).resolves.toBe(4)
         await expect(prisma.order.findUnique({ where: { id: 'order-local-1' } })).resolves.toMatchObject({

@@ -14,7 +14,7 @@ export const primaryNavigationGroups = [
   [
     { label: 'Заказы', to: '/orders' },
     { label: 'Финансы', to: '/financesPage' },
-    { label: 'Контрагенты', to: '/contragentsPage' },
+    { label: 'Контрагенты', to: '/contragents' },
   ],
   [
     { label: 'Товары', to: '/goodsPage' },

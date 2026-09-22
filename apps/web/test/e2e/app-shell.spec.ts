@@ -22,6 +22,14 @@ test('redirects an unauthenticated User from the protected root route to login',
   await expect(page.getByLabel('Email')).toBeVisible()
 })
 
+test('redirects unauthenticated Users from the Users, Profile and Settings routes to login', async ({ page }) => {
+  for (const route of ['/usersPage', '/userPage', '/settingsPage']) {
+    await page.goto(route)
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByRole('heading', { name: 'Вход' })).toBeVisible()
+  }
+})
+
 test('signs in, restores after a page refresh and revokes the session on logout', async ({ page }) => {
   await signIn(page)
   await expect(page.getByTestId('product-name')).toHaveText('AdminPanel')

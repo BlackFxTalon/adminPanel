@@ -7,8 +7,9 @@ import { HealthModule } from './health/health.module.js'
 import { OffersModule } from './offers/offers.module.js'
 import { OrdersModule } from './orders/orders.module.js'
 import { TasksModule } from './tasks/tasks.module.js'
+import { UsersModule } from './users/users.module.js'
 
-@Module({ imports: [AuthModule, DatabaseModule, HealthModule, ContragentsModule, OffersModule, OrdersModule, TasksModule] })
+@Module({ imports: [AuthModule, DatabaseModule, HealthModule, ContragentsModule, OffersModule, OrdersModule, TasksModule, UsersModule] })
 // NestJS discovers module metadata on the decorated class.
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AppModule {}

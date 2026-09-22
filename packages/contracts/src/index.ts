@@ -30,3 +30,4 @@ export interface LoginRequest {
 export * from './orders.js'
 export * from './offers.js'
 export * from './tasks.js'
+export * from './users.js'

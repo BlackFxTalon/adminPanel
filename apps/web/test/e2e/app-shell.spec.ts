@@ -30,6 +30,38 @@ test('redirects unauthenticated Users from the Users, Profile and Settings route
   }
 })
 
+test('redirects unauthenticated Users from the supporting surface routes to login', async ({ page }) => {
+  for (const route of ['/eventsBoard', '/feedbackPage', '/emailPage', '/goodsPage', '/filesPage']) {
+    await page.goto(route)
+    await expect(page).toHaveURL(/\/login$/)
+    await expect(page.getByRole('heading', { name: 'Вход' })).toBeVisible()
+  }
+})
+
+test('renders the supporting surface pages after sign-in', async ({ page }) => {
+  await signIn(page)
+
+  const expectations: ReadonlyArray<readonly [route: string, heading: string]> = [
+    ['/eventsBoard', 'Лента событий'],
+    ['/feedbackPage', 'Обратная связь'],
+    ['/emailPage', 'Входящие'],
+    ['/goodsPage', 'Товары'],
+    ['/filesPage', 'Файлы'],
+  ]
+  for (const [route, heading] of expectations) {
+    await page.goto(route)
+    await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible()
+  }
+
+  await page.goto('/emailPage')
+  await expect(page.getByRole('heading', { level: 1, name: 'Входящие' })).toBeVisible()
+  const outgoingTab = page.getByRole('button', { name: 'Исходящие' })
+  await outgoingTab.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('heading', { level: 1, name: 'Исходящие' })).toBeVisible()
+  await expect(outgoingTab).toHaveAttribute('aria-pressed', 'true')
+})
+
 test('signs in, restores after a page refresh and revokes the session on logout', async ({ page }) => {
   await signIn(page)
   await expect(page.getByTestId('product-name')).toHaveText('AdminPanel')

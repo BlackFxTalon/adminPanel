@@ -11,5 +11,5 @@ allowBuilds:
   protobufjs: true
   sharp: true
   ssh2: false
-  swiper: true
+  swiper: set this to true or false
   unrs-resolver: true

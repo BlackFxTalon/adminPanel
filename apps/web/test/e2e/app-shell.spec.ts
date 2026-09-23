@@ -47,6 +47,9 @@ test('renders the supporting surface pages after sign-in', async ({ page }) => {
     ['/emailPage', 'Входящие'],
     ['/goodsPage', 'Товары'],
     ['/filesPage', 'Файлы'],
+    ['/taskPage', 'Задачи'],
+    ['/contragents', 'Контрагенты'],
+    ['/orders', 'Заказы'],
   ]
   for (const [route, heading] of expectations) {
     await page.goto(route)

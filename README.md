@@ -1,8 +1,8 @@
 # AdminPanel
 
-AdminPanel is migrating from the existing Astro prototype to a Nuxt 4 web
-application. The Astro code at the repository root is a read-only visual
-reference until migration parity is complete.
+AdminPanel is a Nuxt 4 web application with a NestJS API. The former Astro
+prototype has been fully migrated and removed; the Nuxt application is the
+single maintained frontend.
 
 ## Requirements
 
@@ -21,8 +21,7 @@ pnpm install --frozen-lockfile
 ```
 
 The committed `pnpm-lock.yaml` is the only dependency lockfile. Applications
-live under `apps/`, shared contracts and configuration under `packages/`, and
-the root package contains the Astro reference.
+live under `apps/`, and shared contracts and configuration under `packages/`.
 
 ## Development
 
@@ -65,7 +64,6 @@ and its items transactionally through Prisma/PostgreSQL.
 | Command | Action |
 | :-- | :-- |
 | `pnpm dev` | Start the Nuxt and NestJS applications |
-| `pnpm dev:astro` | Start the read-only Astro reference |
 | `pnpm preview` | Preview the Nuxt production build |
 | `pnpm --filter @admin-panel/api db:migrate` | Apply committed Prisma migrations to `DATABASE_URL` |
 | `pnpm --filter @admin-panel/api db:seed` | Load the deterministic local Orders seed |
@@ -119,5 +117,4 @@ Playwright also fail when their suite is unexpectedly empty.
 | `pnpm build:web` | Build the Nuxt application |
 | `pnpm build:api` | Build the typed API foundation |
 | `pnpm build:shared` | Build shared HTTP-contract foundations |
-| `pnpm build:astro` | Build the unchanged Astro visual reference |
-| `pnpm build` | Build web, API and Astro in sequence |
+| `pnpm build` | Build web and API in sequence |

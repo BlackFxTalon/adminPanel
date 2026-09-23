@@ -1,5 +1,5 @@
 {
-  "name": "@admin-panel/astro-reference",
+  "name": "admin-panel",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -9,18 +9,14 @@
   },
   "scripts": {
     "dev": "pnpm --parallel --filter @admin-panel/web --filter @admin-panel/api run dev",
-    "dev:astro": "astro dev",
     "start": "pnpm --filter @admin-panel/web dev",
-    "build": "pnpm run build:shared && pnpm run build:web && pnpm run build:api && pnpm run build:astro",
+    "build": "pnpm run build:shared && pnpm run build:web && pnpm run build:api",
     "build:shared": "pnpm --filter @admin-panel/contracts build",
     "build:web": "pnpm --filter @admin-panel/web build",
     "build:api": "pnpm --filter @admin-panel/api build",
-    "build:astro": "astro build",
     "preview": "pnpm --filter @admin-panel/web preview",
-    "astro": "astro",
     "typecheck": "pnpm --filter @admin-panel/contracts typecheck && pnpm --filter @admin-panel/web typecheck && pnpm --filter @admin-panel/api typecheck",
     "lint": "pnpm --filter @admin-panel/contracts lint && pnpm --filter @admin-panel/web lint && pnpm --filter @admin-panel/api lint",
-    "lint:scss": "stylelint 'src/**/*.{astro,scss}'",
     "test": "pnpm run test:unit && pnpm run test:component",
     "test:api": "pnpm run build:shared && pnpm --filter @admin-panel/api test",
     "test:web-unit": "pnpm run build:shared && pnpm --filter @admin-panel/web test:unit",
@@ -28,25 +24,5 @@
     "test:unit": "pnpm run build:shared && pnpm --filter @admin-panel/api test && pnpm --filter @admin-panel/web test:unit",
     "test:component": "pnpm --filter @admin-panel/web test:component",
     "test:e2e": "pnpm run build:shared && pnpm run build:api && pnpm run build:web && pnpm --filter @admin-panel/web test:e2e"
-  },
-  "dependencies": {
-    "@alpinejs/collapse": "^3.10.5",
-    "@astrojs/alpinejs": "^0.1.2",
-    "@eonasdan/tempus-dominus": "^6.2.7",
-    "@types/alpinejs": "^3.7.0",
-    "alpinejs": "^3.10.4",
-    "astro": "^1.4.6",
-    "autoprefixer": "^10.4.12",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-preset-env": "^7.8.2",
-    "swiper": "^8.4.4"
-  },
-  "devDependencies": {
-    "cssnano": "^5.1.13",
-    "sass": "^1.55.0",
-    "stylelint": "^14.13.0",
-    "stylelint-config-recommended-scss": "^7.0.0",
-    "stylelint-config-standard": "^28.0.0",
-    "stylelint-config-standard-scss": "^5.0.0"
   }
 }
